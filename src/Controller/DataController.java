@@ -4,6 +4,10 @@ import javax.print.DocFlavor;
 import javax.xml.crypto.Data;
 import java.sql.*;
 
+/**
+ * A controller to interface with a database.
+ * This class follows the singleton pattern.
+ */
 public class DataController {
     private static DataController instance;
 
@@ -60,7 +64,6 @@ public class DataController {
 
         return true;
     }
-
 
     /**
      * Query the database and return integer value representing count of how many items exist in the Customers table.

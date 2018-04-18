@@ -53,7 +53,6 @@ public class DataController {
     }
 
     public boolean prepareStatements(){
-        String sql = "";
         try {
             selectCountFromTable = connection.prepareStatement("SELECT COUNT(*) FROM ?");
         }
@@ -63,6 +62,22 @@ public class DataController {
         }
 
         return true;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        connection.close();
+    }
+
+    public boolean closeDatabase(){
+        try {
+            connection.close();
+            return true;
+        }
+        catch (SQLException e){
+            return false;
+        }
     }
 
     /**
@@ -93,7 +108,9 @@ public class DataController {
         try{
             selectCountFromTable.setString(1,table);
             ResultSet rs = selectCountFromTable.executeQuery();
-            return rs.getInt(1);
+            int count = rs.getInt(1);
+            rs.close();
+            return count;
         }
         catch (SQLException e){
             return -1;
@@ -106,7 +123,7 @@ public class DataController {
             System.out.printf("Number of products in database: %d%n", cont.getProductCount());
         }
         catch (Exception e){
-            System.err.println("Failed to open/prepare database.");
+            System.err.println("Failed to open database or prepare statements.");
         }
     }
 }

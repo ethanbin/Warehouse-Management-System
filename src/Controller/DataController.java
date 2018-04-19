@@ -17,7 +17,8 @@ public class DataController {
     private Connection connection;
 
     // lets keep this in alphabetical order
-    private PreparedStatement selectCountFromTable;
+    private PreparedStatement selectCountFromProducts;
+    private PreparedStatement selectCountFromOrders;
 
     public static DataController getInstance(){
         if (instance == null) {
@@ -54,7 +55,8 @@ public class DataController {
 
     public boolean prepareStatements(){
         try {
-            selectCountFromTable = connection.prepareStatement("SELECT COUNT(*) FROM ?");
+            selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
+            selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
         }
         catch (SQLException e){
             System.err.println("Statement(s) failed to prepare");
@@ -80,34 +82,28 @@ public class DataController {
         }
     }
 
+    // for neatness, methods below here are strictly methods for specified sql statements, with the exception
+    // being main at the bottom.
+
     /**
-     * Query the database and return integer value representing count of how many items exist in the Customers table.
+     * Query the database and return integer value representing count of how many items exist in the Orders table.
      * @return integer value representing count of how many items exist in the Customers table
      */
-    public int getCustomerCount(){
-        return getCountOfATable("Customers");
+    public int getOrdersCount(){
+        return executeCountStatement(selectCountFromOrders);
     }
 
     /**
      * Query the database and return integer value representing count of how many items exist in the Products table.
      * @return integer value representing count of how many items exist in the Products table
      */
-    public int getProductCount(){
-        return getCountOfATable("Product");
+    public int getProductsCount(){
+        return executeCountStatement(selectCountFromProducts);
     }
 
-    // for neatness, methods below here are strictly methods for specified sql statements
-
-    /**
-     * Query the database and return integer value representing count of how many items exist in the specified table.
-     * By passing the table we want to query as a string for any table, we cut down on repeated code, since the same
-     * few lines would need to be repeated for getting a count from any table.
-     * @return integer value representing count of how many items exist in the specified table
-     */
-    private int getCountOfATable(String table){
+    private int executeCountStatement(PreparedStatement selectCount){
         try{
-            selectCountFromTable.setString(1,table);
-            ResultSet rs = selectCountFromTable.executeQuery();
+            ResultSet rs = selectCount.executeQuery();
             int count = rs.getInt(1);
             rs.close();
             return count;
@@ -120,7 +116,7 @@ public class DataController {
     public static void main(String[] args) {
         try {
             DataController cont = DataController.getInstance();
-            System.out.printf("Number of products in database: %d%n", cont.getProductCount());
+            System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
         }
         catch (Exception e){
             System.err.println("Failed to open database or prepare statements.");

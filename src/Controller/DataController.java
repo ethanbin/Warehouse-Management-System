@@ -27,25 +27,39 @@ public class DataController {
     private PreparedStatement selectCountFromProducts;
     private PreparedStatement selectCountFromOrders;
 
+    /**
+     * Following singleton pattern, this method will return the static instance of the DataController class.
+     * If no instance yet exists, one will be created using the DataController constructor,
+     * saved as a static variable, and returned.
+     * @return static property DataController instance
+     * @throws SQLException
+     * @throws DataControllerException
+     */
     public static DataController getInstance() throws SQLException, DataControllerException{
         if (instance == null)
             instance = new DataController();
         return instance;
     }
 
+    // constructor private for singleton pattern
     private DataController() throws SQLException, DataControllerException{
         //TODO - pull database URL from properties file instead of hard coding it
         ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
+        // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
         if (!bundle.containsKey("databaseURL"))
             throw new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL");
-            sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
+        sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
+        // try to connect to database. If fails, throw exception
         if (!connect())
             throw new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED);
+        // Try to prepare statements. If fails, throw exception.
+        // It seems like statements only fail when making a code related error, like syntax errors, doing
+        // something SQL doesn't support, etc.
         if (!prepareStatements())
             throw new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED);
     }
 
-    public boolean connect(){
+    private boolean connect(){
         try {
             // this will stop an empty file from being created if the one we try to open doesnt exist
             SQLiteConfig config = new SQLiteConfig();
@@ -61,6 +75,12 @@ public class DataController {
         return true;
     }
 
+    /**
+     * Prepare all PreparedStatements.
+     * If preparation failed, output to console short failure message and return false.
+     *
+     * @return true if statements prepared successfully, false otherwise
+     */
     public boolean prepareStatements(){
         try {
             selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");

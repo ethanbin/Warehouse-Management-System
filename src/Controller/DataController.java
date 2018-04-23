@@ -1,8 +1,12 @@
 package Controller;
 
+import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteOpenMode;
+
 import javax.print.DocFlavor;
 import javax.xml.crypto.Data;
 import java.sql.*;
+import java.util.ResourceBundle;
 
 /**
  * A controller to interface with a database.
@@ -11,6 +15,7 @@ import java.sql.*;
 public class DataController {
     private static DataController instance;
 
+    private final String SETTINGS_FILE_NAME = "settings";
     private final String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
     private String sqliteDatabaseURL;
 
@@ -34,7 +39,9 @@ public class DataController {
 
     private DataController() throws SQLException{
         //TODO - pull database URL from properties file instead of hard coding it
-        sqliteDatabaseURL = DATABASE_PATH_PREFIX + "WMSDatabase.db";
+        ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
+        if (bundle.containsKey("databaseURL"))
+            sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
         if (!connect())
             throw new SQLException();
         if (!prepareStatements())
@@ -43,8 +50,12 @@ public class DataController {
 
     public boolean connect(){
         try {
+            // this will stop an empty file from being created if the one we try to open doesnt exist
+            SQLiteConfig config = new SQLiteConfig();
+            config.resetOpenMode(SQLiteOpenMode.READWRITE);
+
             // this will require the sqlite-jdbc driver JAR to be added to the project.
-            connection = DriverManager.getConnection(sqliteDatabaseURL);
+            connection = DriverManager.getConnection(sqliteDatabaseURL, config.toProperties());
         }
         catch (SQLException e){
             System.err.println("connection failed");
@@ -72,7 +83,7 @@ public class DataController {
         connection.close();
     }
 
-    public boolean closeDatabase(){
+    private boolean closeDatabase(){
         try {
             connection.close();
             return true;

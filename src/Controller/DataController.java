@@ -1,11 +1,13 @@
 package Controller;
 
+import Exceptions.DataControllerException;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
 import javax.print.DocFlavor;
 import javax.xml.crypto.Data;
 import java.sql.*;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -25,27 +27,22 @@ public class DataController {
     private PreparedStatement selectCountFromProducts;
     private PreparedStatement selectCountFromOrders;
 
-    public static DataController getInstance(){
-        if (instance == null) {
-            try {
-                instance = new DataController();
-            }
-            catch(SQLException e){
-                return null;
-            }
-        }
+    public static DataController getInstance() throws SQLException, DataControllerException{
+        if (instance == null)
+            instance = new DataController();
         return instance;
     }
 
-    private DataController() throws SQLException{
+    private DataController() throws SQLException, DataControllerException{
         //TODO - pull database URL from properties file instead of hard coding it
         ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
-        if (bundle.containsKey("databaseURL"))
+        if (!bundle.containsKey("databaseURL"))
+            throw new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL");
             sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
         if (!connect())
-            throw new SQLException();
+            throw new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED);
         if (!prepareStatements())
-            throw new SQLException();
+            throw new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED);
     }
 
     public boolean connect(){
@@ -130,7 +127,7 @@ public class DataController {
             System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
         }
         catch (Exception e){
-            System.err.println("Failed to open database or prepare statements.");
+            System.err.println(e.toString());
         }
     }
 }

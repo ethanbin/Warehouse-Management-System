@@ -22,6 +22,7 @@ public class DataController {
     private Connection connection;
 
     // lets keep this in alphabetical order
+    private PreparedStatement selectAllProductsInRange;
     private PreparedStatement selectCountFromProducts;
     private PreparedStatement selectCountFromOrders;
     private PreparedStatement updateProductAtIndex;
@@ -31,7 +32,7 @@ public class DataController {
      * Following singleton pattern, this method will return the static instance of the DataController class.
      * If no instance yet exists, one will be created using the DataController constructor,
      * saved as a static variable, and returned.
-     * @return static property DataController instance
+     * @return DataController's static property instance, of type DataController
      * @throws SQLException
      * @throws DataControllerException
      */
@@ -83,6 +84,8 @@ public class DataController {
      */
     public boolean prepareStatements(){
         try {
+            selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
+                    "ROWID > ? AND ROWID <= ?");
             selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
             selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
             updateProductAtIndex = connection.prepareStatement("UPDATE Products " +

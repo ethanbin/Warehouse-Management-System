@@ -4,8 +4,6 @@ import Exceptions.DataControllerException;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
-import javax.print.DocFlavor;
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -26,7 +24,8 @@ public class DataController {
     // lets keep this in alphabetical order
     private PreparedStatement selectCountFromProducts;
     private PreparedStatement selectCountFromOrders;
-    private PreparedStatement updateProduct;
+    private PreparedStatement updateProductAtIndex;
+    private PreparedStatement updateProductStockExistsAtIndex;
 
     /**
      * Following singleton pattern, this method will return the static instance of the DataController class.
@@ -86,8 +85,11 @@ public class DataController {
         try {
             selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
             selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
-            updateProduct = connection.prepareStatement("UPDATE Products " +
+            updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
+                    "WHERE product_id = ?;");
+            updateProductStockExistsAtIndex = connection.prepareStatement("UPDATE Products " +
+                    "SET stock_exists = ? " +
                     "WHERE product_id = ?;");
         }
         catch (SQLException e){
@@ -116,6 +118,18 @@ public class DataController {
 
     // for neatness, methods below here are strictly methods for specified sql statements, with the exception of main
 
+    private int executeCountStatement(PreparedStatement selectCount){
+        try{
+            ResultSet rs = selectCount.executeQuery();
+            int count = rs.getInt(1);
+            rs.close();
+            return count;
+        }
+        catch (SQLException e){
+            return -1;
+        }
+    }
+
     /**
      * Query the database and return integer value representing count of how many items exist in the Orders table.
      * @return integer value representing count of how many items exist in the Customers table
@@ -133,16 +147,16 @@ public class DataController {
     }
 
     public boolean updateProductAtIndex(int product_ID, String name, String description, float price, int discontinued,
-                                      int stockExists){
+                                        int stockExists){
         try{
-            updateProduct.setString(1, name);
-            updateProduct.setString(2, description);
-            updateProduct.setFloat(3, price);
-            updateProduct.setInt(4, discontinued);
-            updateProduct.setInt(5, stockExists);
-            updateProduct.setInt(6, product_ID);
-            updateProduct.executeUpdate();
-            updateProduct.clearParameters();
+            updateProductAtIndex.setString(1, name);
+            updateProductAtIndex.setString(2, description);
+            updateProductAtIndex.setFloat(3, price);
+            updateProductAtIndex.setInt(4, discontinued);
+            updateProductAtIndex.setInt(5, stockExists);
+            updateProductAtIndex.setInt(6, product_ID);
+            updateProductAtIndex.executeUpdate();
+            updateProductAtIndex.clearParameters();
             return true;
         }
         catch (SQLException e){
@@ -150,26 +164,34 @@ public class DataController {
         }
     }
 
-    private int executeCountStatement(PreparedStatement selectCount){
+    public boolean updateProductStockExistsAtIndex(int productID, int stockExists){
         try{
-            ResultSet rs = selectCount.executeQuery();
-            int count = rs.getInt(1);
-            rs.close();
-            return count;
+            updateProductStockExistsAtIndex.setInt(1, stockExists);
+            updateProductStockExistsAtIndex.setInt(2, productID);
+            updateProductStockExistsAtIndex.executeUpdate();
+            updateProductStockExistsAtIndex.clearParameters();
+            return true;
         }
         catch (SQLException e){
-            return -1;
+            return false;
         }
     }
 
     public static void main(String[] args) {
         try {
             DataController cont = DataController.getInstance();
-            boolean updated = cont.updateProductAtIndex(1, "name", "desc", 5.5f, 0, 1);
+            // testing getProductsCount
             //System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
-            if (updated)
-                System.out.println("Product with id 1 updated");
+
+            // testing updateProductAtIndex
+            // boolean updated = cont.updateProductAtIndex(1, "name", "desc", 5.5f, 0, 1);
+            // if (updated)
+            // System.out.println("Product with id 1 updated");
+
+            // testing updateProductStockExistsAtIndex
+            // if (cont.updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
         }
+
         catch (Exception e){
             System.err.println(e.toString());
         }

@@ -137,7 +137,7 @@ public class DataController {
      * Query the database and return integer value representing count of how many items exist in the Orders table.
      * @return integer value representing count of how many items exist in the Customers table
      */
-    public int getOrdersCount(){
+    public int selectCountFromOrders(){
         return executeCountStatement(selectCountFromOrders);
     }
 
@@ -145,7 +145,7 @@ public class DataController {
      * Query the database and return integer value representing count of how many items exist in the Products table.
      * @return integer value representing count of how many items exist in the Products table
      */
-    public int getProductsCount(){
+    public int selectCountFromProducts(){
         return executeCountStatement(selectCountFromProducts);
     }
 
@@ -183,8 +183,8 @@ public class DataController {
     public static void main(String[] args) {
         try {
             DataController cont = DataController.getInstance();
-            // testing getProductsCount
-            //System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
+            // testing selectCountFromProducts
+            //System.out.printf("Number of products in database: %d%n", cont.selectCountFromProducts());
 
             // testing updateProductAtIndex
             // boolean updated = cont.updateProductAtIndex(1, "name", "desc", 5.5f, 0, 1);

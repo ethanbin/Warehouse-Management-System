@@ -26,6 +26,7 @@ public class DataController {
     // lets keep this in alphabetical order
     private PreparedStatement selectCountFromProducts;
     private PreparedStatement selectCountFromOrders;
+    private PreparedStatement updateProduct;
 
     /**
      * Following singleton pattern, this method will return the static instance of the DataController class.
@@ -63,7 +64,7 @@ public class DataController {
         try {
             // this will stop an empty file from being created if the one we try to open doesnt exist
             SQLiteConfig config = new SQLiteConfig();
-            config.resetOpenMode(SQLiteOpenMode.READWRITE);
+            config.resetOpenMode(SQLiteOpenMode.CREATE);
 
             // this will require the sqlite-jdbc driver JAR to be added to the project.
             connection = DriverManager.getConnection(sqliteDatabaseURL, config.toProperties());
@@ -85,6 +86,9 @@ public class DataController {
         try {
             selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
             selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
+            updateProduct = connection.prepareStatement("UPDATE Products " +
+                    "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
+                    "WHERE product_id = ?;");
         }
         catch (SQLException e){
             System.err.println("Statement(s) failed to prepare");
@@ -110,8 +114,7 @@ public class DataController {
         }
     }
 
-    // for neatness, methods below here are strictly methods for specified sql statements, with the exception
-    // being main at the bottom.
+    // for neatness, methods below here are strictly methods for specified sql statements, with the exception of main
 
     /**
      * Query the database and return integer value representing count of how many items exist in the Orders table.
@@ -129,6 +132,24 @@ public class DataController {
         return executeCountStatement(selectCountFromProducts);
     }
 
+    public boolean updateProductAtIndex(int product_ID, String name, String description, float price, int discontinued,
+                                      int stockExists){
+        try{
+            updateProduct.setString(1, name);
+            updateProduct.setString(2, description);
+            updateProduct.setFloat(3, price);
+            updateProduct.setInt(4, discontinued);
+            updateProduct.setInt(5, stockExists);
+            updateProduct.setInt(6, product_ID);
+            updateProduct.executeUpdate();
+            updateProduct.clearParameters();
+            return true;
+        }
+        catch (SQLException e){
+            return false;
+        }
+    }
+
     private int executeCountStatement(PreparedStatement selectCount){
         try{
             ResultSet rs = selectCount.executeQuery();
@@ -144,7 +165,10 @@ public class DataController {
     public static void main(String[] args) {
         try {
             DataController cont = DataController.getInstance();
-            System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
+            boolean updated = cont.updateProductAtIndex(1, "name", "desc", 5.5f, 0, 1);
+            //System.out.printf("Number of products in database: %d%n", cont.getProductsCount());
+            if (updated)
+                System.out.println("Product with id 1 updated");
         }
         catch (Exception e){
             System.err.println(e.toString());

@@ -17,8 +17,8 @@ import java.util.ResourceBundle;
 public class DataController {
     private static DataController instance;
 
-    private final String SETTINGS_FILE_NAME = "settings";
-    private final String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
+    private final static String SETTINGS_FILE_NAME = "settings";
+    private final static String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
     private String sqliteDatabaseURL;
 
     private Connection connection;

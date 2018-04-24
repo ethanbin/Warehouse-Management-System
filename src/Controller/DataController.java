@@ -83,7 +83,7 @@ public class DataController {
      *
      * @return true if statements prepared successfully, false otherwise
      */
-    public boolean prepareStatements(){
+    private boolean prepareStatements(){
         try {
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
                     "ROWID > ? AND ROWID <= ?");

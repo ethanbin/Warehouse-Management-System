@@ -60,4 +60,16 @@ public class Product {
     public void setStock_exists(boolean stock_exists) {
         this.stock_exists = stock_exists;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", discontinued=" + discontinued +
+                ", stock_exists=" + stock_exists +
+                '}';
+    }
 }

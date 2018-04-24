@@ -21,9 +21,4 @@ public class View extends Application {
         primaryStage.setScene(new Scene(root, screenSize.getWidth()*2/3, screenSize.getHeight()*2/3));
         primaryStage.show();
     }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

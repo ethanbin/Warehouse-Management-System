@@ -1,10 +1,13 @@
 package Controller;
 
 import Exceptions.DataControllerException;
+import Model.Product;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -86,7 +89,7 @@ public class DataController {
     private boolean prepareStatements(){
         try {
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
-                    "ROWID > ? AND ROWID <= ?");
+                    "ROWID >= ? AND ROWID < ?");
             s_selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
             s_selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
@@ -100,7 +103,6 @@ public class DataController {
             System.err.println("Statement(s) failed to prepare");
             return false;
         }
-
         return true;
     }
 
@@ -120,8 +122,6 @@ public class DataController {
         }
     }
 
-    // for neatness, methods below here are strictly methods for specified sql statements, with the exception of main
-
     private int executeCountStatement(PreparedStatement selectCount){
         try{
             ResultSet rs = selectCount.executeQuery();
@@ -131,6 +131,44 @@ public class DataController {
         }
         catch (SQLException e){
             return -1;
+        }
+    }
+
+    // for neatness, methods below here are strictly public methods for specific
+    // sql statements, with the exception of main
+
+    /**
+     * Select from the database rows from the Products table starting at the
+     * specified location for a specified distance and return the gathered
+     * data as a List of Product objects.
+     *
+     * @param start the first row to begin selecting from. This is inclusive.
+     * @param distance how many rows to select from after start.
+     * @return List of Products selected over the given range from the database
+     * @see Product
+     */
+    public List<Product> selectAllProductsInRange(int start, int distance){
+        List<Product> products = null;
+        try{
+            s_selectAllProductsInRange.setInt(1,start);
+            s_selectAllProductsInRange.setInt(2,start + distance);
+            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            while (rs.next()) {
+                if (products == null)
+                    products = new ArrayList<>();
+                products.add(new Product(rs.getInt("product_id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getFloat("price"),
+                        // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
+                        rs.getInt("discontinued") == 1,
+                        rs.getInt("stock_exists") == 1));
+            }
+            rs.close();
+            return products;
+        }
+        catch (SQLException e){
+            return null;
         }
     }
 
@@ -194,6 +232,11 @@ public class DataController {
 
             // testing s_updateProductStockExistsAtIndex
             // if (cont.s_updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
+
+            List<Product> products = cont.selectAllProductsInRange(1, 5);
+            for (Product product : products) {
+                System.out.println(product.toString());
+            }
         }
 
         catch (Exception e){

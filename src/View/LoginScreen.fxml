@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Warehouse.Controller">
+   <children>
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" prefWidth="1080.0">
+         <center>
+            <FlowPane id="flowCenter" alignment="CENTER" prefHeight="900.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <StackPane id="stackCenter">
+                     <children>
+                        <Rectangle id="loginBackground" arcHeight="50.0" arcWidth="50.0" fill="#82ff2f7d" height="235.0" scaleX="1.2" scaleY="1.2" stroke="BLACK" strokeType="INSIDE" width="530.0" />
+                        <VBox id="loginVBox" alignment="CENTER" prefHeight="206.0" prefWidth="529.0">
+                           <children>
+                              <HBox id="textFieldHBox" prefHeight="208.0" prefWidth="529.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="152.0" prefWidth="188.0">
+                                       <children>
+                                          <Label alignment="CENTER" text="Username: ">
+                                             <font>
+                                                <Font size="36.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Password: ">
+                                             <font>
+                                                <Font size="36.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" prefHeight="106.0" prefWidth="331.0" spacing="15.0">
+                                       <children>
+                                          <TextField id="UsernameField" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="1" prefHeight="45.0" prefWidth="331.0" promptText="Username" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <PasswordField id="PasswordField" prefHeight="45.0" prefWidth="272.0" promptText="Password" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox id="loginButtonHBox" alignment="CENTER_RIGHT" prefHeight="128.0" prefWidth="530.0">
+                                 <children>
+                                    <Button id="loginButton" mnemonicParsing="false" onAction="#loginAction" text="Login">
+                                       <HBox.margin>
+                                          <Insets right="70.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Button>
+                                    <Button id="quitButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#quitAction" text="Quit">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </FlowPane>
+         </center>
+         <bottom>
+            <HBox id="linkHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="70.0" style="-fx-background-color: rgb(215, 218, 224);" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="80.0" text="GEAK®">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Region prefHeight="80.0" prefWidth="1249.0" HBox.hgrow="ALWAYS" />
+                  <Hyperlink id="helpLink" minHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="58.0" text="Help" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                  </Hyperlink>
+                  <Hyperlink id="forgotLink" minHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="150.0" text="Forgot My Password" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Hyperlink>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </HBox>
+         </bottom>
+         <top>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: rgb(215, 218, 224);" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Warehouse Management">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+   </children>
+</Pane>

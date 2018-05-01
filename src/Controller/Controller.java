@@ -3,6 +3,8 @@ package Controller;
 import java.sql.*;
 import View.View;
 import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 /**
  * This class acts as the interface between the GUI view and the data models.
@@ -10,6 +12,5 @@ import javafx.application.Application;
 public class Controller {
 
     public static void main(String[] args) {
-        Application.launch(View.class,args);
     }
 }

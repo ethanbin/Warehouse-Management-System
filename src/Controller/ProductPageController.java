@@ -31,7 +31,7 @@ public class ProductPageController {
     private Button newProductButton;
 
     @FXML
-    private Button editProudctButton;
+    private Button editProductButton;
 
     @FXML
     private Button detailsButton;
@@ -48,7 +48,7 @@ public class ProductPageController {
         assert productNameTextField != null : "fx:id=\"productNameTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productDescriptionTextField != null : "fx:id=\"productDescriptionTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert newProductButton != null : "fx:id=\"newProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert editProudctButton != null : "fx:id=\"editProudctButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert editProductButton != null : "fx:id=\"editProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
 

@@ -2,10 +2,10 @@ package Controller;
 
 import Exceptions.DataControllerException;
 import Model.Product;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -244,6 +244,8 @@ public class DataController {
             for (Product product : products) {
                 System.out.println(product.toString());
             }
+            System.out.println();
+            System.out.println(DataController.getInstance().getImmutableProductBuffer().get(0));
         }
 
         catch (Exception e){

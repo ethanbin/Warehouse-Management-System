@@ -2,14 +2,12 @@ package Controller;
 
 import Exceptions.DataControllerException;
 import Model.Product;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A controller to interface with a database.
@@ -24,6 +22,8 @@ public class DataController {
 
     private Connection connection;
 
+    private List<Product> immutableProductBuffer = null;
+
     // lets keep this in alphabetical order
     // prepared statements are named with a prefix of s_ to distinguish them from the methods that use them
     private PreparedStatement s_selectAllProductsInRange;
@@ -32,6 +32,7 @@ public class DataController {
     private PreparedStatement s_updateProductAtIndex;
     private PreparedStatement s_updateProductStockExistsAtIndex;
 
+    //todo - log exceptions and change getInstance to not throw anything
     /**
      * Following singleton pattern, this method will return the static instance of the DataController class.
      * If no instance yet exists, one will be created using the DataController constructor,
@@ -134,9 +135,14 @@ public class DataController {
         }
     }
 
+    public List<Product> getImmutableProductBuffer(){
+        return immutableProductBuffer;
+    }
+
     // for neatness, methods below here are strictly public methods for specific
     // sql statements, with the exception of main
 
+    //TODO - UPDATE JAVADOC WITH THE PRODUCTS BUFFER
     /**
      * Select from the database rows from the Products table starting at the
      * specified location for a specified distance and return the gathered
@@ -165,6 +171,7 @@ public class DataController {
                         rs.getInt("stock_exists") == 1));
             }
             rs.close();
+            immutableProductBuffer = Collections.unmodifiableList(products);
             return products;
         }
         catch (SQLException e){

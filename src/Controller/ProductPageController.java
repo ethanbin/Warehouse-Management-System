@@ -13,6 +13,18 @@ public class ProductPageController {
     private TableView<?> productsTable;
 
     @FXML
+    private TableColumn<?, ?> IDColumn;
+
+    @FXML
+    private TableColumn<?, ?> nameColumn;
+
+    @FXML
+    private TableColumn<?, ?> priceColumn;
+
+    @FXML
+    private TableColumn<?, ?> countColumn;
+
+    @FXML
     private MenuButton searchMenuButton;
 
     @FXML
@@ -42,6 +54,10 @@ public class ProductPageController {
     @FXML
     void initialize() {
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchMenuButton != null : "fx:id=\"searchMenuButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -53,5 +69,9 @@ public class ProductPageController {
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
         searchTextField.insertText(0,"test");
+        try() {
+            productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(0,5));
+        }
+        catch (Exception e){}
     }
 }

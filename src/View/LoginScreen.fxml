@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<VBox stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" prefWidth="1080.0">
          <center>
@@ -47,12 +47,12 @@
                                     </VBox>
                                     <VBox alignment="CENTER" prefHeight="106.0" prefWidth="331.0" spacing="15.0">
                                        <children>
-                                          <TextField id="UsernameField" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="1" prefHeight="45.0" prefWidth="331.0" promptText="Username" VBox.vgrow="ALWAYS">
+                                          <TextField fx:id="usernameField" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="1" prefHeight="45.0" prefWidth="331.0" promptText="Username" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="30.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <PasswordField id="PasswordField" prefHeight="45.0" prefWidth="272.0" promptText="Password" />
+                                          <PasswordField fx:id="passwordField" prefHeight="45.0" prefWidth="272.0" promptText="Password" />
                                        </children>
                                     </VBox>
                                  </children>

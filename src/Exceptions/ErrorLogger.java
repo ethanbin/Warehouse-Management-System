@@ -18,6 +18,5 @@ public class ErrorLogger {
             System.err.println("Could not open log for writing.");
         }
         System.exit(1);
-
     }
 }

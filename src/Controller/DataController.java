@@ -1,6 +1,7 @@
 package Controller;
 
 import Exceptions.DataControllerException;
+import Exceptions.ErrorLogger;
 import Model.Product;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
@@ -41,28 +42,31 @@ public class DataController {
      * @throws SQLException
      * @throws DataControllerException
      */
-    public static DataController getInstance() throws SQLException, DataControllerException{
+    public static DataController getInstance() {
         if (instance == null)
             instance = new DataController();
         return instance;
     }
 
     // constructor private for singleton pattern
-    private DataController() throws SQLException, DataControllerException{
+    private DataController() {
         //TODO - pull database URL from properties file instead of hard coding it
         ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
         // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
         if (!bundle.containsKey("databaseURL"))
-            throw new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL");
+            ErrorLogger.logCriticalEError(
+                    new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL"));
         sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
         // try to connect to database. If fails, throw exception
         if (!connect())
-            throw new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED);
+            ErrorLogger.logCriticalEError(
+                    new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED));
         // Try to prepare statements. If fails, throw exception.
         // It seems like statements only fail when making a code related error, like syntax errors, doing
         // something SQL doesn't support, etc.
         if (!prepareStatements())
-            throw new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED);
+            ErrorLogger.logCriticalEError(
+                    new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED));
     }
 
     private boolean connect(){

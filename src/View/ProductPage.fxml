@@ -5,11 +5,12 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
@@ -18,7 +19,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -27,7 +27,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="top" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
+<VBox id="top" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
    <children>
       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <tabs>
@@ -51,7 +51,7 @@
                         </TableView>
                      </center>
                      <left>
-                        <VBox id="LeftPane" maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
+                        <VBox id="LeftPane" maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;" stylesheets="@style.css" BorderPane.alignment="CENTER">
                            <children>
                               <VBox alignment="CENTER" prefHeight="99.0" style="-fx-background-color: lightgreen;" VBox.vgrow="ALWAYS">
                                  <children>
@@ -59,8 +59,14 @@
                                        <font>
                                           <Font name="System Bold" size="36.0" />
                                        </font>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" top="20.0" />
+                                       </VBox.margin>
                                     </Label>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
                               </VBox>
                               <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
                                  <children>
@@ -98,14 +104,20 @@
                                     <Insets />
                                  </VBox.margin>
                               </VBox>
-                              <VBox alignment="BOTTOM_CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                              <VBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <TextField id="NameSearchField" fx:id="productNameTextField" prefHeight="60.0" prefWidth="250.0" promptText="Name">
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </VBox.margin>
                                     </TextField>
-                                    <TextArea fx:id="productDescriptionTextField" editable="false" prefHeight="100.0" prefWidth="200.0" promptText="Details" wrapText="true" />
+                                    <TextArea fx:id="productDescriptionTextField" editable="false" minHeight="100.0" prefHeight="100.0" prefWidth="200.0" promptText="Details" wrapText="true">
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </VBox.margin></TextArea>
                                     <HBox alignment="CENTER" prefHeight="97.0" prefWidth="500.0" VBox.vgrow="NEVER">
                                        <children>
                                           <Button fx:id="newProductButton" mnemonicParsing="false" text="New" translateY="10.0">
@@ -130,6 +142,9 @@
                                              </padding>
                                           </Button>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
                                     </HBox>
                                  </children>
                               </VBox>
@@ -165,12 +180,12 @@
                         </TableView>
                      </center>
                      <left>
-                        <VBox maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
+                        <VBox maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="20.0" left="20.0" />
                            </BorderPane.margin>
                            <children>
-                              <VBox alignment="CENTER" style="-fx-background-color: lightgreen;" VBox.vgrow="ALWAYS">
+                              <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" prefHeight="99.0" prefWidth="500.0" style="-fx-background-color: lightgreen;" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label text="REPORT" textAlignment="CENTER">
                                        <font>
@@ -184,8 +199,11 @@
                                        </VBox.margin>
                                     </Label>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
                               </VBox>
-                              <HBox alignment="CENTER" style="-fx-background-color: white;">
+                              <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
                                  <children>
                                     <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                                       <items>
@@ -195,6 +213,9 @@
                                       </items>
                                     </MenuButton>
                                  </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
                               </HBox>
                               <HBox alignment="CENTER" fillHeight="false">
                                  <children>
@@ -241,21 +262,16 @@
                                     <Separator prefWidth="200.0" />
                                     <Label text="Location">
                                        <font>
-                                          <Font size="30.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </Label>
                                     <Separator prefWidth="200.0" />
                                  </children>
                               </VBox>
-                              <VBox alignment="TOP_CENTER" spacing="40.0">
+                              <VBox alignment="CENTER_LEFT" minHeight="0.0" minWidth="0.0" spacing="20.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <HBox>
+                                    <HBox alignment="CENTER">
                                        <children>
-                                          <Label text="Choose Store: ">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Label>
                                           <ChoiceBox id="chooseStore" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <opaqueInsets>
                                                 <Insets />
@@ -266,7 +282,7 @@
                                           </ChoiceBox>
                                        </children>
                                     </HBox>
-                                    <CheckBox contentDisplay="CENTER" layoutX="31.0" layoutY="393.0" mnemonicParsing="false" prefWidth="460.0" text="All Stores" textAlignment="CENTER">
+                                    <CheckBox contentDisplay="CENTER" layoutX="31.0" layoutY="393.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="All Stores" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                                        <FlowPane.margin>
                                           <Insets left="20.0" right="20.0" top="40.0" />
                                        </FlowPane.margin>
@@ -274,7 +290,7 @@
                                           <Font size="24.0" />
                                        </font>
                                     </CheckBox>
-                                    <CheckBox contentDisplay="CENTER" mnemonicParsing="false" prefWidth="460.0" text="In-Stock Only" textAlignment="CENTER">
+                                    <CheckBox contentDisplay="CENTER" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="In-Stock Only" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                                        <FlowPane.margin>
                                           <Insets left="20.0" right="20.0" top="30.0" />
                                        </FlowPane.margin>
@@ -284,7 +300,7 @@
                                     </CheckBox>
                                  </children>
                                  <padding>
-                                    <Insets left="20.0" top="20.0" />
+                                    <Insets left="20.0" top="10.0" />
                                  </padding>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -295,7 +311,7 @@
                                     <Separator prefWidth="200.0" />
                                     <Label text="Export Location:">
                                        <font>
-                                          <Font size="30.0" />
+                                          <Font size="24.0" />
                                        </font>
                                     </Label>
                                     <Separator prefWidth="200.0" />
@@ -304,47 +320,25 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </VBox>
-                              <VBox alignment="CENTER_LEFT" spacing="20.0">
+                              <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="Email" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                       <FlowPane.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </FlowPane.margin>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="Export" />
-                                       </toggleGroup>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </RadioButton>
-                                    <RadioButton layoutX="185.0" layoutY="696.0" mnemonicParsing="false" text="Local" toggleGroup="$Export" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="24.0" />
-                                            </font>
-                                       <FlowPane.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </FlowPane.margin>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </RadioButton>
-                                    <RadioButton alignment="CENTER_LEFT" layoutX="185.0" layoutY="945.0" mnemonicParsing="false" text="Both" toggleGroup="$Export" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                       <FlowPane.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </FlowPane.margin>
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </RadioButton>
+                                    <ComboBox prefWidth="150.0" promptText="Export To">
+                                       <contextMenu>
+                                          <ContextMenu>
+                                            <items>
+                                              <MenuItem mnemonicParsing="false" text="Email" />
+                                                <MenuItem mnemonicParsing="false" text="Local" />
+                                                <MenuItem mnemonicParsing="false" text="Both" />
+                                            </items>
+                                          </ContextMenu>
+                                       </contextMenu>
+                                    </ComboBox>
                                  </children>
                               </VBox>
-                              <Separator prefWidth="200.0" stylesheets="@style.css" />
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Separator>
                               <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox alignment="CENTER" cacheShape="false" prefHeight="75.0" prefWidth="500.0">

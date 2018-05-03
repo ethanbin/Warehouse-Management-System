@@ -113,6 +113,7 @@ public class ProductPageController implements Initializable {
 
         showCurrentProductsPage();
 
+        populate();
         //searchTextField.insertText(0,"test");
     }
 }

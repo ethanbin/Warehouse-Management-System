@@ -29,7 +29,7 @@
 
 <VBox id="top" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
    <children>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Product">
                <content>
@@ -70,7 +70,7 @@
                               </VBox>
                               <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
                                  <children>
-                                    <MenuButton id="criteriaMenu" fx:id="searchMenuButton" mnemonicParsing="false" text="Criteria">
+                                    <MenuButton fx:id="criteriaMenu" mnemonicParsing="false" text="Criteria">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="Id" />
                                         <MenuItem mnemonicParsing="false" text="Name" />

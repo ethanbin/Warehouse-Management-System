@@ -33,14 +33,14 @@ public class DataController {
     private PreparedStatement s_updateProductAtIndex;
     private PreparedStatement s_updateProductStockExistsAtIndex;
 
-    //todo - log exceptions and change getInstance to not throw anything
     /**
-     * Following singleton pattern, this method will return the static instance of the DataController class.
-     * If no instance yet exists, one will be created using the DataController constructor,
-     * saved as a static variable, and returned.
+     * Following singleton pattern, this method will return the static instance of the
+     * DataController class. If no instance yet exists, one will be created using the
+     * DataController constructor, saved as a static variable, and returned.
+     * If there is a problem creating the DataController, an exception will be passed
+     * to ErrorHandler.logCriticalError and the application will terminate.
      * @return DataController's static property instance, of type DataController
-     * @throws SQLException
-     * @throws DataControllerException
+     * @see ErrorHandler
      */
     public static DataController getInstance() {
         if (instance == null)

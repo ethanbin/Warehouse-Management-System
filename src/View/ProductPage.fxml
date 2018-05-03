@@ -145,13 +145,22 @@
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="40.0" />
+                                       </padding>
                                     </HBox>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="20.0" />
+                                 </padding>
                               </VBox>
                            </children>
                            <BorderPane.margin>
                               <Insets bottom="20.0" left="20.0" />
                            </BorderPane.margin>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
                         </VBox>
                      </left>
                      <padding>

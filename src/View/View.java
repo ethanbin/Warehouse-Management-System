@@ -27,7 +27,7 @@ public class View extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLPath));
 
         // set scene's default size to be two-thirds of screens resolution
-        Scene scene = new Scene(loader.load(),screenSize.getWidth()*2/3, screenSize.getHeight()*2/3);
+        Scene scene = new Scene(loader.load(),screenSize.getWidth()*3/4, screenSize.getHeight()*3/4);
 
         primaryStage.setScene(scene);
         primaryStage.show();

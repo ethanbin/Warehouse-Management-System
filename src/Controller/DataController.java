@@ -3,6 +3,7 @@ package Controller;
 import Exceptions.DataControllerException;
 import Exceptions.ErrorHandler;
 import Model.Product;
+import Model.User;
 import com.sun.tools.javac.Main;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
@@ -30,6 +31,7 @@ public class DataController {
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
     private PreparedStatement s_selectStockFromProductsStock;
+    private PreparedStatement s_selectUser;
     private PreparedStatement s_updateProductAtIndex;
     private PreparedStatement s_updateProductStockExistsAtIndex;
 
@@ -96,6 +98,8 @@ public class DataController {
 
             s_selectStockFromProductsStock = connection.prepareStatement(
                     "Select * FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?");
+
+            s_selectUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ? ");
 
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
@@ -213,6 +217,25 @@ public class DataController {
         }
         catch (SQLException e){
             return 0;
+        }
+    }
+
+    public User selectUser(String username, String password){
+        User user;
+        try{
+            s_selectUser.setString(1,username);
+            s_selectUser.setString(2,password);
+            ResultSet rs = s_selectUser.executeQuery();
+            user = new User(rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getInt("is_admin") == 1,
+                    rs.getString("username"),
+                    rs.getInt("warehouse_id"));
+            rs.close();
+            return user;
+        }
+        catch (SQLException e){
+            return null;
         }
     }
 

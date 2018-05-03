@@ -1,12 +1,13 @@
 package Controller;
 
 import Exceptions.DataControllerException;
-import Exceptions.ErrorLogger;
+import Exceptions.ErrorHandler;
 import Model.Product;
+import Model.User;
+import com.sun.tools.javac.Main;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -17,7 +18,6 @@ import java.util.*;
 public class DataController {
     private static DataController instance;
 
-    private final static String SETTINGS_FILE_NAME = "settings";
     private final static String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
     private String sqliteDatabaseURL;
 
@@ -31,17 +31,18 @@ public class DataController {
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
     private PreparedStatement s_selectStockFromProductsStock;
+    private PreparedStatement s_selectUser;
     private PreparedStatement s_updateProductAtIndex;
     private PreparedStatement s_updateProductStockExistsAtIndex;
 
-    //todo - log exceptions and change getInstance to not throw anything
     /**
-     * Following singleton pattern, this method will return the static instance of the DataController class.
-     * If no instance yet exists, one will be created using the DataController constructor,
-     * saved as a static variable, and returned.
+     * Following singleton pattern, this method will return the static instance of the
+     * DataController class. If no instance yet exists, one will be created using the
+     * DataController constructor, saved as a static variable, and returned.
+     * If there is a problem creating the DataController, an exception will be passed
+     * to ErrorHandler.logCriticalError and the application will terminate.
      * @return DataController's static property instance, of type DataController
-     * @throws SQLException
-     * @throws DataControllerException
+     * @see ErrorHandler
      */
     public static DataController getInstance() {
         if (instance == null)
@@ -51,21 +52,16 @@ public class DataController {
 
     // constructor private for singleton pattern
     private DataController() {
-        ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
-        // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
-        if (!bundle.containsKey("databaseURL"))
-            ErrorLogger.logCriticalEError(
-                    new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL"));
-        sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
+        sqliteDatabaseURL = DATABASE_PATH_PREFIX + MainController.getInstance().getDatabaseURL();
         // try to connect to database. If fails, throw exception
         if (!connect())
-            ErrorLogger.logCriticalEError(
+            ErrorHandler.logCriticalError(
                     new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED));
         // Try to prepare statements. If fails, throw exception.
         // It seems like statements only fail when making a code related error, like syntax errors, doing
         // something SQL doesn't support, etc.
         if (!prepareStatements())
-            ErrorLogger.logCriticalEError(
+            ErrorHandler.logCriticalError(
                     new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED));
     }
 
@@ -102,6 +98,8 @@ public class DataController {
 
             s_selectStockFromProductsStock = connection.prepareStatement(
                     "Select * FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?");
+
+            s_selectUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ? ");
 
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
@@ -210,15 +208,34 @@ public class DataController {
 
     public int selectStockForProductAtIndex(int productID, int warehouseID){
         try{
-            s_selectAllProductsInRange.setInt(1,productID);
-            s_selectAllProductsInRange.setInt(2,warehouseID);
-            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            s_selectStockFromProductsStock.setInt(1,productID);
+            s_selectStockFromProductsStock.setInt(2,warehouseID);
+            ResultSet rs = s_selectStockFromProductsStock.executeQuery();
             int stock = rs.getInt("stock");
             rs.close();
             return stock;
         }
         catch (SQLException e){
             return 0;
+        }
+    }
+
+    public User selectUser(String username, String password){
+        User user;
+        try{
+            s_selectUser.setString(1,username);
+            s_selectUser.setString(2,password);
+            ResultSet rs = s_selectUser.executeQuery();
+            user = new User(rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getInt("is_admin") == 1,
+                    rs.getString("username"),
+                    rs.getInt("warehouse_id"));
+            rs.close();
+            return user;
+        }
+        catch (SQLException e){
+            return null;
         }
     }
 

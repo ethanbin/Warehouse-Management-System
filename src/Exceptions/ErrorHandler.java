@@ -3,13 +3,12 @@ package Exceptions;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ErrorLogger {
+public class ErrorHandler {
     private final static String LOG_LOCATION = "error_log.txt";
-    private final static String BACKUP_LOG_LOCATION = "backup_error_log.txt";
 
-    private ErrorLogger(Exception e){ }
+    private ErrorHandler(Exception e){ }
 
-    public static void logCriticalEError(Exception e){
+    public static void logCriticalError(Exception e){
         System.err.println(e);
         try (FileWriter writer = new FileWriter(LOG_LOCATION, true)){
             writer.write(String.format("%s%n", e.toString()));

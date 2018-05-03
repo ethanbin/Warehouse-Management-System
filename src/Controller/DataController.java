@@ -30,6 +30,7 @@ public class DataController {
     private PreparedStatement s_selectAllProductsInRange;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
+    private PreparedStatement s_selectStockFromProductsStock;
     private PreparedStatement s_updateProductAtIndex;
     private PreparedStatement s_updateProductStockExistsAtIndex;
 
@@ -50,7 +51,6 @@ public class DataController {
 
     // constructor private for singleton pattern
     private DataController() {
-        //TODO - pull database URL from properties file instead of hard coding it
         ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
         // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
         if (!bundle.containsKey("databaseURL"))
@@ -95,11 +95,18 @@ public class DataController {
         try {
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
                     "ROWID >= ? AND ROWID < ?");
+
             s_selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
+
             s_selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
+
+            s_selectStockFromProductsStock = connection.prepareStatement(
+                    "Select * FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?");
+
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
                     "WHERE product_id = ?;");
+
             s_updateProductStockExistsAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET stock_exists = ? " +
                     "WHERE product_id = ?;");
@@ -166,13 +173,15 @@ public class DataController {
             while (rs.next()) {
                 if (products == null)
                     products = new ArrayList<>();
-                products.add(new Product(rs.getInt("product_id"),
+                int productID = rs.getInt("product_id");
+                products.add(new Product(productID,
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getFloat("price"),
                         // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
                         rs.getInt("discontinued") == 1,
-                        rs.getInt("stock_exists") == 1));
+                        rs.getInt("stock_exists") == 1,
+                        0));
             }
             rs.close();
             immutableProductBuffer = Collections.unmodifiableList(products);
@@ -197,6 +206,20 @@ public class DataController {
      */
     public int selectCountFromProducts(){
         return executeCountStatement(s_selectCountFromProducts);
+    }
+
+    public int selectStockForProductAtIndex(int productID, int warehouseID){
+        try{
+            s_selectAllProductsInRange.setInt(1,productID);
+            s_selectAllProductsInRange.setInt(2,warehouseID);
+            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            int stock = rs.getInt("stock");
+            rs.close();
+            return stock;
+        }
+        catch (SQLException e){
+            return 0;
+        }
     }
 
     public boolean updateProductAtIndex(int product_ID, String name, String description, float price, int discontinued,

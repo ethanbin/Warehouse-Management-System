@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class View extends Application {
     private final String viewTitle = "Warehouse Management System";
-    private final String FXMLPath = "ProductPage.fxml";
+    private final String FXMLPath = "LoginScreen.fxml";
 
     @Override
     public void start(Stage primaryStage) throws Exception{

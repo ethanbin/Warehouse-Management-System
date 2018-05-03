@@ -68,10 +68,10 @@ public class ProductPageController {
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
-        searchTextField.insertText(0,"test");
-        try() {
-            productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(0,5));
-        }
-        catch (Exception e){}
+//        searchTextField.insertText(0,"test");
+//        try() {
+//            productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(0,5));
+//        }
+//        catch (Exception e){}
     }
 }

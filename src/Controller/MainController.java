@@ -1,6 +1,7 @@
 package Controller;
 
 import Exceptions.ErrorHandler;
+import Model.User;
 import View.View;
 import javafx.application.Application;
 
@@ -18,6 +19,7 @@ public class MainController {
     private final String SETTINGS_FILE_NAME = "settings";
     private ResourceBundle bundle;
     private String databaseURL;
+    private User currentUser;
 
     private MainController(){
         bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
@@ -53,6 +55,14 @@ public class MainController {
 
     public String getDatabaseURL() {
         return databaseURL;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public static void main(String[] args) {

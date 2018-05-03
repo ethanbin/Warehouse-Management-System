@@ -1,12 +1,11 @@
 package Controller;
 
 import Exceptions.DataControllerException;
-import Exceptions.ErrorLogger;
+import Exceptions.ErrorHandler;
 import Model.Product;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -54,18 +53,18 @@ public class DataController {
         ResourceBundle bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
         // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
         if (!bundle.containsKey("databaseURL"))
-            ErrorLogger.logCriticalEError(
+            ErrorHandler.logCriticalError(
                     new MissingResourceException("dataBaseURL property not found",SETTINGS_FILE_NAME,"databaseURL"));
         sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
         // try to connect to database. If fails, throw exception
         if (!connect())
-            ErrorLogger.logCriticalEError(
+            ErrorHandler.logCriticalError(
                     new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED));
         // Try to prepare statements. If fails, throw exception.
         // It seems like statements only fail when making a code related error, like syntax errors, doing
         // something SQL doesn't support, etc.
         if (!prepareStatements())
-            ErrorLogger.logCriticalEError(
+            ErrorHandler.logCriticalError(
                     new DataControllerException("Preparing statements: ",DataControllerException.PREPARED_STATEMENTS_FAILED));
     }
 

@@ -14,15 +14,7 @@ import javafx.scene.control.TextField;
 public class Controller {
 
     public static void main(String[] args) {
-        try {
-            DataController.getInstance();
-        }
-        catch (SQLException e){
-
-        }
-        catch (DataControllerException e){
-
-        }
+        DataController.getInstance();
         Application.launch(View.class,args);
     }
 }

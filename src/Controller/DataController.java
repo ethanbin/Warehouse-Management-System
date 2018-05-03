@@ -3,6 +3,7 @@ package Controller;
 import Exceptions.DataControllerException;
 import Exceptions.ErrorHandler;
 import Model.Product;
+import com.sun.tools.javac.Main;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
@@ -49,13 +50,7 @@ public class DataController {
 
     // constructor private for singleton pattern
     private DataController() {
-        ResourceBundle bundle = ResourceBundle.getBundle(MainController.getInstance().getSettingsFileName());
-        // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
-        if (!bundle.containsKey("databaseURL"))
-            ErrorHandler.logCriticalError(
-                    new MissingResourceException("dataBaseURL property not found",
-                            MainController.getInstance().getSettingsFileName(),"databaseURL"));
-        sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
+        sqliteDatabaseURL = DATABASE_PATH_PREFIX + MainController.getInstance().getDatabaseURL();
         // try to connect to database. If fails, throw exception
         if (!connect())
             ErrorHandler.logCriticalError(

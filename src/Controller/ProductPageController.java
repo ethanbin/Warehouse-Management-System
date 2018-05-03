@@ -1,28 +1,34 @@
 package Controller;
 
+import Model.Product;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by Ethan on 5/1/2018.
  */
-public class ProductPageController {
+public class ProductPageController implements Initializable {
 
     @FXML
-    private TableView<?> productsTable;
+    private TableView<Product> productsTable;
 
     @FXML
-    private TableColumn<?, ?> IDColumn;
+    private TableColumn<Product, String> IDColumn;
 
     @FXML
-    private TableColumn<?, ?> nameColumn;
+    private TableColumn<Product, String> nameColumn;
 
     @FXML
-    private TableColumn<?, ?> priceColumn;
+    private TableColumn<Product, String> priceColumn;
 
     @FXML
-    private TableColumn<?, ?> countColumn;
+    private TableColumn<Product, String> countColumn;
 
     @FXML
     private MenuButton searchMenuButton;
@@ -51,8 +57,33 @@ public class ProductPageController {
     @FXML
     private ToggleGroup Export;
 
-    @FXML
-    void initialize() {
+    private int productsPerPage = 25;
+
+    private int currentProductPage = 0;
+
+
+    public void showNextProductsPage(){
+        currentProductPage++;
+        showCurrentProductsPage();
+    }
+
+    public void showPreviousProductsPage(){
+        currentProductPage--;
+        if (currentProductPage < 0)
+            currentProductPage = 0;
+        showCurrentProductsPage();
+    }
+
+    private void showCurrentProductsPage(){
+        try {
+            productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
+                    currentProductPage * productsPerPage,productsPerPage));
+        }
+        catch (Exception e){}
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -68,10 +99,13 @@ public class ProductPageController {
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
-//        searchTextField.insertText(0,"test");
-//        try() {
-//            productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(0,5));
-//        }
-//        catch (Exception e){}
+        IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+        countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
+
+        showCurrentProductsPage();
+
+        //searchTextField.insertText(0,"test");
     }
 }

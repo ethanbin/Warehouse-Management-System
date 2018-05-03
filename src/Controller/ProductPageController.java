@@ -1,11 +1,13 @@
 package Controller;
 
 import Model.Product;
+import View.View;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,9 +59,13 @@ public class ProductPageController implements Initializable {
     @FXML
     private ToggleGroup Export;
 
+    @FXML
+    private MenuButton criteriaMenu;
+
     private int productsPerPage = 25;
 
     private int currentProductPage = 0;
+
 
     // todo - add code to prevent going too far
     public void showNextProductsPage(){
@@ -72,6 +78,10 @@ public class ProductPageController implements Initializable {
         if (currentProductPage < 0)
             currentProductPage = 0;
         showCurrentProductsPage();
+    }
+
+    public void populate()  {
+        criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
     }
 
     private void showCurrentProductsPage(){

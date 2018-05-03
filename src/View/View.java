@@ -2,11 +2,13 @@ package View;
 
 
 import Controller.LoginController;
+import Controller.ProductPageController;
 import Controller.SceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -39,5 +41,6 @@ public class View extends Application {
 
         LoginController controller = loader.getController();
         controller.init(sc);
+
     }
 }

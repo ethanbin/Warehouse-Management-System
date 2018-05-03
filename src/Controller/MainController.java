@@ -1,5 +1,6 @@
 package Controller;
 
+import Exceptions.ErrorHandler;
 import View.View;
 import javafx.application.Application;
 
@@ -15,6 +16,12 @@ public class MainController {
 
     }
 
+    /**
+     * Following singleton pattern, this method will return the static instance of the
+     * MainController class. If no instance yet exists, one will be created using the
+     * MainController constructor, saved as a static variable, and returned.
+     * @return MainController's static property instance, of type MainController
+     */
     public static MainController getInstance(){
         if (instance == null)
             instance = new MainController();

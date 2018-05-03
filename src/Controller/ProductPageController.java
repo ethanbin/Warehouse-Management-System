@@ -61,7 +61,7 @@ public class ProductPageController implements Initializable {
 
     private int currentProductPage = 0;
 
-
+    // todo - add code to prevent going too far
     public void showNextProductsPage(){
         currentProductPage++;
         showCurrentProductsPage();
@@ -102,7 +102,7 @@ public class ProductPageController implements Initializable {
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
+        //countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
 
         showCurrentProductsPage();
 

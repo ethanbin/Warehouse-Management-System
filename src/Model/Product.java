@@ -7,14 +7,17 @@ public class Product {
     private double price;
     private boolean discontinued;
     private boolean stock_exists;
+    private int stock;
 
-    public Product(int id, String name, String description, double price, boolean discontinued, boolean stock_exists) {
+    public Product(int id, String name, String description, double price, boolean discontinued,
+                   boolean stock_exists, int stock) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.discontinued = discontinued;
         this.stock_exists = stock_exists;
+        this.stock = stock;
     }
 
     public int getId() {
@@ -61,6 +64,14 @@ public class Product {
         this.stock_exists = stock_exists;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -70,6 +81,7 @@ public class Product {
                 ", price=" + price +
                 ", discontinued=" + discontinued +
                 ", stock_exists=" + stock_exists +
+                ", stock=" + stock +
                 '}';
     }
 }

@@ -1,0 +1,17 @@
+#anchorPane   {
+    -fx-pref-width: 100%;
+    -fx-pref-height: 100%;
+
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(lightgray, #c6c6c6);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(lightgray, gray);
+}

@@ -209,9 +209,9 @@ public class DataController {
 
     public int selectStockForProductAtIndex(int productID, int warehouseID){
         try{
-            s_selectAllProductsInRange.setInt(1,productID);
-            s_selectAllProductsInRange.setInt(2,warehouseID);
-            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            s_selectStockFromProductsStock.setInt(1,productID);
+            s_selectStockFromProductsStock.setInt(2,warehouseID);
+            ResultSet rs = s_selectStockFromProductsStock.executeQuery();
             int stock = rs.getInt("stock");
             rs.close();
             return stock;

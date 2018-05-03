@@ -1,25 +1,23 @@
 package Controller;
 
-import java.sql.*;
-
 import View.View;
 import javafx.application.Application;
 
 /**
  * This class acts as the interface between the GUI view and the data models.
  */
-public class Controller {
+public class MainController {
 
-    private static Controller instance = null;
+    private static MainController instance = null;
     private final String SETTINGS_FILE_NAME = "settings";
 
-    private Controller(){
+    private MainController(){
 
     }
 
-    public static Controller getInstance(){
+    public static MainController getInstance(){
         if (instance == null)
-            instance = new Controller();
+            instance = new MainController();
         return instance;
     }
 

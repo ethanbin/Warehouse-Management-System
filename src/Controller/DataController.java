@@ -49,12 +49,12 @@ public class DataController {
 
     // constructor private for singleton pattern
     private DataController() {
-        ResourceBundle bundle = ResourceBundle.getBundle(Controller.getInstance().getSettingsFileName());
+        ResourceBundle bundle = ResourceBundle.getBundle(MainController.getInstance().getSettingsFileName());
         // check if bundle has key 'databaseURL' - if not, throw exception. Otherwise, get database URL
         if (!bundle.containsKey("databaseURL"))
             ErrorHandler.logCriticalError(
                     new MissingResourceException("dataBaseURL property not found",
-                            Controller.getInstance().getSettingsFileName(),"databaseURL"));
+                            MainController.getInstance().getSettingsFileName(),"databaseURL"));
         sqliteDatabaseURL = DATABASE_PATH_PREFIX + bundle.getString("databaseURL");
         // try to connect to database. If fails, throw exception
         if (!connect())

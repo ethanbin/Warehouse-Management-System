@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.HashMap;
 
-//Controller class to more easily switch between scenes.
+//MainController class to more easily switch between scenes.
 public class SceneController {
     private HashMap<String, Pane> screenMap = new HashMap<>();
     private Scene main;

@@ -105,11 +105,8 @@ public class ProductPageController implements Initializable {
         assert editProductButton != null : "fx:id=\"editProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
-<<<<<<< HEAD
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
-=======
         assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
->>>>>>> 05f84bb4f44e51b22b4c70333c5e5aa767873d93
 
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));

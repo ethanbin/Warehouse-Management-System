@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <VBox stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
@@ -21,16 +20,16 @@
          <center>
             <FlowPane id="flowCenter" alignment="CENTER" prefHeight="900.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane id="stackCenter">
+                  <StackPane id="stackCenter" prefHeight="242.0" prefWidth="530.0">
                      <children>
-                        <Rectangle id="loginBackground" arcHeight="50.0" arcWidth="50.0" fill="#82ff2f7d" height="235.0" scaleX="1.2" scaleY="1.2" stroke="BLACK" strokeType="INSIDE" width="530.0" />
+                        <VBox cacheShape="false" prefHeight="439.0" prefWidth="530.0" scaleShape="false" style="-fx-background-color: lightgreen; -fx-background-radius: 1.1em;" />
                         <VBox id="loginVBox" alignment="CENTER" prefHeight="206.0" prefWidth="529.0">
                            <children>
                               <HBox id="textFieldHBox" prefHeight="208.0" prefWidth="529.0">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="152.0" prefWidth="188.0">
+                                    <VBox alignment="CENTER" prefHeight="152.0" prefWidth="188.0" translateX="-72.0">
                                        <children>
-                                          <Label alignment="CENTER" text="Username: ">
+                                          <Label fx:id="usernameLabel" alignment="CENTER" prefHeight="54.0" prefWidth="46.0" translateX="47.0" translateY="-54.0">
                                              <font>
                                                 <Font size="36.0" />
                                              </font>
@@ -38,21 +37,24 @@
                                                 <Insets bottom="30.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Password: ">
+                                          <Label fx:id="passwordLabel" prefHeight="9.223372036854776E18" prefWidth="50.0" translateX="48.0" translateY="-27.0">
                                              <font>
                                                 <Font size="36.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox alignment="CENTER" prefHeight="106.0" prefWidth="331.0" spacing="15.0">
+                                    <VBox alignment="CENTER" prefHeight="106.0" prefWidth="331.0" spacing="15.0" translateX="-72.0" translateY="13.0">
                                        <children>
-                                          <TextField fx:id="usernameField" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="1" prefHeight="45.0" prefWidth="331.0" promptText="Username" VBox.vgrow="ALWAYS">
+                                          <TextField fx:id="usernameField" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefColumnCount="1" prefHeight="45.0" prefWidth="331.0" promptText="Username" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
-                                                <Insets bottom="30.0" />
+                                                <Insets bottom="23.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <PasswordField fx:id="passwordField" prefHeight="45.0" prefWidth="272.0" promptText="Password" />
+                                          <PasswordField fx:id="passwordField" opacity="0.8" prefHeight="45.0" prefWidth="272.0" promptText="Password" translateY="4.0">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin></PasswordField>
                                        </children>
                                     </VBox>
                                  </children>

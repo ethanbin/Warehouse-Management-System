@@ -20,6 +20,7 @@ public class MainController {
     private ResourceBundle bundle;
     private String databaseURL;
     private User currentUser;
+    private int currentWarehouseID = -1;
 
     private MainController(){
         bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
@@ -65,11 +66,17 @@ public class MainController {
         currentUser =  DataController.getInstance().selectUser(username, password);
         if (currentUser == null)
             return false;
+        currentWarehouseID = currentUser.getWarehouseID();
         return true;
+    }
+
+    public int getCurrentWarehouseID() {
+        return currentWarehouseID;
     }
 
     public static void main(String[] args) {
         DataController.getInstance();
+
         Application.launch(View.class,args);
     }
 }

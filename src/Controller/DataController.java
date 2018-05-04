@@ -179,7 +179,7 @@ public class DataController {
                         // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
                         rs.getInt("discontinued") == 1,
                         rs.getInt("stock_exists") == 1,
-                        0));
+                        selectStockForProductAtIndex(productID, MainController.getInstance().getCurrentWarehouseID())));
             }
             rs.close();
             immutableProductBuffer = Collections.unmodifiableList(products);

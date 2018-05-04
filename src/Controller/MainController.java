@@ -61,8 +61,11 @@ public class MainController {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public boolean loginUser(String username, String password) {
+        currentUser =  DataController.getInstance().selectUser(username, password);
+        if (currentUser == null)
+            return false;
+        return true;
     }
 
     public static void main(String[] args) {

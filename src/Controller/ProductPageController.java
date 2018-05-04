@@ -1,13 +1,12 @@
 package Controller;
 
 import Model.Product;
-import View.View;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,9 +61,14 @@ public class ProductPageController implements Initializable {
     @FXML
     private MenuButton criteriaMenu;
 
+    @FXML
+    private Button nextButton;
+
     private int productsPerPage = 25;
 
     private int currentProductPage = 0;
+
+    private Image image = new Image("file:next.png");
 
 
     // todo - add code to prevent going too far
@@ -78,10 +82,6 @@ public class ProductPageController implements Initializable {
         if (currentProductPage < 0)
             currentProductPage = 0;
         showCurrentProductsPage();
-    }
-
-    public void populate()  {
-        criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
     }
 
     private void showCurrentProductsPage(){
@@ -105,6 +105,7 @@ public class ProductPageController implements Initializable {
         assert editProductButton != null : "fx:id=\"editProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
@@ -113,7 +114,16 @@ public class ProductPageController implements Initializable {
 
         showCurrentProductsPage();
 
-        populate();
+        criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
+
+        //sets and resizes a graphic for the "nextButton"
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        nextButton.setGraphic(imageView);
+
+
         //searchTextField.insertText(0,"test");
+
     }
 }

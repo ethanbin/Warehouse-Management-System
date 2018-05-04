@@ -22,7 +22,7 @@
                <children>
                   <StackPane id="stackCenter" prefHeight="242.0" prefWidth="530.0">
                      <children>
-                        <VBox cacheShape="false" prefHeight="439.0" prefWidth="530.0" scaleShape="false" style="-fx-background-color: lightgreen; -fx-background-radius: 1.1em;" />
+                        <VBox fx:id="loginBackground" cacheShape="false" prefHeight="439.0" prefWidth="530.0" scaleShape="false" style="-fx-background-color: lightgreen; -fx-background-radius: 1.1em;" />
                         <VBox id="loginVBox" alignment="CENTER" prefHeight="206.0" prefWidth="529.0">
                            <children>
                               <HBox id="textFieldHBox" prefHeight="208.0" prefWidth="529.0">
@@ -50,26 +50,32 @@
                                              <VBox.margin>
                                                 <Insets bottom="23.0" />
                                              </VBox.margin>
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
                                           </TextField>
                                           <PasswordField fx:id="passwordField" opacity="0.8" prefHeight="45.0" prefWidth="272.0" promptText="Password" translateY="4.0">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
-                                             </VBox.margin></PasswordField>
+                                             </VBox.margin>
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font></PasswordField>
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
                               <HBox id="loginButtonHBox" alignment="CENTER_RIGHT" prefHeight="128.0" prefWidth="530.0">
                                  <children>
-                                    <Button id="loginButton" mnemonicParsing="false" onAction="#loginAction" text="Login">
+                                    <Button id="loginButton" mnemonicParsing="false" onAction="#loginAction" opacity="0.9" style="-fx-border-color: rgba(255, 25, 29, 0); -fx-font-weight: bold;" text="Login">
                                        <HBox.margin>
                                           <Insets right="70.0" />
                                        </HBox.margin>
                                        <font>
-                                          <Font size="24.0" />
+                                          <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Button>
-                                    <Button id="quitButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#quitAction" text="Quit">
+                                    <Button id="quitButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#quitAction" opacity="0.9" style="-fx-border-color: rgba(255, 25, 29, 0); -fx-font-weight: bold;" text="Quit">
                                        <font>
                                           <Font size="24.0" />
                                        </font>

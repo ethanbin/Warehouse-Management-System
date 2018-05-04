@@ -10,7 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.scene.text.Font;
 import java.awt.*;
 
 public class View extends Application {
@@ -39,6 +39,8 @@ public class View extends Application {
         sc.addScreen("Details", FXMLLoader.load(getClass().getResource("DetailsPage.fxml")));
         System.out.println("Details was added");
 
+
+        Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);
         LoginController controller = loader.getController();
         controller.init(sc);
 

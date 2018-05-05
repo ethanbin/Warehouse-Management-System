@@ -30,6 +30,8 @@ public class View extends Application {
         Scene scene = new Scene(loader.load(),screenSize.getWidth()*3/4, screenSize.getHeight()*3/4);
 
         primaryStage.setScene(scene);
+        primaryStage.setMinHeight(screenSize.getHeight()*3/4);
+        primaryStage.setMinWidth(screenSize.getWidth()*3/4);
         primaryStage.show();
 
         //Create a instance of our SceneController class for use in our controller class (will handle scene change).

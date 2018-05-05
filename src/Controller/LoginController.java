@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -38,6 +40,20 @@ public class LoginController {
         else
             System.out.println("Incorrect username/password.");
             loginAlertStyle();
+    }
+
+    //Log in by hitting the enter key.
+    @FXML
+    protected void enterKeyLogin(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER)    {
+            if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
+                System.out.println("User logged in.");
+                sceneController.activate("Home");
+            }
+            else
+                System.out.println("Incorrect username/password.");
+                loginAlertStyle();
+        }
     }
 
     private void loginAlertStyle() {

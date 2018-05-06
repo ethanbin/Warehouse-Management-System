@@ -23,8 +23,8 @@ public class LoginController {
     @FXML private Label passwordLabel;
 
 
-    Image userImage = new Image("img/user.png");
-    Image passwordImage = new Image("img/lock.png");
+    Image userImage = new Image("file:res/img/user.png");
+    Image passwordImage = new Image("file:res/img/lock.png");
 
     //Methods to be called by events in GUI
     @FXML

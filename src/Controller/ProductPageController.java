@@ -194,6 +194,7 @@ public class ProductPageController implements Initializable {
         Product selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
         productNameTextField.setText(selectedProduct.getName());
         productDescriptionTextField.setText(selectedProduct.getDescription());
+        MainController.getInstance().setSelectedProduct(selectedProduct);
     }
 
     @Override

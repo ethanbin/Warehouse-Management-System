@@ -1,6 +1,7 @@
 package Controller;
 
 import Exceptions.ErrorHandler;
+import Model.Product;
 import Model.User;
 import View.View;
 import javafx.application.Application;
@@ -23,6 +24,7 @@ public class MainController {
     private int currentWarehouseID = -1;
 
     private ProductPageController productPageController;
+    private Product selectedProduct = null;
 
     private MainController(){
         bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
@@ -90,6 +92,14 @@ public class MainController {
         this.productPageController = productPageController;
     }
 
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
     public boolean refreshProductsPage(){
         if (productPageController == null)
             return false;
@@ -100,6 +110,7 @@ public class MainController {
     public void logout(){
         currentUser = null;
         currentWarehouseID = -1;
+        selectedProduct = null;
         DataController.getInstance().resetDataController();
         SceneController.activate("Login");
     }

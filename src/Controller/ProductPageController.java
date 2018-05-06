@@ -91,7 +91,7 @@ public class ProductPageController implements Initializable {
         showCurrentProductsPage();
     }
 
-    private void showCurrentProductsPage(){
+    public void showCurrentProductsPage(){
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage,productsPerPage));
     }

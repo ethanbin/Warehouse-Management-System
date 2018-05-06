@@ -28,7 +28,7 @@ public class LoginController {
 
     //Methods to be called by events in GUI
     @FXML
-    protected void loginAction(ActionEvent event) throws Exception {
+    protected void loginAction() {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
             System.out.println("User logged in.");
             SceneController.getInstance().activate("Home");
@@ -41,15 +41,8 @@ public class LoginController {
     //Log in by hitting the enter key.
     @FXML
     protected void enterKeyLogin(KeyEvent event) {
-        if(event.getCode() == KeyCode.ENTER)    {
-            if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
-                System.out.println("User logged in.");
-                SceneController.getInstance().activate("Home");
-            }
-            else
-                System.out.println("Incorrect username/password.");
-                loginAlertStyle();
-        }
+        if(event.getCode() == KeyCode.ENTER)
+            loginAction();
     }
 
     private void loginAlertStyle() {

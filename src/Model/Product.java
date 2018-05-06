@@ -22,6 +22,16 @@ public class Product {
         this.stock = stock;
     }
 
+    public  Product (Product p){
+        this.id = p.getId();
+        this.name = p.getName();
+        this.description = p.getDescription();
+        this.price = p.getPrice();
+        this.discontinued = p.isDiscontinued();
+        this.stock_exists = p.doesStockExist();
+        this.stock = p.getStock();
+    }
+
     public int getId() {
         return id;
     }
@@ -58,7 +68,7 @@ public class Product {
         this.discontinued = discontinued;
     }
 
-    public boolean isStock_exists() {
+    public boolean doesStockExist() {
         return stock_exists;
     }
 

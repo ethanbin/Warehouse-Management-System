@@ -26,7 +26,7 @@ public class SceneController {
     }
 
     public static Pane getScreen(String name)  {
-        return screenMap.get(name);
+        return new Pane(screenMap.get(name));
     }
 
     public static void addScreen(String name, Pane pane){

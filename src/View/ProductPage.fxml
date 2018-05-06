@@ -249,7 +249,7 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <DatePicker prefWidth="350.0">
+                                    <DatePicker fx:id="startDate" prefWidth="350.0">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -269,7 +269,7 @@
                                           <Insets right="23.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <DatePicker prefWidth="350.0">
+                                    <DatePicker fx:id="endDate" prefWidth="350.0">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -304,7 +304,7 @@
                                           </ChoiceBox>
                                        </children>
                                     </HBox>
-                                    <CheckBox contentDisplay="CENTER" layoutX="31.0" layoutY="393.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="All Stores" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                                    <CheckBox fx:id="allStoresCheckBox" contentDisplay="CENTER" layoutX="31.0" layoutY="393.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="All Stores" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                                        <FlowPane.margin>
                                           <Insets left="20.0" right="20.0" top="40.0" />
                                        </FlowPane.margin>
@@ -312,7 +312,7 @@
                                           <Font size="24.0" />
                                        </font>
                                     </CheckBox>
-                                    <CheckBox contentDisplay="CENTER" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="In-Stock Only" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                                    <CheckBox fx:id="inStockOnlyCheckBox" contentDisplay="CENTER" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" text="In-Stock Only" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                                        <FlowPane.margin>
                                           <Insets left="20.0" right="20.0" top="30.0" />
                                        </FlowPane.margin>
@@ -344,7 +344,7 @@
                               </VBox>
                               <VBox alignment="CENTER" minHeight="0.0" minWidth="0.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ComboBox prefWidth="150.0" promptText="Export To">
+                                    <ComboBox fx:id="exportToComboBox" prefWidth="150.0" promptText="Export To">
                                        <contextMenu>
                                           <ContextMenu>
                                             <items>
@@ -365,7 +365,7 @@
                                  <children>
                                     <HBox alignment="CENTER" cacheShape="false" prefHeight="75.0" prefWidth="500.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Generate">
+                                          <Button fx:id="generateButton" mnemonicParsing="false" onAction="#generateReport" text="Generate">
                                              <padding>
                                                 <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                                              </padding>
@@ -373,7 +373,7 @@
                                                 <Insets left="1.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Export">
+                                          <Button fx:id="exportButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#exportReport" text="Export">
                                              <padding>
                                                 <Insets bottom="10.0" left="55.0" right="60.0" top="10.0" />
                                              </padding>

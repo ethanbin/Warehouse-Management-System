@@ -17,6 +17,9 @@ import java.util.ResourceBundle;
  * Created by Ethan on 5/1/2018.
  */
 public class ProductPageController implements Initializable {
+    private int productsPerPage = 5;
+    private int currentProductPage = 0;
+    private Image image = new Image("file:res/img/next.png");
 
     @FXML
     private TableView<Product> productsTable;
@@ -58,6 +61,27 @@ public class ProductPageController implements Initializable {
     private Button detailsButton;
 
     @FXML
+    private DatePicker startDate;
+
+    @FXML
+    private DatePicker endDate;
+
+    @FXML
+    private CheckBox allStoresCheckBox;
+
+    @FXML
+    private CheckBox inStockOnlyCheckBox;
+
+    @FXML
+    private ComboBox<?> exportToComboBox;
+
+    @FXML
+    private Button generateButton;
+
+    @FXML
+    private Button exportButton;
+
+    @FXML
     private Button logoutButton;
 
     @FXML
@@ -72,13 +96,6 @@ public class ProductPageController implements Initializable {
     @FXML
     private VBox productTop;
 
-
-    private int productsPerPage = 5;
-
-    private int currentProductPage = 0;
-
-    private Image image = new Image("file:res/img/next.png");
-
     @FXML
     public void showNextProductsPage(){
         currentProductPage++;
@@ -86,6 +103,7 @@ public class ProductPageController implements Initializable {
             currentProductPage--;
         showCurrentProductsPage();
     }
+
 
     public void showPreviousProductsPage(){
         currentProductPage--;
@@ -151,14 +169,26 @@ public class ProductPageController implements Initializable {
 //        System.out.println("User has entered product details.");
     }
 
+    @FXML
+    void exportReport() {
+
+    }
+
+    @FXML
+    void generateReport() {
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert searchMenuButton != null : "fx:id=\"searchMenuButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productNameTextField != null : "fx:id=\"productNameTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -166,9 +196,13 @@ public class ProductPageController implements Initializable {
         assert newProductButton != null : "fx:id=\"newProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert editProductButton != null : "fx:id=\"editProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert startDate != null : "fx:id=\"startDate\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert endDate != null : "fx:id=\"endDate\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert allStoresCheckBox != null : "fx:id=\"allStoresCheckBox\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert inStockOnlyCheckBox != null : "fx:id=\"inStockOnlyCheckBox\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert exportToComboBox != null : "fx:id=\"exportToComboBox\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert generateButton != null : "fx:id=\"generateButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert exportButton != null : "fx:id=\"exportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));

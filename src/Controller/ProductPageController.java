@@ -123,6 +123,9 @@ public class ProductPageController implements Initializable {
         productNameTextField.clear();
         productDescriptionTextField.clear();
 
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
+
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage + 1,productsPerPage));
     }
@@ -184,13 +187,16 @@ public class ProductPageController implements Initializable {
     @FXML
     void setSelectedProductInTable(MouseEvent event) {
         Product selectedProduct;
-        if (productsTable.getSelectionModel().getSelectedItem() != null)
-            selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
-        else
+        if (productsTable.getSelectionModel().getSelectedItem() == null)
             return;
+
+        selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
         productNameTextField.setText(selectedProduct.getName());
         productDescriptionTextField.setText(selectedProduct.getDescription());
         MainController.getInstance().setSelectedProduct(selectedProduct);
+
+        editProductButton.setDisable(false);
+        detailsButton.setDisable(false);
     }
 
     @Override
@@ -232,6 +238,9 @@ public class ProductPageController implements Initializable {
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
         nextButton.setGraphic(imageView);
+
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
 
         MainController.getInstance().setProductPageController(this);
 

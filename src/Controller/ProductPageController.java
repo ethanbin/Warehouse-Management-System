@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -188,6 +189,13 @@ public class ProductPageController implements Initializable {
 
     }
 
+    @FXML
+    void setSelectedProductInTable(MouseEvent event) {
+        Product selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
+        productNameTextField.setText(selectedProduct.getName());
+        productDescriptionTextField.setText(selectedProduct.getDescription());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -229,8 +237,6 @@ public class ProductPageController implements Initializable {
         nextButton.setGraphic(imageView);
 
         MainController.getInstance().setProductPageController(this);
-
-        //searchTextField.insertText(0,"test");
 
     }
 }

@@ -41,7 +41,7 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </BorderPane.margin>
                            <children>
-                              <TableView fx:id="productsTable" cacheShape="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" prefHeight="920.0" prefWidth="1320.0">
+                              <TableView fx:id="productsTable" cacheShape="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="920.0" prefWidth="1320.0">
                                 <columns>
                                   <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
                                   <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />

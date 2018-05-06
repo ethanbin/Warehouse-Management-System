@@ -105,14 +105,22 @@ public class ProductPageController implements Initializable {
         currentProductPage++;
         if (currentProductPage * productsPerPage > DataController.getInstance().selectCountFromProducts())
             currentProductPage--;
-        showCurrentProductsPage();
+        else {
+            showCurrentProductsPage();
+            MainController.getInstance().setSelectedProduct(null);
+            MainController.getInstance().getDetailsController().clear();
+        }
     }
 
     public void showPreviousProductsPage(){
         currentProductPage--;
         if (currentProductPage < 0)
             currentProductPage = 0;
-        showCurrentProductsPage();
+        else {
+            showCurrentProductsPage();
+            MainController.getInstance().setSelectedProduct(null);
+            MainController.getInstance().getDetailsController().clear();
+        }
     }
 
     public void showCurrentProductsPage(){
@@ -152,10 +160,12 @@ public class ProductPageController implements Initializable {
     @FXML
     void logout() {
         currentProductPage = 0;
+        productDescriptionTextField.clear();
+        productNameTextField.clear();
+        searchTextField.clear();
         productsTable.getItems().clear();
         MainController.getInstance().logout();
     }
-
 
     @FXML
     protected void searchProducts() {

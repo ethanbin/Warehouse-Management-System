@@ -122,6 +122,7 @@ public class MainController {
         currentWarehouseID = -1;
         selectedProduct = null;
         DataController.getInstance().resetDataController();
+        detailsController.clear();
         SceneController.activate("Login");
     }
 }

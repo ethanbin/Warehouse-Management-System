@@ -58,14 +58,24 @@ public class DetailsController {
 
     public boolean updateDetailsPage(){
         Product product = MainController.getInstance().getSelectedProduct();
-        if (product == null)
+        if (product == null) {
+            clear();
             return false;
+        }
         IDTextField.setText(String.valueOf(product.getId()));
         nameTextField.setText(product.getName());
         countTextField.setText(String.valueOf(product.getStock()));
         priceTextField.setText(String.valueOf(product.getPrice()));
         descriptionTextArea.setText(product.getDescription());
         return true;
+    }
+
+    public void clear(){
+        IDTextField.clear();
+        nameTextField.clear();
+        countTextField.clear();
+        priceTextField.clear();
+        descriptionTextArea.clear();
     }
 
     @FXML

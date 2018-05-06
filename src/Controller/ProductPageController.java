@@ -174,7 +174,7 @@ public class ProductPageController implements Initializable {
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        //countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
+        countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
         criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
 

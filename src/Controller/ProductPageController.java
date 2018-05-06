@@ -105,25 +105,24 @@ public class ProductPageController implements Initializable {
         currentProductPage++;
         if (currentProductPage * productsPerPage > DataController.getInstance().selectCountFromProducts())
             currentProductPage--;
-        else {
+        else
             showCurrentProductsPage();
-            MainController.getInstance().setSelectedProduct(null);
-            MainController.getInstance().getDetailsController().clear();
-        }
     }
 
     public void showPreviousProductsPage(){
         currentProductPage--;
         if (currentProductPage < 0)
             currentProductPage = 0;
-        else {
+        else
             showCurrentProductsPage();
-            MainController.getInstance().setSelectedProduct(null);
-            MainController.getInstance().getDetailsController().clear();
-        }
     }
 
     public void showCurrentProductsPage(){
+        MainController.getInstance().setSelectedProduct(null);
+        MainController.getInstance().getDetailsController().clear();
+        productNameTextField.clear();
+        productDescriptionTextField.clear();
+
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage + 1,productsPerPage));
     }

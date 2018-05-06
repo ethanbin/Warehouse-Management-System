@@ -177,6 +177,7 @@ public class ProductPageController implements Initializable {
         imageView.setFitHeight(30);
         nextButton.setGraphic(imageView);
 
+        MainController.getInstance().setProductPageController(this);
 
         //searchTextField.insertText(0,"test");
 

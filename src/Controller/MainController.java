@@ -22,6 +22,8 @@ public class MainController {
     private User currentUser;
     private int currentWarehouseID = -1;
 
+    private ProductPageController productPageController;
+
     private MainController(){
         bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
 
@@ -78,5 +80,13 @@ public class MainController {
         DataController.getInstance();
 
         Application.launch(View.class,args);
+    }
+
+    public ProductPageController getProductPageController() {
+        return productPageController;
+    }
+
+    public void setProductPageController(ProductPageController productPageController) {
+        this.productPageController = productPageController;
     }
 }

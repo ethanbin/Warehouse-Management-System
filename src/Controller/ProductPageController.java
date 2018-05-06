@@ -73,17 +73,17 @@ public class ProductPageController implements Initializable {
     private VBox productTop;
 
 
-    private int productsPerPage = 25;
+    private int productsPerPage = 5;
 
     private int currentProductPage = 0;
 
     private Image image = new Image("file:res/img/next.png");
 
-
-    // todo - add code to prevent going too far
     @FXML
     public void showNextProductsPage(){
         currentProductPage++;
+        if (currentProductPage * productsPerPage > DataController.getInstance().selectCountFromProducts())
+            currentProductPage--;
         showCurrentProductsPage();
     }
 
@@ -96,7 +96,7 @@ public class ProductPageController implements Initializable {
 
     public void showCurrentProductsPage(){
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
-                currentProductPage * productsPerPage,productsPerPage));
+                currentProductPage * productsPerPage + 1,productsPerPage));
     }
 
     @FXML
@@ -173,7 +173,7 @@ public class ProductPageController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         //countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("count"));
-        
+
         criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
 
         //sets and resizes a graphic for the "nextButton"

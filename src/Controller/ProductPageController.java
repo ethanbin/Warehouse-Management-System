@@ -132,6 +132,8 @@ public class ProductPageController implements Initializable {
 
     @FXML
     void logout() {
+        currentProductPage = 0;
+        productsTable.getItems().clear();
         MainController.getInstance().logout();
     }
     @FXML

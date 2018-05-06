@@ -1,0 +1,7 @@
+Connecting to database:  The database failed to open for read/write
+Connecting to database:  The database failed to open for read/write
+Connecting to database:  The database failed to open for read/write
+Connecting to database:  The database failed to open for read/write
+Preparing statements:  The SQL statements failed to prepare
+Connecting to database:  The database failed to open for read/write
+Connecting to database:  The database failed to open for read/write

@@ -98,9 +98,9 @@ public class MainController {
     }
 
     public void logout(){
-        databaseURL = null;
         currentUser = null;
         currentWarehouseID = -1;
+        DataController.getInstance().resetDataController();
         SceneController.activate("Login");
     }
 }

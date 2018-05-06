@@ -50,6 +50,12 @@ public class DataController {
         return instance;
     }
 
+    public void resetDataController(){
+        closeDatabase();
+        connection = null;
+        instance = new DataController();
+    }
+
     // constructor private for singleton pattern
     private DataController() {
         sqliteDatabaseURL = DATABASE_PATH_PREFIX + MainController.getInstance().getDatabaseURL();

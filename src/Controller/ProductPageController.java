@@ -75,7 +75,7 @@ public class ProductPageController implements Initializable {
 
     private int currentProductPage = 0;
 
-    private Image image = new Image("file:next.png");
+    private Image image = new Image("file:res/img/next.png");
 
 
     // todo - add code to prevent going too far

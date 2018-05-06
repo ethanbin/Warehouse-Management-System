@@ -2,13 +2,10 @@ package View;
 
 
 import Controller.LoginController;
-import Controller.ProductPageController;
 import Controller.SceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import java.awt.*;
@@ -35,7 +32,9 @@ public class View extends Application {
         primaryStage.show();
 
         //Create a instance of our SceneController class for use in our controller class (will handle scene change).
-        SceneController sc = new SceneController(primaryStage.getScene());
+        SceneController.getInstance().setScene(scene);
+        SceneController sc = SceneController.getInstance();
+        sc.setScene(scene);
         sc.addScreen("Home", FXMLLoader.load(getClass().getResource("ProductPage.fxml")));
         System.out.println("Home was added");
         sc.addScreen("Details", FXMLLoader.load(getClass().getResource("DetailsPage.fxml")));
@@ -43,8 +42,5 @@ public class View extends Application {
 
 
         Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);
-        LoginController controller = loader.getController();
-        controller.init(sc);
-
     }
 }

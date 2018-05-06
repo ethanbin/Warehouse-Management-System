@@ -28,7 +28,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="top" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
+<VBox id="top" fx:id="productTop" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
    <children>
       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -41,7 +41,7 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </BorderPane.margin>
                            <children>
-                              <TableView fx:id="productsTable" cacheShape="false" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="productsTable" cacheShape="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" prefHeight="920.0" prefWidth="1320.0">
                                 <columns>
                                   <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
                                   <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
@@ -133,7 +133,7 @@
                                        </VBox.margin></TextArea>
                                     <HBox alignment="CENTER" prefHeight="97.0" prefWidth="500.0" VBox.vgrow="NEVER">
                                        <children>
-                                          <Button fx:id="newProductButton" mnemonicParsing="false" text="New" translateY="10.0">
+                                          <Button fx:id="newProductButton" mnemonicParsing="false" onAction="#newProduct" text="New" translateY="10.0">
                                              <padding>
                                                 <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                                              </padding>
@@ -141,7 +141,7 @@
                                                 <Insets left="1.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="editProductButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Edit" translateY="10.0">
+                                          <Button fx:id="editProductButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#editProduct" text="Edit" translateY="10.0">
                                              <padding>
                                                             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                                              </padding>
@@ -149,7 +149,7 @@
                                                 <Insets left="20.0" right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="detailsButton" layoutX="286.0" layoutY="35.0" mnemonicParsing="false" text="Details" translateY="10.0">
+                                          <Button fx:id="detailsButton" layoutX="286.0" layoutY="35.0" mnemonicParsing="false" onAction="#detailsProduct" text="Details" translateY="10.0">
                                              <padding>
                                                 <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                                              </padding>

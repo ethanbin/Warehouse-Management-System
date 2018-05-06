@@ -2,11 +2,14 @@ package Controller;
 
 import Model.Product;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -64,6 +67,10 @@ public class ProductPageController implements Initializable {
     @FXML
     private Button nextButton;
 
+    @FXML
+    private VBox productTop;
+
+
     private int productsPerPage = 25;
 
     private int currentProductPage = 0;
@@ -88,6 +95,53 @@ public class ProductPageController implements Initializable {
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage,productsPerPage));
     }
+
+    @FXML
+    protected void newProduct() {
+        Stage stage = new Stage();
+        Scene scene = new Scene(SceneController.getScreen("Details"));
+
+        if(stage.getScene() != scene) {
+            stage.setScene(scene);
+        }
+
+        stage.setTitle("New Product Page");
+        stage.show();
+
+        System.out.println("User has entered new product.");
+    }
+
+    // -todo: Make the Details Scene Reusable
+    @FXML
+    protected void editProduct()    {
+//        Stage stage = new Stage();
+//        Scene scene = new Scene(SceneController.getScreen("Details"));
+//
+//        if(stage.getScene() != scene) {
+//            stage.setScene(scene);
+//        }
+//
+//        stage.setTitle("Edit Product Page");
+//        stage.show();
+//
+//        System.out.println("User has entered edit product.");
+    }
+
+    @FXML
+    protected void detailsProduct()    {
+//        Stage stage = new Stage();
+//        Scene scene = new Scene(SceneController.getScreen("Details"));
+//
+//        if(stage.getScene() != scene) {
+//            stage.setScene(scene);
+//        }
+//
+//        stage.setTitle("Details Product Page");
+//        stage.show();
+//
+//        System.out.println("User has entered product details.");
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

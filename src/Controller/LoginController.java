@@ -22,20 +22,16 @@ public class LoginController {
     @FXML private Label usernameLabel;
     @FXML private Label passwordLabel;
 
-    private SceneController sceneController;
+
     Image userImage = new Image("img/user.png");
     Image passwordImage = new Image("img/lock.png");
-
-    public void init(SceneController sc)  {
-        sceneController = sc;
-    }
 
     //Methods to be called by events in GUI
     @FXML
     protected void loginAction(ActionEvent event) throws Exception {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
             System.out.println("User logged in.");
-            sceneController.activate("Home");
+            SceneController.getInstance().activate("Home");
         }
         else
             System.out.println("Incorrect username/password.");
@@ -48,7 +44,7 @@ public class LoginController {
         if(event.getCode() == KeyCode.ENTER)    {
             if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
                 System.out.println("User logged in.");
-                sceneController.activate("Home");
+                SceneController.getInstance().activate("Home");
             }
             else
                 System.out.println("Incorrect username/password.");

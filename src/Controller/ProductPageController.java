@@ -132,20 +132,20 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void newProduct() {
-        openProductPage("New Product Page");
+        openProductDetailsPage("New Product Page");
     }
 
     @FXML
     protected void editProduct()    {
-        openProductPage("Edit Product Page");
+        openProductDetailsPage("Edit Product Page");
     }
 
     @FXML
     protected void detailsProduct()    {
-        openProductPage("Details Product Page");
+        openProductDetailsPage("Details Product Page");
     }
 
-    private void openProductPage(String title){
+    private void openProductDetailsPage(String title){
         Stage stage = new Stage();
         Scene scene = new Scene(SceneController.getScreen("Details"));
 

@@ -1,19 +1,14 @@
 package Controller;
 
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class LoginController {
     //References to our objects and fields create in SceneBuilder.
@@ -32,7 +27,7 @@ public class LoginController {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
             System.out.println("User logged in.");
             SceneController.getInstance().activate("Home");
-            MainController.getInstance().updateProductsPage();
+            MainController.getInstance().refreshProductsPage();
         }
         else
             System.out.println("Incorrect username/password.");

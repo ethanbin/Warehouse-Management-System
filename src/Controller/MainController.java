@@ -90,7 +90,7 @@ public class MainController {
         this.productPageController = productPageController;
     }
 
-    public boolean updateProductsPage(){
+    public boolean refreshProductsPage(){
         if (productPageController == null)
             return false;
         productPageController.showCurrentProductsPage();

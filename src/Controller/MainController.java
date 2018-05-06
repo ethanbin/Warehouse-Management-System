@@ -89,4 +89,11 @@ public class MainController {
     public void setProductPageController(ProductPageController productPageController) {
         this.productPageController = productPageController;
     }
+
+    public boolean updateProductsPage(){
+        if (productPageController == null)
+            return false;
+        productPageController.showCurrentProductsPage();
+        return true;
+    }
 }

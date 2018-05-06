@@ -124,6 +124,20 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void newProduct() {
+        openProductPage("New Product Page");
+    }
+
+    @FXML
+    protected void editProduct()    {
+        openProductPage("Edit Product Page");
+    }
+
+    @FXML
+    protected void detailsProduct()    {
+        openProductPage("Details Product Page");
+    }
+
+    private void openProductPage(String title){
         Stage stage = new Stage();
         Scene scene = new Scene(SceneController.getScreen("Details"));
 
@@ -131,25 +145,10 @@ public class ProductPageController implements Initializable {
             stage.setScene(scene);
         }
 
-        stage.setTitle("New Product Page");
+        stage.setTitle(title);
         stage.show();
 
-        System.out.println("User has entered new product.");
-    }
-
-    @FXML
-    protected void editProduct()    {
-//        Stage stage = new Stage();
-//        Scene scene = new Scene(SceneController.getScreen("Details"));
-//
-//        if(stage.getScene() != scene) {
-//            stage.setScene(scene);
-//        }
-//
-//        stage.setTitle("Edit Product Page");
-//        stage.show();
-//
-//        System.out.println("User has entered edit product.");
+        System.out.printf("User has entered %s.%n", title);
     }
 
     @FXML
@@ -159,33 +158,19 @@ public class ProductPageController implements Initializable {
         MainController.getInstance().logout();
     }
 
-    @FXML
-    protected void detailsProduct()    {
-//        Stage stage = new Stage();
-//        Scene scene = new Scene(SceneController.getScreen("Details"));
-//
-//        if(stage.getScene() != scene) {
-//            stage.setScene(scene);
-//        }
-//
-//        stage.setTitle("Details Product Page");
-//        stage.show();
-//
-//        System.out.println("User has entered product details.");
-    }
 
     @FXML
-    void searchProducts() {
+    protected void searchProducts() {
 
     }
 
     @FXML
-    void exportReport() {
+    protected void exportReport() {
 
     }
 
     @FXML
-    void generateReport() {
+    protected void generateReport() {
 
     }
 

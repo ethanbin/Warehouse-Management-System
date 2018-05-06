@@ -11,8 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -144,7 +142,7 @@ public class ProductPageController implements Initializable {
         if(stage.getScene() != scene) {
             stage.setScene(scene);
         }
-
+        MainController.getInstance().getDetailsController().updateDetailsPage();
         stage.setTitle(title);
         stage.show();
 

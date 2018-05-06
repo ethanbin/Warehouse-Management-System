@@ -2,6 +2,8 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,6 +56,18 @@ public class DetailsController {
         exitDetails(event);
     }
 
+    public boolean updateDetailsPage(){
+        Product product = MainController.getInstance().getSelectedProduct();
+        if (product == null)
+            return false;
+        IDTextField.setText(String.valueOf(product.getId()));
+        nameTextField.setText(product.getName());
+        countTextField.setText(String.valueOf(product.getStock()));
+        priceTextField.setText(String.valueOf(product.getPrice()));
+        descriptionTextArea.setText(product.getDescription());
+        return true;
+    }
+
     @FXML
     void initialize() {
         assert IDTextField != null : "fx:id=\"IDTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";
@@ -66,5 +80,6 @@ public class DetailsController {
         assert returnButton != null : "fx:id=\"returnButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'DetailsPage.fxml'.";
 
+        MainController.getInstance().setDetailsController(this);
     }
 }

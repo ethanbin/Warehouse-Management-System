@@ -176,7 +176,11 @@ public class ProductPageController implements Initializable {
 
     @FXML
     void setSelectedProductInTable(MouseEvent event) {
-        Product selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
+        Product selectedProduct;
+        if (productsTable.getSelectionModel().getSelectedItem() != null)
+            selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
+        else
+            return;
         productNameTextField.setText(selectedProduct.getName());
         productDescriptionTextField.setText(selectedProduct.getDescription());
         MainController.getInstance().setSelectedProduct(selectedProduct);

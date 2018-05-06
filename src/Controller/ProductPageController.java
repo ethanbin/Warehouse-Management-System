@@ -45,6 +45,9 @@ public class ProductPageController implements Initializable {
     private TextField searchTextField;
 
     @FXML
+    private Button searchButton;
+
+    @FXML
     private ImageView productImage;
 
     @FXML
@@ -106,7 +109,6 @@ public class ProductPageController implements Initializable {
         showCurrentProductsPage();
     }
 
-
     public void showPreviousProductsPage(){
         currentProductPage--;
         if (currentProductPage < 0)
@@ -134,7 +136,6 @@ public class ProductPageController implements Initializable {
         System.out.println("User has entered new product.");
     }
 
-    // -todo: Make the Details Scene Reusable
     @FXML
     protected void editProduct()    {
 //        Stage stage = new Stage();
@@ -156,6 +157,7 @@ public class ProductPageController implements Initializable {
         productsTable.getItems().clear();
         MainController.getInstance().logout();
     }
+
     @FXML
     protected void detailsProduct()    {
 //        Stage stage = new Stage();
@@ -169,6 +171,11 @@ public class ProductPageController implements Initializable {
 //        stage.show();
 //
 //        System.out.println("User has entered product details.");
+    }
+
+    @FXML
+    void searchProducts() {
+
     }
 
     @FXML
@@ -192,6 +199,7 @@ public class ProductPageController implements Initializable {
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productNameTextField != null : "fx:id=\"productNameTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productDescriptionTextField != null : "fx:id=\"productDescriptionTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";

@@ -96,4 +96,11 @@ public class MainController {
         productPageController.showCurrentProductsPage();
         return true;
     }
+
+    public void logout(){
+        databaseURL = null;
+        currentUser = null;
+        currentWarehouseID = -1;
+        SceneController.activate("Login");
+    }
 }

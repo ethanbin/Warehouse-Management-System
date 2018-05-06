@@ -52,7 +52,7 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em;" styleClass="plain">
+                              <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em;" styleClass="plain">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -461,7 +461,7 @@
                                                       <Insets left="15.0" right="15.0" />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button layoutX="263.0" layoutY="10.0" mnemonicParsing="false" text="Logout">
+                                                <Button fx:id="logoutButton" layoutX="263.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" text="Logout">
                                                    <padding>
                                                       <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                                                    </padding>

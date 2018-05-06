@@ -39,7 +39,8 @@ public class View extends Application {
         System.out.println("Home was added");
         sc.addScreen("Details", FXMLLoader.load(getClass().getResource("DetailsPage.fxml")));
         System.out.println("Details was added");
-
+        sc.addScreen("Login", FXMLLoader.load(getClass().getResource("LoginScreen.fxml")));
+        System.out.println("Login was added");
 
         Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);
     }

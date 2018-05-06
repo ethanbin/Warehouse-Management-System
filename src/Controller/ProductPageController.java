@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -59,6 +58,9 @@ public class ProductPageController implements Initializable {
     private Button detailsButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private ToggleGroup Export;
 
     @FXML
@@ -79,6 +81,7 @@ public class ProductPageController implements Initializable {
 
 
     // todo - add code to prevent going too far
+    @FXML
     public void showNextProductsPage(){
         currentProductPage++;
         showCurrentProductsPage();
@@ -128,6 +131,10 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
+    void logout() {
+        MainController.getInstance().logout();
+    }
+    @FXML
     protected void detailsProduct()    {
 //        Stage stage = new Stage();
 //        Scene scene = new Scene(SceneController.getScreen("Details"));
@@ -141,7 +148,6 @@ public class ProductPageController implements Initializable {
 //
 //        System.out.println("User has entered product details.");
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -161,6 +167,7 @@ public class ProductPageController implements Initializable {
         assert Export != null : "fx:id=\"Export\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));

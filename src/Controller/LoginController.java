@@ -32,6 +32,7 @@ public class LoginController {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
             System.out.println("User logged in.");
             SceneController.getInstance().activate("Home");
+            MainController.getInstance().updateProductsPage();
         }
         else
             System.out.println("Incorrect username/password.");

@@ -97,11 +97,25 @@ public class DetailsController {
         cancelButton.setVisible(true);
         returnButton.setVisible(false);
 
+        //TODO - set up so this takes stock
         saveButton.setOnAction(event -> {
             System.out.println("save new clicked");
+            if (!nameTextField.getText().isEmpty() &&
+                    !countTextField.getText().isEmpty() &&
+                    !priceTextField.getText().isEmpty()) {
+                DataController.getInstance().insertProduct(
+                        nameTextField.getText(),
+                        descriptionTextArea.getText(),
+                        Float.parseFloat(priceTextField.getText()),
+                        discontinuedCheckBox.isSelected() ? 1 : 0,
+                        0);
+                clear();
+                MainController.getInstance().refreshProductsPage();
+            }
         });
     }
 
+    // TODO - set this up to take stock
     public void editProductMode(){
         updateDetailsPage();
         nameTextField.setEditable(true);

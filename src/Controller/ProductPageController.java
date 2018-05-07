@@ -231,41 +231,49 @@ public class ProductPageController implements Initializable {
     @FXML
     public void nextButtonEntered()    {
         nextButton.setOpacity(1);
+        nextReportButton.setOpacity(1);
     }
 
     @FXML
     public void nextButtonExited() {
         nextButton.setOpacity(.5);
+        nextReportButton.setOpacity(.5);
     }
 
     @FXML
     public void prevButtonEntered()    {
         prevButton.setOpacity(1);
+        prevReportButton.setOpacity(1);
     }
 
     @FXML
     public void prevButtonExited() {
         prevButton.setOpacity(.5);
+        prevReportButton.setOpacity(.5);
     }
 
     @FXML
     public void resultButtonEntered()    {
         resultButton.setOpacity(1);
+        resultReportButton.setOpacity(1);
     }
 
     @FXML
     public void resultButtonExited() {
         resultButton.setOpacity(.5);
+        resultReportButton.setOpacity(.5);
     }
 
     @FXML
     public void refreshButtonEntered()    {
         refreshButton.setOpacity(1);
+        refreshReportButton.setOpacity(1);
     }
 
     @FXML
     public void refreshButtonExited() {
         refreshButton.setOpacity(.5);
+        refreshReportButton.setOpacity(.5);
     }
 
 

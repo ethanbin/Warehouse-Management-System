@@ -2,8 +2,6 @@ package Controller;
 
 import Model.Product;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -11,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -24,7 +21,7 @@ import java.util.ResourceBundle;
 public class ProductPageController implements Initializable {
     private int productsPerPage = 5;
     private int currentProductPage = 0;
-    private Image nextButtonImage = new Image("file:res/img/next.png");
+    private Image navButtonImage = new Image("file:res/img/next.png");
     private Image refreshButtonImage = new Image("file:res/img/refresh.png");
 
     @FXML
@@ -110,6 +107,18 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private Button refreshButton;
+
+    @FXML
+    private Button nextReportButton;
+
+    @FXML
+    private Button prevReportButton;
+
+    @FXML
+    private ComboBox resultReportButton;
+
+    @FXML
+    private Button refreshReportButton;
 
     @FXML
     private VBox productTop;
@@ -296,13 +305,13 @@ public class ProductPageController implements Initializable {
         criteriaMenu.getItems().addAll("ID", "Name", "Price", "Count");
 
         //sets and resizes a graphic for the "nextButton"
-        ImageView nextImageView = new ImageView(nextButtonImage);
+        ImageView nextImageView = new ImageView(navButtonImage);
         nextImageView.setFitWidth(32);
         nextImageView.setFitHeight(32);
         nextButton.setGraphic(nextImageView);
 
         //sets and resize a graphic for the "prevButton"
-        ImageView prevImageView = new ImageView(nextButtonImage);
+        ImageView prevImageView = new ImageView(navButtonImage);
         prevImageView.setFitWidth(32);
         prevImageView.setFitHeight(32);
         prevImageView.setScaleX(-1);
@@ -313,6 +322,25 @@ public class ProductPageController implements Initializable {
         refreshImageView.setFitWidth(30);
         refreshImageView.setFitHeight(30);
         refreshButton.setGraphic(refreshImageView);
+
+        //sets and resizes a graphic for the "nextReportButton"
+        ImageView nextReportImageView = new ImageView(navButtonImage);
+        nextReportImageView.setFitWidth(32);
+        nextReportImageView.setFitHeight(32);
+        nextReportButton.setGraphic(nextReportImageView);
+
+        //sets and resize a graphic for the "prevReportButton"
+        ImageView prevReportImageView = new ImageView(navButtonImage);
+        prevReportImageView.setFitWidth(32);
+        prevReportImageView.setFitHeight(32);
+        prevReportImageView.setScaleX(-1);
+        prevReportButton.setGraphic(prevReportImageView);
+
+        //sets and resize a graphic for the "refreshReportButton"
+        ImageView refreshReportImageView = new ImageView(refreshButtonImage);
+        refreshReportImageView.setFitWidth(30);
+        refreshReportImageView.setFitHeight(30);
+        refreshReportButton.setGraphic(refreshReportImageView);
 
 
         editProductButton.setDisable(true);

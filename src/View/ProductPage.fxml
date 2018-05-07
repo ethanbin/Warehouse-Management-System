@@ -241,7 +241,7 @@
                               </VBox>
                               <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
                                  <children>
-                                    <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <MenuButton alignment="CENTER" contentDisplay="CENTER" minWidth="600.0" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="Sales                                                                      " />
                                         <MenuItem mnemonicParsing="false" text="Inventory" />

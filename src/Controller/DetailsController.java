@@ -133,6 +133,18 @@ public class DetailsController {
         descriptionTextArea.setEditable(false);
         discontinuedCheckBox.setDisable(true);
 
+        IDTextField.setMouseTransparent(true);
+        nameTextField.setMouseTransparent(true);
+        countTextField.setMouseTransparent(true);
+        priceTextField.setMouseTransparent(true);
+        descriptionTextArea.setMouseTransparent(true);
+
+        IDTextField.setFocusTraversable(false);
+        nameTextField.setFocusTraversable(false);
+        countTextField.setFocusTraversable(false);
+        priceTextField.setFocusTraversable(false);
+        descriptionTextArea.setFocusTraversable(false);
+
         saveButton.setVisible(false);
         cancelButton.setVisible(false);
     }

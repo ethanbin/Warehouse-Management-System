@@ -126,7 +126,7 @@ public class ProductPageController implements Initializable {
     @FXML
     public void showNextProductsPage(){
         currentProductPage++;
-        if (currentProductPage * productsPerPage > DataController.getInstance().selectCountFromProducts())
+        if (currentProductPage * productsPerPage >= DataController.getInstance().selectCountFromProducts())
             currentProductPage--;
         else
             showCurrentProductsPage();
@@ -141,6 +141,7 @@ public class ProductPageController implements Initializable {
             showCurrentProductsPage();
     }
 
+    @FXML
     public void showCurrentProductsPage(){
         MainController.getInstance().setSelectedProduct(null);
         MainController.getInstance().getDetailsController().clear();
@@ -285,6 +286,9 @@ public class ProductPageController implements Initializable {
         assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert resultButton != null : "fx:id=\"resultButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -294,6 +298,10 @@ public class ProductPageController implements Initializable {
         assert newProductButton != null : "fx:id=\"newProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert editProductButton != null : "fx:id=\"editProductButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert detailsButton != null : "fx:id=\"detailsButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert nextReportButton != null : "fx:id=\"nextReportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert refreshReportButton != null : "fx:id=\"refreshReportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert prevReportButton != null : "fx:id=\"prevReportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert resultReportButton != null : "fx:id=\"resultReportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert startDate != null : "fx:id=\"startDate\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert endDate != null : "fx:id=\"endDate\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert allStoresCheckBox != null : "fx:id=\"allStoresCheckBox\" was not injected: check your FXML file 'ProductPage.fxml'.";

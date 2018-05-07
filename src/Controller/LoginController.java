@@ -68,15 +68,15 @@ public class LoginController {
 
         //Username login img.
         ImageView userImageView = new ImageView(userImage);
-        userImageView.setFitWidth(45);
-        userImageView.setFitHeight(45);
+        userImageView.setFitWidth(32);
+        userImageView.setFitHeight(32);
         usernameLabel.setGraphic(userImageView);
         usernameLabel.setStyle("-fx-effect: dropshadow(two-pass-box , rgba(0, 0, 0, 0.20), 10, 0.0 , 4, 5)");
 
         //Password login img.
         ImageView passwordImageView = new ImageView(passwordImage);
-        passwordImageView.setFitWidth(45);
-        passwordImageView.setFitHeight(45);
+        passwordImageView.setFitWidth(32);
+        passwordImageView.setFitHeight(32);
         passwordLabel.setGraphic(passwordImageView);
         passwordLabel.setStyle("-fx-effect: dropshadow(two-pass-box , rgba(0, 0, 0, 0.20), 10, 0.0 , 4, 5)");
     }}

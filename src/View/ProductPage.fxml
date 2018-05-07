@@ -41,6 +41,17 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" />
                            </BorderPane.margin>
                            <children>
+                              <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="940.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="940.0" prefWidth="1320.0">
+                                <columns>
+                                  <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
+                                  <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
+                                    <TableColumn id="PriceColumn" fx:id="priceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
+                                    <TableColumn id="CountColumn" fx:id="countColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
                               <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" onMouseEntered="#nextButtonEntered" onMouseExited="#nextButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-effect: none;" styleClass="plain">
                                  <font>
                                     <Font size="24.0" />
@@ -73,17 +84,6 @@
                                     <Insets bottom="20.0" />
                                  </StackPane.margin>
                               </ComboBox>
-                              <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="940.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="940.0" prefWidth="1320.0">
-                                <columns>
-                                  <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
-                                  <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
-                                    <TableColumn id="PriceColumn" fx:id="priceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
-                                    <TableColumn id="CountColumn" fx:id="countColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
                            </children>
                         </StackPane>
                      </center>
@@ -200,20 +200,56 @@
                <content>
                   <BorderPane cacheShape="false" maxHeight="1080.0" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                           <columns>
-                              <TableColumn id="IdColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
-                              <TableColumn id="NameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
-                              <TableColumn id="PriceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
-                              <TableColumn id="CountColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
-                           </columns>
+                        <StackPane alignment="BOTTOM_CENTER">
                            <BorderPane.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" />
                            </BorderPane.margin>
-                        </TableView>
+                           <children>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                                 <columns>
+                                    <TableColumn id="IdColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
+                                    <TableColumn id="NameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
+                                    <TableColumn id="PriceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
+                                    <TableColumn id="CountColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
+                                 </columns>
+                              </TableView>
+                              <Button fx:id="nextReportButton" alignment="BOTTOM_RIGHT" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" onMouseEntered="#nextButtonEntered" onMouseExited="#nextButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-effect: none;" styleClass="plain" StackPane.alignment="BOTTOM_RIGHT">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" right="20.0" />
+                                 </StackPane.margin>
+                              </Button>
+                              <Button fx:id="refreshReportButton" alignment="BOTTOM_CENTER" graphicTextGap="0.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseEntered="#refreshButtonEntered" onMouseExited="#refreshButtonExited" opacity="0.5" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 5em; -fx-background-color: rgb(0,0,0,0); -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none; -fx-border-color: none;" styleClass="plain" StackPane.alignment="BOTTOM_CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" left="140.0" />
+                                 </StackPane.margin>
+                              </Button>
+                              <Button fx:id="prevReportButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showPrevProductsPage" onMouseEntered="#prevButtonEntered" onMouseExited="#prevButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none;" styleClass="plain" StackPane.alignment="BOTTOM_LEFT">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" left="20.0" />
+                                 </StackPane.margin>
+                              </Button>
+                              <ComboBox fx:id="resultReportButton" onMouseEntered="#resultButtonEntered" onMouseExited="#resultButtonExited" opacity="0.5" prefWidth="82.0" promptText="Results" style="-fx-background-color: lightgreen;" visibleRowCount="5">
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </StackPane.margin>
+                              </ComboBox>
+                           </children>
+                        </StackPane>
                      </center>
                      <left>
                         <VBox maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;" BorderPane.alignment="CENTER">

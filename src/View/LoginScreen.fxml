@@ -17,7 +17,7 @@
 
 <VBox onKeyPressed="#enterKeyLogin" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" prefWidth="1080.0">
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0">
          <center>
             <FlowPane id="flowCenter" alignment="CENTER" prefHeight="900.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
@@ -30,7 +30,7 @@
                                  <children>
                                     <VBox alignment="CENTER" prefHeight="152.0" prefWidth="188.0" translateX="-72.0">
                                        <children>
-                                          <Label fx:id="usernameLabel" alignment="CENTER" prefHeight="54.0" prefWidth="46.0" translateX="47.0" translateY="-54.0">
+                                          <Label fx:id="usernameLabel" alignment="CENTER" prefHeight="54.0" prefWidth="46.0" translateX="51.0" translateY="-50.0">
                                              <font>
                                                 <Font size="36.0" />
                                              </font>
@@ -38,7 +38,7 @@
                                                 <Insets bottom="30.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="passwordLabel" prefHeight="9.223372036854776E18" prefWidth="50.0" translateX="48.0" translateY="-27.0">
+                                          <Label fx:id="passwordLabel" prefHeight="9.223372036854776E18" prefWidth="50.0" translateX="60.0" translateY="-23.0">
                                              <font>
                                                 <Font size="36.0" />
                                              </font>

@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 import java.net.URL;
+import java.security.Key;
 import java.util.ResourceBundle;
 
 /**
@@ -98,6 +100,12 @@ public class ProductPageController implements Initializable {
     private Button nextButton;
 
     @FXML
+    private Button prevButton;
+
+    @FXML
+    private ComboBox resultButton;
+
+    @FXML
     private VBox productTop;
 
     @FXML
@@ -109,7 +117,8 @@ public class ProductPageController implements Initializable {
             showCurrentProductsPage();
     }
 
-    public void showPreviousProductsPage(){
+    @FXML
+    public void showPrevProductsPage(){
         currentProductPage--;
         if (currentProductPage < 0)
             currentProductPage = 0;
@@ -187,7 +196,7 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
-    void setSelectedProductInTable(MouseEvent event) {
+    void setSelectedProductInTable() {
         Product selectedProduct;
         if (productsTable.getSelectionModel().getSelectedItem() == null)
             return;
@@ -200,6 +209,38 @@ public class ProductPageController implements Initializable {
         editProductButton.setDisable(false);
         detailsButton.setDisable(false);
     }
+
+    @FXML
+    public void nextButtonEntered()    {
+        nextButton.setOpacity(1);
+    }
+
+    @FXML
+    public void nextButtonExited() {
+        nextButton.setOpacity(.5);
+    }
+
+    @FXML
+    public void prevButtonEntered()    {
+        prevButton.setOpacity(1);
+    }
+
+    @FXML
+    public void prevButtonExited() {
+        prevButton.setOpacity(.5);
+    }
+
+    @FXML
+    public void resultButtonEntered()    {
+        resultButton.setOpacity(1);
+    }
+
+    @FXML
+    public void resultButtonExited() {
+        resultButton.setOpacity(.5);
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -236,10 +277,20 @@ public class ProductPageController implements Initializable {
         criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
 
         //sets and resizes a graphic for the "nextButton"
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        nextButton.setGraphic(imageView);
+        ImageView nextImageView = new ImageView(image);
+        nextImageView.setFitWidth(32);
+        nextImageView.setFitHeight(32);
+        nextButton.setGraphic(nextImageView);
+
+        //sets and resize a graphic for the "nextButton"
+        ImageView prevImageView = new ImageView(image);
+        prevImageView.setFitWidth(32);
+        prevImageView.setFitHeight(32);
+        prevImageView.setScaleX(-1);
+        prevButton.setGraphic(prevImageView);
+
+        //Styles result per page drop-down menu
+
 
         editProductButton.setDisable(true);
         detailsButton.setDisable(true);

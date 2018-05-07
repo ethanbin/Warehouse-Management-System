@@ -2,6 +2,7 @@ package View;
 
 
 import Controller.LoginController;
+import Controller.MainController;
 import Controller.SceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -43,5 +44,11 @@ public class View extends Application {
         System.out.println("Login was added");
 
         Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        MainController.getInstance().stopLowStockScheduler();
+        super.stop();
     }
 }

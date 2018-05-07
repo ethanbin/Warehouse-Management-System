@@ -36,12 +36,12 @@
                <content>
                   <BorderPane maxHeight="1000.0" maxWidth="1.7976931348623157E308" minHeight="0" minWidth="0" nodeOrientation="LEFT_TO_RIGHT">
                      <center>
-                        <StackPane alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
+                        <StackPane alignment="BOTTOM_RIGHT" prefHeight="990.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </BorderPane.margin>
                            <children>
-                              <TableView fx:id="productsTable" cacheShape="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="920.0" prefWidth="1320.0">
+                              <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="920.0" prefWidth="1320.0">
                                 <columns>
                                   <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
                                   <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
@@ -52,7 +52,7 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em;" styleClass="plain">
+                              <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" onMouseEntered="#nextButtonEntered" onMouseExited="#nextButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-effect: none;" styleClass="plain">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -60,6 +60,19 @@
                                     <Insets bottom="20.0" right="20.0" />
                                  </StackPane.margin>
                               </Button>
+                              <Button fx:id="prevButton" alignment="CENTER" graphicTextGap="0.0" layoutX="1280.0" layoutY="880.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showPrevProductsPage" onMouseEntered="#prevButtonEntered" onMouseExited="#prevButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none;" styleClass="plain" StackPane.alignment="BOTTOM_LEFT">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" left="20.0" />
+                                 </StackPane.margin>
+                              </Button>
+                              <ComboBox fx:id="resultButton" onMouseEntered="#resultButtonEntered" onMouseExited="#resultButtonExited" opacity="0.5" prefWidth="82.0" promptText="Results" style="-fx-background-color: lightgreen;" visibleRowCount="5" StackPane.alignment="BOTTOM_CENTER">
+                                 <StackPane.margin>
+                                    <Insets bottom="20.0" />
+                                 </StackPane.margin>
+                              </ComboBox>
                            </children>
                         </StackPane>
                      </center>

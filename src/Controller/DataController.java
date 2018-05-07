@@ -274,13 +274,13 @@ public class DataController {
 
     public boolean updateProductStockForProductAtWarehouse(int stock, int productID, int warehouseID){
         try{
-            s_updateProductAtIndex.setInt(1, productID);
-            s_updateProductAtIndex.setInt(2, warehouseID);
-            s_updateProductAtIndex.setInt(3, productID);
-            s_updateProductAtIndex.setInt(4, warehouseID);
-            s_updateProductAtIndex.setInt(5, stock);
-            s_updateProductAtIndex.executeUpdate();
-            s_updateProductAtIndex.clearParameters();
+            s_insertOrReplaceIntoProductStock.setInt(1, productID);
+            s_insertOrReplaceIntoProductStock.setInt(2, warehouseID);
+            s_insertOrReplaceIntoProductStock.setInt(3, productID);
+            s_insertOrReplaceIntoProductStock.setInt(4, warehouseID);
+            s_insertOrReplaceIntoProductStock.setInt(5, stock);
+            s_insertOrReplaceIntoProductStock.executeUpdate();
+            s_insertOrReplaceIntoProductStock.clearParameters();
             return true;
         }
         catch (SQLException e){

@@ -55,8 +55,10 @@ public class DetailsController {
 
     }
 
-    void updateStock() {
-
+    private boolean updateStock() {
+        return DataController.getInstance().updateProductStockForProductAtWarehouse(Integer.valueOf(countTextField.getText()),
+                MainController.getInstance().getSelectedProduct().getId(),
+                MainController.getInstance().getCurrentWarehouseID());
     }
 
     public boolean updateDetailsPage(){
@@ -136,7 +138,9 @@ public class DetailsController {
                     discontinuedCheckBox.isSelected() ? 1 : 0,
                     //stock exists:
                     stock > 0 ? 1 : 0);
-            
+            // if stock has been changed
+            if (stock != MainController.getInstance().getSelectedProduct().getStock())
+                System.out.println(updateStock());
             MainController.getInstance().refreshProductsPage();
         });
 

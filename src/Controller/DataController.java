@@ -27,6 +27,7 @@ public class DataController {
 
     // lets keep this in alphabetical order
     // prepared statements are named with a prefix of s_ to distinguish them from the methods that use them
+    private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
@@ -95,6 +96,9 @@ public class DataController {
      */
     private boolean prepareStatements(){
         try {
+            s_insertProduct = connection.prepareStatement("INSERT INTO Products (name, description, " +
+                    "price, discontinued, stock_exists) VALUES   (?, ?, ?, ?, ?)");
+
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
                     "ROWID >= ? AND ROWID < ?");
 
@@ -156,6 +160,22 @@ public class DataController {
 
     // for neatness, methods below here are strictly public methods for specific
     // sql statements, with the exception of main
+
+    public boolean insertProduct(String name, String description, float price, int discontinued, int stockExists){
+        try{
+            s_insertProduct.setString(1, name);
+            s_insertProduct.setString(2, description);
+            s_insertProduct.setFloat(3, price);
+            s_insertProduct.setInt(4, discontinued);
+            s_insertProduct.setInt(5, stockExists);
+            s_insertProduct.executeUpdate();
+            s_insertProduct.clearParameters();
+            return true;
+        }
+        catch (SQLException e){
+            return false;
+        }
+    }
 
     //TODO - UPDATE JAVADOC WITH THE PRODUCTS BUFFER
     /**

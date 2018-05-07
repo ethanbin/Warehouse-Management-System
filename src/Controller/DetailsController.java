@@ -8,10 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.util.converter.NumberStringConverter;
 
@@ -37,6 +34,9 @@ public class DetailsController {
 
     @FXML
     private TextArea descriptionTextArea;
+
+    @FXML
+    private CheckBox discontinuedCheckBox;
 
     @FXML
     private Button saveButton;
@@ -72,6 +72,7 @@ public class DetailsController {
         countTextField.setText(String.valueOf(product.getStock()));
         priceTextField.setText(String.valueOf(product.getPrice()));
         descriptionTextArea.setText(product.getDescription());
+        discontinuedCheckBox.setSelected(product.isDiscontinued());
         return true;
     }
 
@@ -81,6 +82,7 @@ public class DetailsController {
         countTextField.clear();
         priceTextField.clear();
         descriptionTextArea.clear();
+        discontinuedCheckBox.setSelected(false);
     }
 
     public void newProductMode(){
@@ -89,6 +91,7 @@ public class DetailsController {
         countTextField.setEditable(true);
         priceTextField.setEditable(true);
         descriptionTextArea.setEditable(true);
+        discontinuedCheckBox.setDisable(false);
 
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
@@ -104,6 +107,7 @@ public class DetailsController {
         countTextField.setEditable(true);
         priceTextField.setEditable(true);
         descriptionTextArea.setEditable(true);
+        discontinuedCheckBox.setDisable(false);
 
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
@@ -114,7 +118,7 @@ public class DetailsController {
                     nameTextField.getText(),
                     descriptionTextArea.getText(),
                     Float.parseFloat(priceTextField.getText()),
-                    MainController.getInstance().getSelectedProduct().isDiscontinued() ? 1 : 0,
+                    discontinuedCheckBox.isSelected() ? 1 : 0,
                     MainController.getInstance().getSelectedProduct().getStock());
             MainController.getInstance().refreshProductsPage();
         });
@@ -127,6 +131,7 @@ public class DetailsController {
         countTextField.setEditable(false);
         priceTextField.setEditable(false);
         descriptionTextArea.setEditable(false);
+        discontinuedCheckBox.setDisable(true);
 
         saveButton.setVisible(false);
         cancelButton.setVisible(false);
@@ -139,6 +144,7 @@ public class DetailsController {
         assert countTextField != null : "fx:id=\"countTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert priceTextField != null : "fx:id=\"priceTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert descriptionTextArea != null : "fx:id=\"descriptionTextArea\" was not injected: check your FXML file 'DetailsPage.fxml'.";
+        assert discontinuedCheckBox != null : "fx:id=\"discontinuedCheckBox\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert saveButton != null : "fx:id=\"saveButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert returnButton != null : "fx:id=\"returnButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";

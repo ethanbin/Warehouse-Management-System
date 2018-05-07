@@ -3,6 +3,7 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
@@ -24,7 +25,7 @@
                      <children>
                         <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <Pane layoutX="250.0" layoutY="77.0" prefHeight="698.0" prefWidth="503.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;">
+                              <Pane layoutX="250.0" layoutY="77.0" prefHeight="810.0" prefWidth="503.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;">
                                  <children>
                                     <Group layoutX="5.0" layoutY="31.0">
                                        <children>
@@ -58,21 +59,26 @@
                                           <TextField fx:id="priceTextField" layoutY="264.0" maxHeight="100.0" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="35.0" prefWidth="300.0" style="-fx-background-radius: 1em;" />
                                        </children>
                                     </Group>
-                                    <Label layoutX="186.0" layoutY="355.0" text="Description">
+                                    <Label layoutX="186.0" layoutY="450.0" text="Description">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="descriptionTextArea" layoutX="12.0" layoutY="390.0" prefHeight="298.0" prefWidth="479.0">
+                                    <TextArea fx:id="descriptionTextArea" layoutX="11.0" layoutY="498.0" prefHeight="298.0" prefWidth="479.0">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </TextArea>
+                                    <CheckBox fx:id="discontinuedCheckBox" contentDisplay="CENTER" layoutX="149.0" layoutY="370.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="206.0" text="Discontinued" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </CheckBox>
                                  </children>
                               </Pane>
-                              <Button fx:id="saveButton" layoutX="347.0" layoutY="792.0" mnemonicParsing="false" onAction="#saveProductAndExitDetails" prefHeight="45.0" prefWidth="97.0" text="Save" />
-                              <Button fx:id="cancelButton" layoutX="559.0" layoutY="792.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Cancel" />
-                              <Button fx:id="returnButton" layoutX="453.0" layoutY="792.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Return" />
+                              <Button fx:id="saveButton" layoutX="348.0" layoutY="907.0" mnemonicParsing="false" onAction="#saveProductAndExitDetails" prefHeight="45.0" prefWidth="97.0" text="Save" />
+                              <Button fx:id="cancelButton" layoutX="560.0" layoutY="907.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Cancel" />
+                              <Button fx:id="returnButton" layoutX="454.0" layoutY="907.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Return" />
                            </children>
                         </AnchorPane>
                      </children>

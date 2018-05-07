@@ -145,16 +145,19 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void newProduct() {
+        MainController.getInstance().getDetailsController().newProductMode();
         openProductDetailsPage("New Product Page");
     }
 
     @FXML
     protected void editProduct()    {
+        MainController.getInstance().getDetailsController().editProductMode();
         openProductDetailsPage("Edit Product Page");
     }
 
     @FXML
     protected void detailsProduct()    {
+        MainController.getInstance().getDetailsController().detailsMode();
         openProductDetailsPage("Details Product Page");
     }
 
@@ -165,7 +168,6 @@ public class ProductPageController implements Initializable {
         if(stage.getScene() != scene) {
             stage.setScene(scene);
         }
-        MainController.getInstance().getDetailsController().updateDetailsPage();
         stage.setTitle(title);
         stage.show();
 
@@ -198,7 +200,7 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
-    void setSelectedProductInTable() {
+    void setSelectedProductInTable(MouseEvent event) {
         Product selectedProduct;
         if (productsTable.getSelectionModel().getSelectedItem() == null)
             return;
@@ -210,6 +212,9 @@ public class ProductPageController implements Initializable {
 
         editProductButton.setDisable(false);
         detailsButton.setDisable(false);
+        
+        if (event.getClickCount() == 2)
+            detailsProduct();
     }
 
     @FXML

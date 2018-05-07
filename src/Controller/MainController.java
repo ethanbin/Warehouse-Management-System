@@ -46,7 +46,7 @@ public class MainController {
      * @return MainController's static property instance, of type MainController
      * @see ErrorHandler
      */
-    public static MainController getInstance(){
+    public synchronized static MainController getInstance(){
         if (instance == null)
             instance = new MainController();
         return instance;

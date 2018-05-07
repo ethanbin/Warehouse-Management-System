@@ -46,13 +46,13 @@ public class DataController {
      * @return DataController's static property instance, of type DataController
      * @see ErrorHandler
      */
-    public static DataController getInstance() {
+    public synchronized static DataController getInstance() {
         if (instance == null)
             instance = new DataController();
         return instance;
     }
 
-    public void resetDataController(){
+    public synchronized void resetDataController(){
         closeDatabase();
         connection = null;
         instance = new DataController();

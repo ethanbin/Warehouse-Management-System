@@ -151,7 +151,7 @@ public class ProductPageController implements Initializable {
         detailsButton.setDisable(true);
 
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
-                currentProductPage * productsPerPage + 1,productsPerPage));
+                currentProductPage * productsPerPage, productsPerPage));
     }
 
     @FXML
@@ -275,8 +275,6 @@ public class ProductPageController implements Initializable {
         refreshButton.setOpacity(.5);
         refreshReportButton.setOpacity(.5);
     }
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

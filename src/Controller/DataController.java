@@ -99,8 +99,7 @@ public class DataController {
             s_insertProduct = connection.prepareStatement("INSERT INTO Products (name, description, " +
                     "price, discontinued, stock_exists) VALUES   (?, ?, ?, ?, ?)");
 
-            s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products WHERE " +
-                    "ROWID >= ? AND ROWID < ?");
+            s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
             s_selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
 
@@ -183,16 +182,16 @@ public class DataController {
      * specified location for a specified distance and return the gathered
      * data as a List of Product objects.
      *
-     * @param start the first row to begin selecting from. This is inclusive.
-     * @param distance how many rows to select from after start.
+     * @param offset The exclusive offset to begin selecting rows after.
+     * @param distance How many rows to select from after offset.
      * @return List of Products selected over the given range from the database
      * @see Product
      */
-    public List<Product> selectAllProductsInRange(int start, int distance){
+    public List<Product> selectAllProductsInRange(int offset, int distance){
         List<Product> products = null;
         try{
-            s_selectAllProductsInRange.setInt(1,start);
-            s_selectAllProductsInRange.setInt(2,start + distance);
+            s_selectAllProductsInRange.setInt(1,distance);
+            s_selectAllProductsInRange.setInt(2,offset);
             ResultSet rs = s_selectAllProductsInRange.executeQuery();
             while (rs.next()) {
                 if (products == null)

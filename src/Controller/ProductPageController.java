@@ -8,14 +8,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import javafx.event.ActionEvent;
-
-import javax.swing.*;
 import java.net.URL;
 import java.security.Key;
 import java.util.ResourceBundle;
@@ -117,7 +113,8 @@ public class ProductPageController implements Initializable {
         currentProductPage++;
         if (currentProductPage * productsPerPage > DataController.getInstance().selectCountFromProducts())
             currentProductPage--;
-        showCurrentProductsPage();
+        else
+            showCurrentProductsPage();
     }
 
     @FXML
@@ -125,37 +122,46 @@ public class ProductPageController implements Initializable {
         currentProductPage--;
         if (currentProductPage < 0)
             currentProductPage = 0;
-        showCurrentProductsPage();
+        else
+            showCurrentProductsPage();
     }
 
     public void showCurrentProductsPage(){
+        MainController.getInstance().setSelectedProduct(null);
+        MainController.getInstance().getDetailsController().clear();
+        productNameTextField.clear();
+        productDescriptionTextField.clear();
+
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
+
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage + 1,productsPerPage));
     }
 
     @FXML
     protected void newProduct() {
-        openProductPage("New Product Page");
+        openProductDetailsPage("New Product Page");
     }
 
     @FXML
     protected void editProduct()    {
-        openProductPage("Edit Product Page");
+        openProductDetailsPage("Edit Product Page");
     }
 
     @FXML
     protected void detailsProduct()    {
-        openProductPage("Details Product Page");
+        openProductDetailsPage("Details Product Page");
     }
 
-    private void openProductPage(String title){
+    private void openProductDetailsPage(String title){
         Stage stage = new Stage();
         Scene scene = new Scene(SceneController.getScreen("Details"));
 
         if(stage.getScene() != scene) {
             stage.setScene(scene);
         }
-
+        MainController.getInstance().getDetailsController().updateDetailsPage();
         stage.setTitle(title);
         stage.show();
 
@@ -165,10 +171,12 @@ public class ProductPageController implements Initializable {
     @FXML
     void logout() {
         currentProductPage = 0;
+        productDescriptionTextField.clear();
+        productNameTextField.clear();
+        searchTextField.clear();
         productsTable.getItems().clear();
         MainController.getInstance().logout();
     }
-
 
     @FXML
     protected void searchProducts() {
@@ -186,11 +194,18 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
-    void setSelectedProductInTable(MouseEvent event) {
-        Product selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
+    void setSelectedProductInTable() {
+        Product selectedProduct;
+        if (productsTable.getSelectionModel().getSelectedItem() == null)
+            return;
+
+        selectedProduct = new Product(productsTable.getSelectionModel().getSelectedItem());
         productNameTextField.setText(selectedProduct.getName());
         productDescriptionTextField.setText(selectedProduct.getDescription());
         MainController.getInstance().setSelectedProduct(selectedProduct);
+
+        editProductButton.setDisable(false);
+        detailsButton.setDisable(false);
     }
 
     @FXML
@@ -274,6 +289,9 @@ public class ProductPageController implements Initializable {
 
         //Styles result per page drop-down menu
 
+
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
 
         MainController.getInstance().setProductPageController(this);
 

@@ -26,6 +26,8 @@ public class MainController {
     private ProductPageController productPageController;
     private Product selectedProduct = null;
 
+    private DetailsController detailsController;
+
     private MainController(){
         bundle = ResourceBundle.getBundle(SETTINGS_FILE_NAME);
 
@@ -96,6 +98,14 @@ public class MainController {
         return selectedProduct;
     }
 
+    public DetailsController getDetailsController() {
+        return detailsController;
+    }
+
+    public void setDetailsController(DetailsController detailsController) {
+        this.detailsController = detailsController;
+    }
+
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
@@ -112,6 +122,7 @@ public class MainController {
         currentWarehouseID = -1;
         selectedProduct = null;
         DataController.getInstance().resetDataController();
+        detailsController.clear();
         SceneController.activate("Login");
     }
 }

@@ -132,16 +132,19 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void newProduct() {
+        MainController.getInstance().getDetailsController().newProductMode();
         openProductDetailsPage("New Product Page");
     }
 
     @FXML
     protected void editProduct()    {
+        MainController.getInstance().getDetailsController().editProductMode();
         openProductDetailsPage("Edit Product Page");
     }
 
     @FXML
     protected void detailsProduct()    {
+        MainController.getInstance().getDetailsController().detailsMode();
         openProductDetailsPage("Details Product Page");
     }
 
@@ -152,7 +155,6 @@ public class ProductPageController implements Initializable {
         if(stage.getScene() != scene) {
             stage.setScene(scene);
         }
-        MainController.getInstance().getDetailsController().updateDetailsPage();
         stage.setTitle(title);
         stage.show();
 

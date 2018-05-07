@@ -4,12 +4,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Model.Product;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.NumberStringConverter;
 
 public class DetailsController {
 
@@ -53,6 +57,7 @@ public class DetailsController {
 
     @FXML
     void saveProductAndExitDetails(ActionEvent event) {
+
         exitDetails(event);
     }
 
@@ -78,6 +83,55 @@ public class DetailsController {
         descriptionTextArea.clear();
     }
 
+    public void newProductMode(){
+        clear();
+        nameTextField.setEditable(true);
+        countTextField.setEditable(true);
+        priceTextField.setEditable(true);
+        descriptionTextArea.setEditable(true);
+
+        saveButton.setVisible(true);
+        cancelButton.setVisible(true);
+
+        saveButton.setOnAction(event -> {
+            System.out.println("save new clicked");
+        });
+    }
+
+    public void editProductMode(){
+        updateDetailsPage();
+        nameTextField.setEditable(true);
+        countTextField.setEditable(true);
+        priceTextField.setEditable(true);
+        descriptionTextArea.setEditable(true);
+
+        saveButton.setVisible(true);
+        cancelButton.setVisible(true);
+
+        saveButton.setOnAction(event -> {
+            System.out.println("save edit clicked");
+            DataController.getInstance().updateProductAtIndex(Integer.parseInt(IDTextField.getText()),
+                    nameTextField.getText(),
+                    descriptionTextArea.getText(),
+                    Float.parseFloat(priceTextField.getText()),
+                    MainController.getInstance().getSelectedProduct().isDiscontinued() ? 1 : 0,
+                    MainController.getInstance().getSelectedProduct().getStock());
+            MainController.getInstance().refreshProductsPage();
+        });
+
+    }
+
+    public void detailsMode(){
+        updateDetailsPage();
+        nameTextField.setEditable(false);
+        countTextField.setEditable(false);
+        priceTextField.setEditable(false);
+        descriptionTextArea.setEditable(false);
+
+        saveButton.setVisible(false);
+        cancelButton.setVisible(false);
+    }
+
     @FXML
     void initialize() {
         assert IDTextField != null : "fx:id=\"IDTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";
@@ -89,6 +143,26 @@ public class DetailsController {
         assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert returnButton != null : "fx:id=\"returnButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'DetailsPage.fxml'.";
+
+        priceTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*([\\.]\\d{0,2})?")) {
+                    priceTextField.setText(oldValue);
+                }
+            }
+        });
+
+        countTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("^\\d*")) {
+                    countTextField.setText(oldValue);
+                }
+            }
+        });
 
         MainController.getInstance().setDetailsController(this);
     }

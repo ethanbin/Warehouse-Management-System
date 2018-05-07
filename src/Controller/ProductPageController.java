@@ -2,18 +2,18 @@ package Controller;
 
 import Model.Product;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
+
 import java.net.URL;
-import java.security.Key;
 import java.util.ResourceBundle;
 
 /**
@@ -22,7 +22,8 @@ import java.util.ResourceBundle;
 public class ProductPageController implements Initializable {
     private int productsPerPage = 5;
     private int currentProductPage = 0;
-    private Image image = new Image("file:res/img/next.png");
+    private Image nextButtonImage = new Image("file:res/img/next.png");
+    private Image refreshButtonImage = new Image("file:res/img/refresh.png");
 
     @FXML
     private TableView<Product> productsTable;
@@ -94,7 +95,7 @@ public class ProductPageController implements Initializable {
     private ToggleGroup Export;
 
     @FXML
-    private MenuButton criteriaMenu;
+    private ComboBox criteriaMenu;
 
     @FXML
     private Button nextButton;
@@ -104,6 +105,9 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private ComboBox resultButton;
+
+    @FXML
+    private Button refreshButton;
 
     @FXML
     private VBox productTop;
@@ -238,6 +242,16 @@ public class ProductPageController implements Initializable {
         resultButton.setOpacity(.5);
     }
 
+    @FXML
+    public void refreshButtonEntered()    {
+        refreshButton.setOpacity(1);
+    }
+
+    @FXML
+    public void refreshButtonExited() {
+        refreshButton.setOpacity(.5);
+    }
+
 
 
     @Override
@@ -272,22 +286,26 @@ public class ProductPageController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
-        criteriaMenu.getItems().addAll(new MenuItem("Id"), new MenuItem("Name"), new MenuItem("Price"), new MenuItem("Count"));
+        criteriaMenu.getItems().addAll("ID", "Name", "Price", "Count");
 
         //sets and resizes a graphic for the "nextButton"
-        ImageView nextImageView = new ImageView(image);
+        ImageView nextImageView = new ImageView(nextButtonImage);
         nextImageView.setFitWidth(32);
         nextImageView.setFitHeight(32);
         nextButton.setGraphic(nextImageView);
 
-        //sets and resize a graphic for the "nextButton"
-        ImageView prevImageView = new ImageView(image);
+        //sets and resize a graphic for the "prevButton"
+        ImageView prevImageView = new ImageView(nextButtonImage);
         prevImageView.setFitWidth(32);
         prevImageView.setFitHeight(32);
         prevImageView.setScaleX(-1);
         prevButton.setGraphic(prevImageView);
 
-        //Styles result per page drop-down menu
+        //sets and resize a graphic for the "refreshButton"
+        ImageView refreshImageView = new ImageView(refreshButtonImage);
+        refreshImageView.setFitWidth(30);
+        refreshImageView.setFitHeight(30);
+        refreshButton.setGraphic(refreshImageView);
 
 
         editProductButton.setDisable(true);

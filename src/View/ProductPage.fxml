@@ -36,22 +36,11 @@
                <content>
                   <BorderPane maxHeight="1000.0" maxWidth="1.7976931348623157E308" minHeight="0" minWidth="0" nodeOrientation="LEFT_TO_RIGHT">
                      <center>
-                        <StackPane alignment="BOTTOM_RIGHT" prefHeight="990.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
+                        <StackPane fx:id="tableContainer" alignment="BOTTOM_RIGHT" prefHeight="990.0" prefWidth="1320.0" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
                            </BorderPane.margin>
                            <children>
-                              <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="920.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="920.0" prefWidth="1320.0">
-                                <columns>
-                                  <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
-                                  <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
-                                    <TableColumn id="PriceColumn" fx:id="priceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
-                                    <TableColumn id="CountColumn" fx:id="countColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
                               <Button fx:id="nextButton" alignment="CENTER" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" onMouseEntered="#nextButtonEntered" onMouseExited="#nextButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-effect: none;" styleClass="plain">
                                  <font>
                                     <Font size="24.0" />
@@ -84,11 +73,22 @@
                                     <Insets bottom="20.0" />
                                  </StackPane.margin>
                               </ComboBox>
+                              <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="940.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="940.0" prefWidth="1320.0">
+                                <columns>
+                                  <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
+                                  <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
+                                    <TableColumn id="PriceColumn" fx:id="priceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
+                                    <TableColumn id="CountColumn" fx:id="countColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
                            </children>
                         </StackPane>
                      </center>
                      <left>
-                        <VBox id="LeftPane" focusTraversable="true" maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;" stylesheets="@style.css" BorderPane.alignment="CENTER">
+                        <VBox id="LeftPane" fx:id="detailsUIContainer" focusTraversable="true" maxHeight="950.0" maxWidth="500.0" minHeight="0.0" minWidth="0.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;" stylesheets="@style.css" BorderPane.alignment="CENTER">
                            <children>
                               <VBox alignment="CENTER" prefHeight="99.0" style="-fx-background-color: lightgreen;" VBox.vgrow="ALWAYS">
                                  <children>
@@ -211,7 +211,7 @@
                               <TableColumn id="CountColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
                            </columns>
                            <BorderPane.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
                            </BorderPane.margin>
                         </TableView>
                      </center>
@@ -241,7 +241,7 @@
                               </VBox>
                               <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
                                  <children>
-                                    <MenuButton alignment="CENTER" contentDisplay="CENTER" minWidth="600.0" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="Sales                                                                      " />
                                         <MenuItem mnemonicParsing="false" text="Inventory" />

@@ -55,10 +55,9 @@ public class DetailsController {
 
     }
 
-    @FXML
-    void saveProductAndExitDetails(ActionEvent event) {
+    void updateStock() {
 
-        exitDetails(event);
+
     }
 
     public boolean updateDetailsPage(){
@@ -136,6 +135,8 @@ public class DetailsController {
                     Float.parseFloat(priceTextField.getText()),
                     discontinuedCheckBox.isSelected() ? 1 : 0,
                     MainController.getInstance().getSelectedProduct().getStock());
+            int stock = Integer.valueOf(countTextField.getText());
+
             MainController.getInstance().refreshProductsPage();
         });
 

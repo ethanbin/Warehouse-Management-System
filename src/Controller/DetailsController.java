@@ -95,6 +95,7 @@ public class DetailsController {
 
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
+        returnButton.setVisible(false);
 
         saveButton.setOnAction(event -> {
             System.out.println("save new clicked");
@@ -111,6 +112,7 @@ public class DetailsController {
 
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
+        returnButton.setVisible(false);
 
         saveButton.setOnAction(event -> {
             System.out.println("save edit clicked");
@@ -147,6 +149,7 @@ public class DetailsController {
 
         saveButton.setVisible(false);
         cancelButton.setVisible(false);
+        returnButton.setVisible(true);
     }
 
     @FXML

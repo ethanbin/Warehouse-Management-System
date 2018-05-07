@@ -27,6 +27,7 @@ public class DataController {
 
     // lets keep this in alphabetical order
     // prepared statements are named with a prefix of s_ to distinguish them from the methods that use them
+    private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
     private PreparedStatement s_selectCountFromProducts;
@@ -96,6 +97,13 @@ public class DataController {
      */
     private boolean prepareStatements(){
         try {
+            s_insertOrReplaceIntoProductStock = connection.prepareStatement(
+                    // note that the first arg is same as third, and the second same as fourth. The fifth is the stock.
+                    // all these args are ints
+                    "INSERT OR REPLACE INTO Products_Stock " +
+                    "(products_stock_id, product_id, warehouse_id, stock) VALUES " +
+                    "((SELECT products_stock_id FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?), ?, ?, ?);");
+
             s_insertProduct = connection.prepareStatement("INSERT INTO Products (name, description, " +
                     "price, discontinued, stock_exists) VALUES   (?, ?, ?, ?, ?)");
 
@@ -262,6 +270,23 @@ public class DataController {
         catch (SQLException e){
             return null;
         }
+    }
+
+    public boolean updateProductStockForProductAtWarehouse(int stock, int productID, int warehouseID){
+        try{
+            s_updateProductAtIndex.setInt(1, productID);
+            s_updateProductAtIndex.setInt(2, warehouseID);
+            s_updateProductAtIndex.setInt(3, productID);
+            s_updateProductAtIndex.setInt(4, warehouseID);
+            s_updateProductAtIndex.setInt(5, stock);
+            s_updateProductAtIndex.executeUpdate();
+            s_updateProductAtIndex.clearParameters();
+            return true;
+        }
+        catch (SQLException e){
+            return false;
+        }
+
     }
 
     public boolean updateProductAtIndex(int product_ID, String name, String description, float price, int discontinued,

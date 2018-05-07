@@ -56,8 +56,15 @@ public class DetailsController {
     }
 
     private boolean updateStock() {
-        return DataController.getInstance().updateProductStockForProductAtWarehouse(Integer.valueOf(countTextField.getText()),
-                MainController.getInstance().getSelectedProduct().getId(),
+        return updateStock(MainController.getInstance().getSelectedProduct().getId());
+    }
+
+    private boolean updateStock(int productID) {
+        int stock = 0;
+        if (!countTextField.getText().isEmpty())
+            stock = Integer.valueOf(countTextField.getText());
+        return DataController.getInstance().updateProductStockForProductAtWarehouse(stock,
+                productID,
                 MainController.getInstance().getCurrentWarehouseID());
     }
 
@@ -97,9 +104,9 @@ public class DetailsController {
         cancelButton.setVisible(true);
         returnButton.setVisible(false);
 
-        //TODO - set up so this takes stock
         saveButton.setOnAction(event -> {
             System.out.println("save new clicked");
+            int stock = Integer.valueOf(countTextField.getText());
             if (!nameTextField.getText().isEmpty() &&
                     !countTextField.getText().isEmpty() &&
                     !priceTextField.getText().isEmpty()) {
@@ -108,14 +115,14 @@ public class DetailsController {
                         descriptionTextArea.getText(),
                         Float.parseFloat(priceTextField.getText()),
                         discontinuedCheckBox.isSelected() ? 1 : 0,
-                        0);
+                        stock > 0 ? 1 : 0);
+                updateStock();
                 clear();
                 MainController.getInstance().refreshProductsPage();
             }
         });
     }
 
-    // TODO - set this up to take stock
     public void editProductMode(){
         updateDetailsPage();
         nameTextField.setEditable(true);
@@ -131,16 +138,22 @@ public class DetailsController {
         saveButton.setOnAction(event -> {
             System.out.println("save edit clicked");
             int stock = Integer.valueOf(countTextField.getText());
-            DataController.getInstance().updateProductAtIndex(Integer.parseInt(IDTextField.getText()),
-                    nameTextField.getText(),
-                    descriptionTextArea.getText(),
-                    Float.parseFloat(priceTextField.getText()),
-                    discontinuedCheckBox.isSelected() ? 1 : 0,
-                    //stock exists:
-                    stock > 0 ? 1 : 0);
+            if (!nameTextField.getText().isEmpty() &&
+                    !countTextField.getText().isEmpty() &&
+                    !priceTextField.getText().isEmpty()) {
+                DataController.getInstance().updateProductAtIndex(Integer.parseInt(IDTextField.getText()),
+                        nameTextField.getText(),
+                        descriptionTextArea.getText(),
+                        Float.parseFloat(priceTextField.getText()),
+                        discontinuedCheckBox.isSelected() ? 1 : 0,
+                        //stock exists:
+                        stock > 0 ? 1 : 0);
+            }
             // if stock has been changed
-            if (stock != MainController.getInstance().getSelectedProduct().getStock())
-                System.out.println(updateStock());
+            if (stock != MainController.getInstance().getSelectedProduct().getStock()) {
+                updateStock();
+            }
+            clear();
             MainController.getInstance().refreshProductsPage();
         });
 

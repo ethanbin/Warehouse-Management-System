@@ -57,7 +57,6 @@ public class DetailsController {
 
     void updateStock() {
 
-
     }
 
     public boolean updateDetailsPage(){
@@ -129,14 +128,15 @@ public class DetailsController {
 
         saveButton.setOnAction(event -> {
             System.out.println("save edit clicked");
+            int stock = Integer.valueOf(countTextField.getText());
             DataController.getInstance().updateProductAtIndex(Integer.parseInt(IDTextField.getText()),
                     nameTextField.getText(),
                     descriptionTextArea.getText(),
                     Float.parseFloat(priceTextField.getText()),
                     discontinuedCheckBox.isSelected() ? 1 : 0,
-                    MainController.getInstance().getSelectedProduct().getStock());
-            int stock = Integer.valueOf(countTextField.getText());
-
+                    //stock exists:
+                    stock > 0 ? 1 : 0);
+            
             MainController.getInstance().refreshProductsPage();
         });
 

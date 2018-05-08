@@ -1,5 +1,6 @@
 package Controller;
 
+import Exceptions.ErrorHandler;
 import Model.Product;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,6 +31,9 @@ public class ProductPageController implements Initializable {
     private TableView<Product> productsTable;
 
     @FXML
+    private TableView<Product> reportsTable;
+
+    @FXML
     private TableColumn<Product, String> IDColumn;
 
     @FXML
@@ -40,6 +44,18 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private TableColumn<Product, String> countColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportIDColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportNameColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportPriceColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportCountColumn;
 
     @FXML
     private TextField searchField;
@@ -199,7 +215,6 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void searchProducts() {
-
     }
 
     @FXML
@@ -282,10 +297,15 @@ public class ProductPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportsTable != null : "fx:id=\"reportsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportIDColumn != null : "fx:id=\"reportIDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportNameColumn != null : "fx:id=\"reportNameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportPriceColumn != null : "fx:id=\"reportPriceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportCountColumn != null : "fx:id=\"reportCountColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -316,6 +336,11 @@ public class ProductPageController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
+
+        reportIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        reportNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+        reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
         searchForMenu.getItems().addAll("ID", "Name", "Price", "Count");
         searchForMenu.setValue("ID");

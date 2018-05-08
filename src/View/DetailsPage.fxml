@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailsController">
+<VBox alignment="CENTER" maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailsController">
    <children>
-      <AnchorPane maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+      <AnchorPane maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" VBox.vgrow="ALWAYS">
          <children>
-            <HBox minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0">
+            <HBox maxHeight="1010.0" minHeight="0.0" minWidth="0.0">
                <children>
                   <VBox>
                      <children>
@@ -28,7 +28,7 @@
                            <children>
                               <Pane layoutX="250.0" layoutY="77.0" prefHeight="810.0" prefWidth="503.0" style="-fx-border-style: solid inside; -fx-border-color: lightgray;">
                                  <children>
-                                    <Group layoutX="5.0" layoutY="31.0">
+                                    <Group layoutX="5.0" layoutY="120.0">
                                        <children>
                                           <Label layoutX="104.0" text="ID">
                                              <font>
@@ -52,7 +52,7 @@
                                           </Label>
                                        </children>
                                     </Group>
-                                    <Group layoutX="165.0" layoutY="31.0">
+                                    <Group layoutX="165.0" layoutY="121.0">
                                        <children>
                                           <TextField fx:id="IDTextField" editable="false" layoutX="1.0" maxHeight="100.0" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="35.0" prefWidth="300.0" style="-fx-background-radius: 1em;" />
                                           <TextField fx:id="nameTextField" layoutY="86.0" maxHeight="100.0" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="35.0" prefWidth="300.0" style="-fx-background-radius: 1em;" />
@@ -60,17 +60,17 @@
                                           <TextField fx:id="priceTextField" layoutY="264.0" maxHeight="100.0" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="35.0" prefWidth="300.0" style="-fx-background-radius: 1em;" />
                                        </children>
                                     </Group>
-                                    <Label layoutX="186.0" layoutY="450.0" text="Description">
+                                    <Label layoutX="186.0" layoutY="507.0" text="Description">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="descriptionTextArea" layoutX="11.0" layoutY="498.0" prefHeight="298.0" prefWidth="479.0">
+                                    <TextArea fx:id="descriptionTextArea" layoutX="11.0" layoutY="558.0" prefHeight="238.0" prefWidth="479.0">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </TextArea>
-                                    <CheckBox fx:id="discontinuedCheckBox" contentDisplay="CENTER" layoutX="149.0" layoutY="370.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="206.0" text="Discontinued" textAlignment="CENTER">
+                                    <CheckBox fx:id="discontinuedCheckBox" contentDisplay="CENTER" layoutX="149.0" layoutY="450.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="206.0" text="Discontinued" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
@@ -80,11 +80,23 @@
                               <Button fx:id="saveButton" layoutX="348.0" layoutY="907.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="97.0" text="Save" />
                               <Button fx:id="cancelButton" layoutX="560.0" layoutY="907.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Cancel" />
                               <Button fx:id="returnButton" layoutX="454.0" layoutY="907.0" mnemonicParsing="false" onAction="#exitDetails" prefHeight="45.0" prefWidth="97.0" text="Return" />
+                              <VBox layoutX="251.0" layoutY="78.0" prefHeight="87.0" prefWidth="502.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="699.0" style="-fx-background-color: lightgreen;" text="INFO" textAlignment="JUSTIFY" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="52.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER_RIGHT">
+                  <VBox alignment="CENTER_RIGHT" maxHeight="1010.0">
                      <children>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="929.0" VBox.vgrow="ALWAYS">
                            <children>

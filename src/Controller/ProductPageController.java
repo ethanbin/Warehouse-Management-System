@@ -123,6 +123,9 @@ public class ProductPageController implements Initializable {
     private VBox productTop;
 
     @FXML
+    private ChoiceBox chooseReportMenu;
+
+    @FXML
     public void showNextProductsPage(){
         currentProductPage++;
         if (currentProductPage * productsPerPage >= DataController.getInstance().selectCountFromProducts())

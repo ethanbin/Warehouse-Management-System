@@ -9,7 +9,6 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
@@ -105,10 +104,10 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </padding>
                               </VBox>
-                              <HBox>
+                              <HBox style="-fx-background-color: lightgray;">
                                  <children>
                                     <ChoiceBox fx:id="searchForMenu" prefWidth="87.0" />
-                                    <TextField fx:id="searchField" prefWidth="318.0" />
+                                    <TextField fx:id="searchField" prefWidth="337.0" />
                                     <Button fx:id="searchButton" maxHeight="30.4" minHeight="30.4" mnemonicParsing="false" prefHeight="30.4" text="Search" />
                                  </children>
                                  <padding>
@@ -140,11 +139,11 @@
                                           <Insets left="20.0" right="20.0" />
                                        </VBox.margin>
                                     </TextField>
-                                    <TextArea fx:id="productDescriptionTextField" editable="false" minHeight="100.0" prefHeight="100.0" prefWidth="200.0" promptText="Details" wrapText="true">
+                                    <TextArea fx:id="productDescriptionTextField" editable="false" minHeight="100.0" prefHeight="176.0" prefWidth="458.0" promptText="Details" wrapText="true">
                                        <VBox.margin>
                                           <Insets left="20.0" right="20.0" />
                                        </VBox.margin></TextArea>
-                                    <HBox alignment="CENTER" prefHeight="97.0" prefWidth="500.0" VBox.vgrow="NEVER">
+                                    <HBox alignment="BOTTOM_CENTER" prefHeight="45.0" prefWidth="498.0" VBox.vgrow="NEVER">
                                        <children>
                                           <Button fx:id="newProductButton" mnemonicParsing="false" onAction="#newProduct" text="New" translateY="10.0">
                                              <padding>
@@ -172,7 +171,7 @@
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                        <padding>
-                                          <Insets bottom="40.0" />
+                                          <Insets bottom="10.0" />
                                        </padding>
                                     </HBox>
                                  </children>
@@ -275,18 +274,12 @@
                                  </padding>
                               </VBox>
                               <HBox alignment="CENTER" minHeight="59.0" prefWidth="500.0" style="-fx-background-color: lightgray;">
-                                 <children>
-                                    <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="600.0" text="Choose Report" textAlignment="CENTER" HBox.hgrow="ALWAYS">
-                                      <items>
-                                        <MenuItem mnemonicParsing="false" text="Sales                                                                      " />
-                                        <MenuItem mnemonicParsing="false" text="Inventory" />
-                                          <MenuItem mnemonicParsing="false" text="Low Stock" />
-                                      </items>
-                                    </MenuButton>
-                                 </children>
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
                                  </padding>
+                                 <children>
+                                    <ChoiceBox prefWidth="450.0" />
+                                 </children>
                               </HBox>
                               <HBox alignment="CENTER" fillHeight="false">
                                  <children>

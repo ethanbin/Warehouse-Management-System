@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailsController">
+<VBox alignment="CENTER" maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DetailsController">
    <children>
       <AnchorPane maxHeight="1010.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" VBox.vgrow="ALWAYS">
          <children>
@@ -70,7 +70,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </TextArea>
-                                    <CheckBox fx:id="discontinuedCheckBox" contentDisplay="CENTER" layoutX="149.0" layoutY="450.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="206.0" text="Discontinued" textAlignment="CENTER">
+                                    <CheckBox fx:id="discontinuedCheckBox" contentDisplay="CENTER" layoutX="149.0" layoutY="450.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="206.0" text="Discontinued" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>

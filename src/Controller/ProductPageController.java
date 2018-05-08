@@ -2,8 +2,6 @@ package Controller;
 
 import Exceptions.ErrorHandler;
 import Model.Product;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -80,7 +79,7 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private Button detailsButton;
-
+    
     @FXML
     private DatePicker startDate;
 
@@ -231,7 +230,20 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void generateReport() {
+        reportsTable.getItems().clear();
+        List<Product> lowStockProducts = null;
+        if (!allStoresCheckBox.isSelected())
+            lowStockProducts = DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                    MainController.getInstance().getLowStockThreshold(),
+                    MainController.getInstance().getCurrentWarehouseID());
+        else{
+//            lowStockProducts = new ArrayList<>();
+//            DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+//                    MainController.getInstance().getLowStockThreshold(),
+//                    MainController.getInstance().getCurrentWarehouseID());
 
+        }
+        reportsTable.getItems().addAll(lowStockProducts);
     }
 
     @FXML

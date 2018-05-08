@@ -5,7 +5,6 @@ import Controller.DataController;
 import Controller.MainController;
 import Controller.SceneController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -51,7 +50,7 @@ public class View extends Application {
     public void stop() throws Exception {
         MainController.getInstance().stopLowStockScheduler();
         MainController.getInstance().removeTrayIcon();
-        DataController.getInstance().closeDatabase();
+        DataController.getInstance().close();
         super.stop();
     }
 }

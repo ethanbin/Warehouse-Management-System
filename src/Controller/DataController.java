@@ -4,7 +4,6 @@ import Exceptions.DataControllerException;
 import Exceptions.ErrorHandler;
 import Model.Product;
 import Model.User;
-import com.sun.tools.javac.Main;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
@@ -15,7 +14,7 @@ import java.util.*;
  * A controller to interface with a database.
  * This class follows the singleton pattern.
  */
-public class DataController {
+public class DataController implements AutoCloseable{
     private static DataController instance;
 
     private final static String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
@@ -55,7 +54,7 @@ public class DataController {
     }
 
     public synchronized void resetDataController(){
-        closeDatabase();
+        close();
         connection = null;
         instance = new DataController();
     }
@@ -147,13 +146,12 @@ public class DataController {
         connection.close();
     }
 
-    public boolean closeDatabase(){
+    @Override
+    public void close(){
         try {
             connection.close();
-            return true;
         }
         catch (SQLException e){
-            return false;
         }
     }
 
@@ -375,7 +373,7 @@ public class DataController {
             // if (cont.s_updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
 
             System.out.println(cont.selectProductWithID(1));
-            cont.closeDatabase();
+            cont.close();
         }
 
         catch (Exception e){

@@ -109,7 +109,10 @@ public class ProductPageController implements Initializable {
     private ToggleGroup Export;
 
     @FXML
-    private ChoiceBox searchForMenu;
+    private ChoiceBox<String> searchForMenu;
+
+    @FXML
+    private ChoiceBox<String> reportTypeChoiceBox;
 
     @FXML
     private Button nextButton;
@@ -210,6 +213,9 @@ public class ProductPageController implements Initializable {
     @FXML
     protected void searchProducts() {
         switch (searchForMenu.getValue().toString()){
+            case "Select Search Type":
+                System.err.println("Select a search type.");
+                break;
             case "ID":
                 int productID;
                 try {
@@ -334,6 +340,7 @@ public class ProductPageController implements Initializable {
         assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert resultButton != null : "fx:id=\"resultButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchForMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportTypeChoiceBox != null : "fx:id=\"reportTypeChoiceBox\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchField != null : "fx:id=\"searchField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -365,8 +372,11 @@ public class ProductPageController implements Initializable {
         reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
-        searchForMenu.getItems().addAll("ID", "Name", "Price", "Count");
-        searchForMenu.setValue("ID");
+        searchForMenu.getItems().addAll("Select Search Type", "ID", "Name", "Price", "Count");
+        searchForMenu.setValue("Select Search Type");
+
+        reportTypeChoiceBox.getItems().addAll("Select Search Type", "Low Stock Report", "Sales Report");
+        reportTypeChoiceBox.setValue("Select Search Type");
 
         //sets and resizes a graphic for the "nextButton"
         ImageView nextImageView = new ImageView(navButtonImage);

@@ -202,6 +202,7 @@ public class DetailsController {
         assert returnButton != null : "fx:id=\"returnButton\" was not injected: check your FXML file 'DetailsPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'DetailsPage.fxml'.";
 
+        // ensure price field only takes decimal values
         priceTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -212,6 +213,7 @@ public class DetailsController {
             }
         });
 
+        // ensure count field only takes integer values
         countTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -223,7 +225,5 @@ public class DetailsController {
         });
 
         MainController.getInstance().setDetailsController(this);
-
-
     }
 }

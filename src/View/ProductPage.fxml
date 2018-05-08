@@ -278,7 +278,7 @@
                                     <Insets left="10.0" right="10.0" />
                                  </padding>
                                  <children>
-                                    <ChoiceBox prefWidth="450.0" />
+                                    <ChoiceBox fx:id="reportTypeChoiceBox" prefWidth="450.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" fillHeight="false">

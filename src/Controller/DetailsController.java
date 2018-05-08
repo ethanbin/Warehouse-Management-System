@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Model.Product;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -184,6 +185,10 @@ public class DetailsController {
         returnButton.setVisible(true);
     }
 
+    public void exit() {
+        Platform.exit();
+    }
+
     @FXML
     void initialize() {
         assert IDTextField != null : "fx:id=\"IDTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";
@@ -218,5 +223,7 @@ public class DetailsController {
         });
 
         MainController.getInstance().setDetailsController(this);
+
+
     }
 }

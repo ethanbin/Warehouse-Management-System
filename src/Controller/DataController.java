@@ -30,6 +30,7 @@ public class DataController {
     private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
+    private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
     private PreparedStatement s_selectStockFromProductsStock;
@@ -109,6 +110,10 @@ public class DataController {
 
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
+            s_selectAllProductsWithLowStockForWarehouse = connection.prepareStatement(
+                    "Select * FROM Products where product_id IN " +
+                            "(Select product_id FROM Products_Stock WHERE stock <= ? AND warehouse_id = ?)");
+
             s_selectCountFromProducts = connection.prepareStatement("SELECT COUNT(*) FROM Products");
 
             s_selectCountFromOrders = connection.prepareStatement("SELECT COUNT(*) FROM Orders");
@@ -165,6 +170,24 @@ public class DataController {
         return immutableProductBuffer;
     }
 
+    public List<Product> resultSetToProductList(ResultSet rs) throws  SQLException{
+        List<Product> products = null;
+        while (rs.next()) {
+            if (products == null)
+                products = new ArrayList<>();
+            int productID = rs.getInt("product_id");
+            products.add(new Product(productID,
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getFloat("price"),
+                    // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
+                    rs.getInt("discontinued") == 1,
+                    rs.getInt("stock_exists") == 1,
+                    selectStockForProductAtIndex(productID, MainController.getInstance().getCurrentWarehouseID())));
+        }
+        return products;
+    }
+
     // for neatness, methods below here are strictly public methods for specific
     // sql statements, with the exception of main
 
@@ -201,19 +224,23 @@ public class DataController {
             s_selectAllProductsInRange.setInt(1,distance);
             s_selectAllProductsInRange.setInt(2,offset);
             ResultSet rs = s_selectAllProductsInRange.executeQuery();
-            while (rs.next()) {
-                if (products == null)
-                    products = new ArrayList<>();
-                int productID = rs.getInt("product_id");
-                products.add(new Product(productID,
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getFloat("price"),
-                        // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
-                        rs.getInt("discontinued") == 1,
-                        rs.getInt("stock_exists") == 1,
-                        selectStockForProductAtIndex(productID, MainController.getInstance().getCurrentWarehouseID())));
-            }
+            products = resultSetToProductList(rs);
+            rs.close();
+            immutableProductBuffer = Collections.unmodifiableList(products);
+            return products;
+        }
+        catch (SQLException e){
+            return null;
+        }
+    }
+
+    public List<Product> selectAllProductsAtLowStockAtWarehoues(int lowStockThreshold, int warehouseID) {
+        List<Product> products = null;
+        try{
+            s_selectAllProductsInRange.setInt(1,lowStockThreshold);
+            s_selectAllProductsInRange.setInt(2,warehouseID);
+            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            products = resultSetToProductList(rs);
             rs.close();
             immutableProductBuffer = Collections.unmodifiableList(products);
             return products;

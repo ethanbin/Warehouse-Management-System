@@ -31,6 +31,7 @@ public class DataController implements AutoCloseable{
     private PreparedStatement s_selectAllProductsInRange;
     private PreparedStatement s_selectAllProductsWithID;
     private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
+    private PreparedStatement s_selectAllWarehouseIDs;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
     private PreparedStatement s_selectStockFromProductsStock;
@@ -124,6 +125,8 @@ public class DataController implements AutoCloseable{
                     "Select * FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?");
 
             s_selectUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ? ");
+
+            s_selectAllWarehouseIDs = connection.prepareStatement("SELECT warehouse_id FROM Warehouses");
 
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
@@ -244,6 +247,20 @@ public class DataController implements AutoCloseable{
             products = resultSetToProductList(rs, warehouseID);
             rs.close();
             return products;
+        }
+        catch (SQLException e){
+            return null;
+        }
+    }
+
+    public List<Integer> selectAllWarehouseIDs(){
+        List<Integer> warehouseIDs = new ArrayList<>();
+        try {
+            ResultSet rs = s_selectAllWarehouseIDs.executeQuery();
+            while (rs.next()){
+                warehouseIDs.add(rs.getInt("warehouse_id"));
+            }
+            return warehouseIDs;
         }
         catch (SQLException e){
             return null;

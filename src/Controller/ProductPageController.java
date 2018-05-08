@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -79,7 +80,7 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private Button detailsButton;
-    
+
     @FXML
     private DatePicker startDate;
 
@@ -237,11 +238,11 @@ public class ProductPageController implements Initializable {
                     MainController.getInstance().getLowStockThreshold(),
                     MainController.getInstance().getCurrentWarehouseID());
         else{
-//            lowStockProducts = new ArrayList<>();
-//            DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
-//                    MainController.getInstance().getLowStockThreshold(),
-//                    MainController.getInstance().getCurrentWarehouseID());
-
+            lowStockProducts = new ArrayList<>();
+            for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
+                lowStockProducts.addAll(DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                        MainController.getInstance().getLowStockThreshold(), currentWarehouseID));
+            }
         }
         reportsTable.getItems().addAll(lowStockProducts);
     }

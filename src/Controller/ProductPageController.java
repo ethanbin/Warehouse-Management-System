@@ -40,10 +40,7 @@ public class ProductPageController implements Initializable {
     private TableColumn<Product, String> countColumn;
 
     @FXML
-    private MenuButton searchMenuButton;
-
-    @FXML
-    private TextField searchTextField;
+    private TextField searchField;
 
     @FXML
     private Button searchButton;
@@ -94,7 +91,7 @@ public class ProductPageController implements Initializable {
     private ToggleGroup Export;
 
     @FXML
-    private ComboBox criteriaMenu;
+    private ChoiceBox searchForMenu;
 
     @FXML
     private Button nextButton;
@@ -191,7 +188,7 @@ public class ProductPageController implements Initializable {
         currentProductPage = 0;
         productDescriptionTextField.clear();
         productNameTextField.clear();
-        searchTextField.clear();
+        searchField.clear();
         productsTable.getItems().clear();
         MainController.getInstance().logout();
     }
@@ -289,8 +286,8 @@ public class ProductPageController implements Initializable {
         assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert resultButton != null : "fx:id=\"resultButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert criteriaMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert searchForMenu != null : "fx:id=\"criteriaMenu\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert searchField != null : "fx:id=\"searchField\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productImage != null : "fx:id=\"productImage\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productNameTextField != null : "fx:id=\"productNameTextField\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -316,7 +313,7 @@ public class ProductPageController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
-        criteriaMenu.getItems().addAll("ID", "Name", "Price", "Count");
+        searchForMenu.getItems().addAll("ID", "Name", "Price", "Count");
 
         //sets and resizes a graphic for the "nextButton"
         ImageView nextImageView = new ImageView(navButtonImage);

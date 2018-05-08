@@ -30,6 +30,7 @@ public class DataController {
     private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
+    private PreparedStatement s_selectAllProductsWithID;
     private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
@@ -109,6 +110,8 @@ public class DataController {
                     "price, discontinued, stock_exists) VALUES   (?, ?, ?, ?, ?)");
 
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
+
+            s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
 
             s_selectAllProductsWithLowStockForWarehouse = connection.prepareStatement(
                     "Select * FROM Products where product_id IN " +
@@ -265,6 +268,17 @@ public class DataController {
         return executeCountStatement(s_selectCountFromProducts);
     }
 
+    public Product selectProductWithID(int productID){
+        try {
+            s_selectAllProductsWithID.setInt(1, productID);
+            ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs).get(0);
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
     public int selectStockForProductAtIndex(int productID, int warehouseID){
         try{
             s_selectStockFromProductsStock.setInt(1,productID);
@@ -360,12 +374,8 @@ public class DataController {
             // testing s_updateProductStockExistsAtIndex
             // if (cont.s_updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
 
-            List<Product> products = cont.selectAllProductsInRange(1, 5);
-            for (Product product : products) {
-                System.out.println(product.toString());
-            }
-            System.out.println();
-            System.out.println(DataController.getInstance().getImmutableProductBuffer().get(0));
+            System.out.println(cont.selectProductWithID(1));
+            cont.closeDatabase();
         }
 
         catch (Exception e){

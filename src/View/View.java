@@ -2,6 +2,7 @@ package View;
 
 
 import Controller.DataController;
+import Controller.DetailsController;
 import Controller.MainController;
 import Controller.SceneController;
 import javafx.application.Application;
@@ -45,6 +46,12 @@ public class View extends Application {
         System.out.println("Login was added");
 
         Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);
+
+        primaryStage.setOnCloseRequest( event ->
+        {
+            System.out.println("Closing other windows");
+            MainController.getInstance().getDetailsController().exit();
+        });
     }
 
     @Override

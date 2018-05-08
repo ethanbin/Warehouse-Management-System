@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.Product;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -193,6 +195,8 @@ public class ProductPageController implements Initializable {
         MainController.getInstance().logout();
     }
 
+
+
     @FXML
     protected void searchProducts() {
 
@@ -358,6 +362,8 @@ public class ProductPageController implements Initializable {
         detailsButton.setDisable(true);
 
         MainController.getInstance().setProductPageController(this);
+
+
 
     }
 }

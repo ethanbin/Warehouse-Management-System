@@ -6,6 +6,7 @@ import Model.User;
 import View.View;
 import javafx.application.Application;
 
+import java.awt.*;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -42,6 +43,8 @@ public class MainController {
                     new MissingResourceException("dataBaseURL property not found", SETTINGS_FILE_NAME,"databaseURL"));
         databaseURL = bundle.getString("databaseURL");
 
+        lowStockScheduler = Executors.newScheduledThreadPool(1);
+
     }
 
     /**
@@ -76,7 +79,6 @@ public void startLowStockScheduler(){
             }
         };
 
-        lowStockScheduler = Executors.newScheduledThreadPool(1);
         lowStockScheduler.scheduleAtFixedRate(lowStockAlerter, 0, secondsToCheckStock, TimeUnit.SECONDS);
     }
 

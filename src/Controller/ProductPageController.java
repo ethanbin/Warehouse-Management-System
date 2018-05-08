@@ -158,14 +158,7 @@ public class ProductPageController implements Initializable {
 
     @FXML
     public void showCurrentProductsPage(){
-        MainController.getInstance().setSelectedProduct(null);
-        MainController.getInstance().getDetailsController().clear();
-        productNameTextField.clear();
-        productDescriptionTextField.clear();
-
-        editProductButton.setDisable(true);
-        detailsButton.setDisable(true);
-
+        clearSelectedProduct();
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage, productsPerPage));
     }
@@ -211,10 +204,24 @@ public class ProductPageController implements Initializable {
         MainController.getInstance().logout();
     }
 
-
-
     @FXML
     protected void searchProducts() {
+        switch (searchForMenu.getValue().toString()){
+            case "ID":
+                int productID;
+                try {
+                    productID = Integer.valueOf(searchField.getText());
+                    clearSelectedProduct();
+                    productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID));
+                }
+                catch (NumberFormatException e){
+                    System.err.println("An invalid ID search was attempted. Make sure a number is entered.");
+                }
+                break;
+            default:
+                ErrorHandler.logError("Unsupported search setting selected");
+                break;
+        }
     }
 
     @FXML
@@ -390,5 +397,15 @@ public class ProductPageController implements Initializable {
 
 
 
+    }
+
+    public void clearSelectedProduct(){
+        MainController.getInstance().setSelectedProduct(null);
+        MainController.getInstance().getDetailsController().clear();
+        productNameTextField.clear();
+        productDescriptionTextField.clear();
+
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
     }
 }

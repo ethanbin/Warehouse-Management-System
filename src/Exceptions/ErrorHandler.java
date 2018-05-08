@@ -23,4 +23,15 @@ public class ErrorHandler {
         }
 
     }
+
+    public static void logError(String errorMessage){
+        System.err.println(errorMessage);
+        try (FileWriter writer = new FileWriter(LOG_LOCATION, true)){
+            writer.write(String.format("%s%n", errorMessage));
+        }
+        catch (IOException IOE){
+            System.err.println("Could not open log for writing.");
+        }
+
+    }
 }

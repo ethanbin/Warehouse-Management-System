@@ -50,6 +50,7 @@ public class View extends Application {
     public void stop() throws Exception {
         MainController.getInstance().stopLowStockScheduler();
         MainController.getInstance().removeTrayIcon();
+        DataController.getInstance().closeDatabase();
         super.stop();
     }
 }

@@ -144,7 +144,7 @@ public class DataController {
         connection.close();
     }
 
-    private boolean closeDatabase(){
+    public boolean closeDatabase(){
         try {
             connection.close();
             return true;

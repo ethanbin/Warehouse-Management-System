@@ -1,8 +1,7 @@
 package Controller;
 
+import Exceptions.ErrorHandler;
 import Model.Product;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -30,6 +31,9 @@ public class ProductPageController implements Initializable {
     private TableView<Product> productsTable;
 
     @FXML
+    private TableView<Product> reportsTable;
+
+    @FXML
     private TableColumn<Product, String> IDColumn;
 
     @FXML
@@ -40,6 +44,18 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private TableColumn<Product, String> countColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportIDColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportNameColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportPriceColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportCountColumn;
 
     @FXML
     private TextField searchField;
@@ -145,14 +161,7 @@ public class ProductPageController implements Initializable {
 
     @FXML
     public void showCurrentProductsPage(){
-        MainController.getInstance().setSelectedProduct(null);
-        MainController.getInstance().getDetailsController().clear();
-        productNameTextField.clear();
-        productDescriptionTextField.clear();
-
-        editProductButton.setDisable(true);
-        detailsButton.setDisable(true);
-
+        clearSelectedProduct();
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage, productsPerPage));
     }
@@ -198,11 +207,24 @@ public class ProductPageController implements Initializable {
         MainController.getInstance().logout();
     }
 
-
-
     @FXML
     protected void searchProducts() {
-
+        switch (searchForMenu.getValue().toString()){
+            case "ID":
+                int productID;
+                try {
+                    productID = Integer.valueOf(searchField.getText());
+                    clearSelectedProduct();
+                    productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID));
+                }
+                catch (NumberFormatException e){
+                    System.err.println("An invalid ID search was attempted. Make sure a number is entered.");
+                }
+                break;
+            default:
+                ErrorHandler.logError("Unsupported search setting selected");
+                break;
+        }
     }
 
     @FXML
@@ -212,7 +234,20 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void generateReport() {
-
+        reportsTable.getItems().clear();
+        List<Product> lowStockProducts = null;
+        if (!allStoresCheckBox.isSelected())
+            lowStockProducts = DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                    MainController.getInstance().getLowStockThreshold(),
+                    MainController.getInstance().getCurrentWarehouseID());
+        else{
+            lowStockProducts = new ArrayList<>();
+            for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
+                lowStockProducts.addAll(DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                        MainController.getInstance().getLowStockThreshold(), currentWarehouseID));
+            }
+        }
+        reportsTable.getItems().addAll(lowStockProducts);
     }
 
     @FXML
@@ -285,10 +320,15 @@ public class ProductPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportsTable != null : "fx:id=\"reportsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportIDColumn != null : "fx:id=\"reportIDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportNameColumn != null : "fx:id=\"reportNameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportPriceColumn != null : "fx:id=\"reportPriceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportCountColumn != null : "fx:id=\"reportCountColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -320,7 +360,13 @@ public class ProductPageController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
+        reportIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        reportNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+        reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
+
         searchForMenu.getItems().addAll("ID", "Name", "Price", "Count");
+        searchForMenu.setValue("ID");
 
         //sets and resizes a graphic for the "nextButton"
         ImageView nextImageView = new ImageView(navButtonImage);
@@ -360,7 +406,6 @@ public class ProductPageController implements Initializable {
         refreshReportImageView.setFitHeight(30);
         refreshReportButton.setGraphic(refreshReportImageView);
 
-
         editProductButton.setDisable(true);
         detailsButton.setDisable(true);
 
@@ -368,5 +413,15 @@ public class ProductPageController implements Initializable {
 
 
 
+    }
+
+    public void clearSelectedProduct(){
+        MainController.getInstance().setSelectedProduct(null);
+        MainController.getInstance().getDetailsController().clear();
+        productNameTextField.clear();
+        productDescriptionTextField.clear();
+
+        editProductButton.setDisable(true);
+        detailsButton.setDisable(true);
     }
 }

@@ -4,7 +4,6 @@ import Exceptions.DataControllerException;
 import Exceptions.ErrorHandler;
 import Model.Product;
 import Model.User;
-import com.sun.tools.javac.Main;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteOpenMode;
 
@@ -15,7 +14,7 @@ import java.util.*;
  * A controller to interface with a database.
  * This class follows the singleton pattern.
  */
-public class DataController {
+public class DataController implements AutoCloseable{
     private static DataController instance;
 
     private final static String DATABASE_PATH_PREFIX = "jdbc:sqlite:";
@@ -30,7 +29,9 @@ public class DataController {
     private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
+    private PreparedStatement s_selectAllProductsWithID;
     private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
+    private PreparedStatement s_selectAllWarehouseIDs;
     private PreparedStatement s_selectCountFromProducts;
     private PreparedStatement s_selectCountFromOrders;
     private PreparedStatement s_selectStockFromProductsStock;
@@ -54,7 +55,7 @@ public class DataController {
     }
 
     public synchronized void resetDataController(){
-        closeDatabase();
+        close();
         connection = null;
         instance = new DataController();
     }
@@ -110,6 +111,8 @@ public class DataController {
 
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
+            s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
+
             s_selectAllProductsWithLowStockForWarehouse = connection.prepareStatement(
                     "Select * FROM Products where product_id IN " +
                             "(Select product_id FROM Products_Stock WHERE stock <= ? AND warehouse_id = ?)");
@@ -122,6 +125,8 @@ public class DataController {
                     "Select * FROM Products_Stock WHERE product_id = ? AND warehouse_id = ?");
 
             s_selectUser = connection.prepareStatement("SELECT * FROM Users WHERE username = ? AND password = ? ");
+
+            s_selectAllWarehouseIDs = connection.prepareStatement("SELECT warehouse_id FROM Warehouses");
 
             s_updateProductAtIndex = connection.prepareStatement("UPDATE Products " +
                     "SET name = ?, description = ?, price = ?, discontinued = ?, stock_exists = ? " +
@@ -144,13 +149,12 @@ public class DataController {
         connection.close();
     }
 
-    public boolean closeDatabase(){
+    @Override
+    public void close(){
         try {
             connection.close();
-            return true;
         }
         catch (SQLException e){
-            return false;
         }
     }
 
@@ -170,7 +174,7 @@ public class DataController {
         return immutableProductBuffer;
     }
 
-    public List<Product> resultSetToProductList(ResultSet rs) throws  SQLException{
+    private List<Product> resultSetToProductList(ResultSet rs, int warehouseID) throws  SQLException{
         List<Product> products = null;
         while (rs.next()) {
             if (products == null)
@@ -183,7 +187,7 @@ public class DataController {
                     // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
                     rs.getInt("discontinued") == 1,
                     rs.getInt("stock_exists") == 1,
-                    selectStockForProductAtIndex(productID, MainController.getInstance().getCurrentWarehouseID())));
+                    selectStockForProductAtIndex(productID, warehouseID)));
         }
         return products;
     }
@@ -224,7 +228,7 @@ public class DataController {
             s_selectAllProductsInRange.setInt(1,distance);
             s_selectAllProductsInRange.setInt(2,offset);
             ResultSet rs = s_selectAllProductsInRange.executeQuery();
-            products = resultSetToProductList(rs);
+            products = resultSetToProductList(rs, MainController.getInstance().getCurrentWarehouseID());
             rs.close();
             immutableProductBuffer = Collections.unmodifiableList(products);
             return products;
@@ -234,15 +238,29 @@ public class DataController {
         }
     }
 
-    public List<Product> selectAllProductsAtLowStockAtWarehoues(int lowStockThreshold, int warehouseID) {
+    public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
         List<Product> products = null;
         try{
             s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
             s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
             ResultSet rs = s_selectAllProductsWithLowStockForWarehouse.executeQuery();
-            products = resultSetToProductList(rs);
+            products = resultSetToProductList(rs, warehouseID);
             rs.close();
             return products;
+        }
+        catch (SQLException e){
+            return null;
+        }
+    }
+
+    public List<Integer> selectAllWarehouseIDs(){
+        List<Integer> warehouseIDs = new ArrayList<>();
+        try {
+            ResultSet rs = s_selectAllWarehouseIDs.executeQuery();
+            while (rs.next()){
+                warehouseIDs.add(rs.getInt("warehouse_id"));
+            }
+            return warehouseIDs;
         }
         catch (SQLException e){
             return null;
@@ -263,6 +281,17 @@ public class DataController {
      */
     public int selectCountFromProducts(){
         return executeCountStatement(s_selectCountFromProducts);
+    }
+
+    public Product selectProductWithID(int productID){
+        try {
+            s_selectAllProductsWithID.setInt(1, productID);
+            ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs, MainController.getInstance().getCurrentWarehouseID()).get(0);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     public int selectStockForProductAtIndex(int productID, int warehouseID){
@@ -360,12 +389,8 @@ public class DataController {
             // testing s_updateProductStockExistsAtIndex
             // if (cont.s_updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
 
-            List<Product> products = cont.selectAllProductsInRange(1, 5);
-            for (Product product : products) {
-                System.out.println(product.toString());
-            }
-            System.out.println();
-            System.out.println(DataController.getInstance().getImmutableProductBuffer().get(0));
+            System.out.println(cont.selectProductWithID(1));
+            cont.close();
         }
 
         catch (Exception e){

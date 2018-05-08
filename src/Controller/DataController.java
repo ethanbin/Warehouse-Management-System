@@ -235,7 +235,7 @@ public class DataController implements AutoCloseable{
         }
     }
 
-    public List<Product> selectAllProductsAtLowStockAtWarehoues(int lowStockThreshold, int warehouseID) {
+    public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
         List<Product> products = null;
         try{
             s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);

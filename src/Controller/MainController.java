@@ -6,6 +6,7 @@ import Model.User;
 import View.View;
 import javafx.application.Application;
 
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -26,6 +27,7 @@ public class MainController {
     private User currentUser;
     private int currentWarehouseID = -1;
     private int secondsToCheckStock = 5;
+    private int lowStockThreshold = 30;
 
     private ProductPageController productPageController;
     private Product selectedProduct = null;
@@ -40,14 +42,6 @@ public class MainController {
                     new MissingResourceException("dataBaseURL property not found", SETTINGS_FILE_NAME,"databaseURL"));
         databaseURL = bundle.getString("databaseURL");
 
-        Runnable lowStockAlerter = new Runnable() {
-            public void run() {
-                System.out.println("running");
-            }
-        };
-
-        lowStockScheduler = Executors.newScheduledThreadPool(1);
-        lowStockScheduler.scheduleAtFixedRate(lowStockAlerter, 0, secondsToCheckStock, TimeUnit.SECONDS);
     }
 
     /**
@@ -63,6 +57,27 @@ public class MainController {
         if (instance == null)
             instance = new MainController();
         return instance;
+    }
+
+    public void lowStockAlert() {
+        List<Product> products = DataController.getInstance().
+                selectAllProductsAtLowStockAtWarehoues(lowStockThreshold, currentWarehouseID);
+        if (products != null) {
+            System.out.println("Low stock products:");
+            for (Product p : products)
+                System.out.println(p);
+        }
+    }
+
+public void startLowStockScheduler(){
+        Runnable lowStockAlerter = new Runnable() {
+            public void run() {
+                lowStockAlert();
+            }
+        };
+
+        lowStockScheduler = Executors.newScheduledThreadPool(1);
+        lowStockScheduler.scheduleAtFixedRate(lowStockAlerter, 0, secondsToCheckStock, TimeUnit.SECONDS);
     }
 
     public void stopLowStockScheduler(){
@@ -90,6 +105,7 @@ public class MainController {
         if (currentUser == null)
             return false;
         currentWarehouseID = currentUser.getWarehouseID();
+        startLowStockScheduler();
         return true;
     }
 
@@ -129,6 +145,7 @@ public class MainController {
     }
 
     public void logout(){
+        stopLowStockScheduler();
         currentUser = null;
         currentWarehouseID = -1;
         selectedProduct = null;

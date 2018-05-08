@@ -237,12 +237,11 @@ public class DataController {
     public List<Product> selectAllProductsAtLowStockAtWarehoues(int lowStockThreshold, int warehouseID) {
         List<Product> products = null;
         try{
-            s_selectAllProductsInRange.setInt(1,lowStockThreshold);
-            s_selectAllProductsInRange.setInt(2,warehouseID);
-            ResultSet rs = s_selectAllProductsInRange.executeQuery();
+            s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
+            s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
+            ResultSet rs = s_selectAllProductsWithLowStockForWarehouse.executeQuery();
             products = resultSetToProductList(rs);
             rs.close();
-            immutableProductBuffer = Collections.unmodifiableList(products);
             return products;
         }
         catch (SQLException e){

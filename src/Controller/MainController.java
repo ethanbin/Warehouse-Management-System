@@ -22,6 +22,7 @@ public class MainController {
     private ScheduledExecutorService lowStockScheduler;
     private static MainController instance = null;
     private TrayIcon trayIcon = null;
+    private boolean lowStockAlertSent = false;
 
     private final String SETTINGS_FILE_NAME = "settings";
     private ResourceBundle bundle;
@@ -83,22 +84,21 @@ public class MainController {
             String lowProductCaption = "One or more Products are low on stock.";
             String lowProductMessage = "Generate a Low Stock Report for more info.";
             trayIcon.displayMessage(lowProductCaption, lowProductMessage, TrayIcon.MessageType.INFO);
+            stopLowStockScheduler();
         }
     }
 
-public void startLowStockScheduler(){
+    public void startLowStockScheduler(){
         Runnable lowStockAlerter = new Runnable() {
             public void run() {
                 lowStockAlert();
             }
         };
-
         lowStockScheduler.scheduleAtFixedRate(lowStockAlerter, 0, secondsToCheckStock, TimeUnit.SECONDS);
     }
 
     public void stopLowStockScheduler(){
         lowStockScheduler.shutdown();
-
     }
 
     public void removeTrayIcon(){
@@ -161,6 +161,10 @@ public void startLowStockScheduler(){
 
     public int getLowStockThreshold() {
         return lowStockThreshold;
+    }
+
+    public void setLowStockAlertSent(boolean lowStockAlertSent) {
+        this.lowStockAlertSent = lowStockAlertSent;
     }
 
     public boolean refreshProductsPage(){

@@ -253,6 +253,7 @@ public class ProductPageController implements Initializable {
                     }
                 }
                 reportsTable.getItems().addAll(lowStockProducts);
+                MainController.getInstance().startLowStockScheduler();
                 break;
 
             case "Sales Report":

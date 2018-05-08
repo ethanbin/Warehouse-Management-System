@@ -213,9 +213,6 @@ public class ProductPageController implements Initializable {
     @FXML
     protected void searchProducts() {
         switch (searchForMenu.getValue().toString()){
-            case "Select Search Type":
-                System.err.println("Select a search type.");
-                break;
             case "ID":
                 int productID;
                 try {
@@ -228,7 +225,7 @@ public class ProductPageController implements Initializable {
                 }
                 break;
             default:
-                ErrorHandler.logError("Unsupported search setting selected");
+                System.err.println("Select a search type.");
                 break;
         }
     }
@@ -240,20 +237,31 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void generateReport() {
-        reportsTable.getItems().clear();
-        List<Product> lowStockProducts = null;
-        if (!allStoresCheckBox.isSelected())
-            lowStockProducts = DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
-                    MainController.getInstance().getLowStockThreshold(),
-                    MainController.getInstance().getCurrentWarehouseID());
-        else{
-            lowStockProducts = new ArrayList<>();
-            for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
-                lowStockProducts.addAll(DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
-                        MainController.getInstance().getLowStockThreshold(), currentWarehouseID));
-            }
+        switch (reportTypeChoiceBox.getValue()) {
+            case "Low Stock Report":
+                reportsTable.getItems().clear();
+                List<Product> lowStockProducts = null;
+                if (!allStoresCheckBox.isSelected())
+                    lowStockProducts = DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                            MainController.getInstance().getLowStockThreshold(),
+                            MainController.getInstance().getCurrentWarehouseID());
+                else {
+                    lowStockProducts = new ArrayList<>();
+                    for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
+                        lowStockProducts.addAll(DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                                MainController.getInstance().getLowStockThreshold(), currentWarehouseID));
+                    }
+                }
+                reportsTable.getItems().addAll(lowStockProducts);
+                break;
+
+            case "Sales Report":
+                break;
+
+            default:
+                System.err.println("Select a search type.");
+                break;
         }
-        reportsTable.getItems().addAll(lowStockProducts);
     }
 
     @FXML
@@ -372,11 +380,11 @@ public class ProductPageController implements Initializable {
         reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
-        searchForMenu.getItems().addAll("Select Search Type", "ID", "Name", "Price", "Count");
-        searchForMenu.setValue("Select Search Type");
+        searchForMenu.getItems().addAll("Search Type", "ID", "Name", "Price", "Count");
+        searchForMenu.setValue("Search Type");
 
-        reportTypeChoiceBox.getItems().addAll("Select Search Type", "Low Stock Report", "Sales Report");
-        reportTypeChoiceBox.setValue("Select Search Type");
+        reportTypeChoiceBox.getItems().addAll("Report Type", "Low Stock Report", "Sales Report");
+        reportTypeChoiceBox.setValue("Report Type");
 
         //sets and resizes a graphic for the "nextButton"
         ImageView nextImageView = new ImageView(navButtonImage);

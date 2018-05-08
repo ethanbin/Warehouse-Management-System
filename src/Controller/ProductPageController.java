@@ -314,6 +314,7 @@ public class ProductPageController implements Initializable {
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
 
         searchForMenu.getItems().addAll("ID", "Name", "Price", "Count");
+        searchForMenu.setValue("ID");
 
         //sets and resizes a graphic for the "nextButton"
         ImageView nextImageView = new ImageView(navButtonImage);
@@ -352,7 +353,6 @@ public class ProductPageController implements Initializable {
         refreshReportImageView.setFitWidth(30);
         refreshReportImageView.setFitHeight(30);
         refreshReportButton.setGraphic(refreshReportImageView);
-
 
         editProductButton.setDisable(true);
         detailsButton.setDisable(true);

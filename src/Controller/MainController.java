@@ -80,11 +80,11 @@ public class MainController {
     public void lowStockAlert() {
         List<Product> products = DataController.getInstance().
                 selectAllProductsAtLowStockAtWarehouse(lowStockThreshold, currentWarehouseID);
-        if (products != null) {
+        if (products != null && !lowStockAlertSent) {
             String lowProductCaption = "One or more Products are low on stock.";
             String lowProductMessage = "Generate a Low Stock Report for more info.";
             trayIcon.displayMessage(lowProductCaption, lowProductMessage, TrayIcon.MessageType.INFO);
-            stopLowStockScheduler();
+            lowStockAlertSent = true;
         }
     }
 

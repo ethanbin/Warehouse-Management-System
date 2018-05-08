@@ -171,7 +171,7 @@ public class DataController implements AutoCloseable{
         return immutableProductBuffer;
     }
 
-    public List<Product> resultSetToProductList(ResultSet rs) throws  SQLException{
+    private List<Product> resultSetToProductList(ResultSet rs, int warehouseID) throws  SQLException{
         List<Product> products = null;
         while (rs.next()) {
             if (products == null)
@@ -184,7 +184,7 @@ public class DataController implements AutoCloseable{
                     // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
                     rs.getInt("discontinued") == 1,
                     rs.getInt("stock_exists") == 1,
-                    selectStockForProductAtIndex(productID, MainController.getInstance().getCurrentWarehouseID())));
+                    selectStockForProductAtIndex(productID, warehouseID)));
         }
         return products;
     }
@@ -225,7 +225,7 @@ public class DataController implements AutoCloseable{
             s_selectAllProductsInRange.setInt(1,distance);
             s_selectAllProductsInRange.setInt(2,offset);
             ResultSet rs = s_selectAllProductsInRange.executeQuery();
-            products = resultSetToProductList(rs);
+            products = resultSetToProductList(rs, MainController.getInstance().getCurrentWarehouseID());
             rs.close();
             immutableProductBuffer = Collections.unmodifiableList(products);
             return products;
@@ -241,7 +241,7 @@ public class DataController implements AutoCloseable{
             s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
             s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
             ResultSet rs = s_selectAllProductsWithLowStockForWarehouse.executeQuery();
-            products = resultSetToProductList(rs);
+            products = resultSetToProductList(rs, warehouseID);
             rs.close();
             return products;
         }
@@ -270,7 +270,7 @@ public class DataController implements AutoCloseable{
         try {
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
-            return resultSetToProductList(rs).get(0);
+            return resultSetToProductList(rs, MainController.getInstance().getCurrentWarehouseID()).get(0);
         }
         catch (Exception e){
             return null;

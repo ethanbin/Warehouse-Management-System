@@ -21,13 +21,14 @@ import java.util.concurrent.TimeUnit;
 public class MainController {
     private ScheduledExecutorService lowStockScheduler;
     private static MainController instance = null;
+    private TrayIcon trayIcon = null;
 
     private final String SETTINGS_FILE_NAME = "settings";
     private ResourceBundle bundle;
     private String databaseURL;
     private User currentUser;
     private int currentWarehouseID = -1;
-    private int secondsToCheckStock = 5;
+    private int secondsToCheckStock = 60;
     private int lowStockThreshold = 30;
 
     private ProductPageController productPageController;
@@ -45,6 +46,19 @@ public class MainController {
 
         lowStockScheduler = Executors.newScheduledThreadPool(1);
 
+        SystemTray tray = SystemTray.getSystemTray();
+        // temporary until we get a better image
+        //TODO - use better image
+        Image trayImage = Toolkit.getDefaultToolkit().createImage("res/img/refresh.png");
+        trayIcon = new TrayIcon(trayImage, View.VIEW_TITLE);
+        trayIcon.setImageAutoSize(true);
+
+        try {
+            tray.add(trayIcon);
+        }
+        catch (AWTException e){
+            System.out.println(e);
+        }
     }
 
     /**
@@ -66,9 +80,9 @@ public class MainController {
         List<Product> products = DataController.getInstance().
                 selectAllProductsAtLowStockAtWarehoues(lowStockThreshold, currentWarehouseID);
         if (products != null) {
-            System.out.println("Low stock products:");
-            for (Product p : products)
-                System.out.println(p);
+            String lowProductCaption = "One or more Products are low on stock.";
+            String lowProductMessage = "Generate a Low Stock Report for more info.";
+            trayIcon.displayMessage(lowProductCaption, lowProductMessage, TrayIcon.MessageType.INFO);
         }
     }
 
@@ -84,6 +98,12 @@ public void startLowStockScheduler(){
 
     public void stopLowStockScheduler(){
         lowStockScheduler.shutdown();
+
+    }
+
+    public void removeTrayIcon(){
+        SystemTray tray = SystemTray.getSystemTray();
+        tray.remove(trayIcon);
     }
 
     /**

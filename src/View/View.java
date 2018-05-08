@@ -1,7 +1,7 @@
 package View;
 
 
-import Controller.LoginController;
+import Controller.DataController;
 import Controller.MainController;
 import Controller.SceneController;
 import javafx.application.Application;
@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import java.awt.*;
 
 public class View extends Application {
-    private final String viewTitle = "Warehouse Management System";
+    public final static String VIEW_TITLE = "Warehouse Management System";
     private final String FXMLPath = "LoginScreen.fxml";
 
     @Override
@@ -20,7 +20,7 @@ public class View extends Application {
         //Parent root = FXMLLoader.load(getClass().getResource(FXMLPath));
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        primaryStage.setTitle(viewTitle);
+        primaryStage.setTitle(VIEW_TITLE);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLPath));
 
@@ -49,6 +49,7 @@ public class View extends Application {
     @Override
     public void stop() throws Exception {
         MainController.getInstance().stopLowStockScheduler();
+        MainController.getInstance().removeTrayIcon();
         super.stop();
     }
 }

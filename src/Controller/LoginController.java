@@ -1,5 +1,6 @@
 package Controller;
 
+import Exceptions.ErrorHandler;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -39,6 +40,7 @@ public class LoginController {
     protected void enterKeyLogin(KeyEvent event) {
         if(event.getCode() == KeyCode.ENTER)
             loginAction();
+
     }
 
     private void loginAlertStyle() {

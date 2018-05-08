@@ -5,6 +5,7 @@ import Controller.DataController;
 import Controller.DetailsController;
 import Controller.MainController;
 import Controller.SceneController;
+import Exceptions.ErrorHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

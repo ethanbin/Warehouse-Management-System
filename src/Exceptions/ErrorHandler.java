@@ -1,10 +1,14 @@
 package Exceptions;
 
+import javafx.scene.control.Alert;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
 
 public class ErrorHandler {
     private final static String LOG_LOCATION = "error_log.txt";
+    private static List<Alert> dialogHold = new ArrayList<Alert>();
 
     private ErrorHandler(Exception e){ }
 
@@ -33,5 +37,15 @@ public class ErrorHandler {
             System.err.println("Could not open log for writing.");
         }
 
+    }
+
+    //Pass 'null' for header if you do not want a header
+    public static void errorDialog(String title, String content, String header )    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        alert.showAndWait();
     }
 }

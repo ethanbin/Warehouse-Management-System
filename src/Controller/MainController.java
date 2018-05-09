@@ -65,9 +65,10 @@ public class MainController {
     /**
      * Following singleton pattern, this method will return the static instance of the
      * MainController class. If no instance yet exists, one will be created using the
-     * MainController constructor, saved as a static variable, and returned.
-     * If there is a problem creating the MainController, an exception will be passed
-     * to ErrorHandler.logCriticalError and the application will terminate.
+     * MainController constructor, which also creates a system tray icon, saved as a
+     * static variable, and returned. If there is a problem creating the MainController,
+     * an exception will be passed to ErrorHandler.logCriticalError and the application
+     * will terminate.
      * @return MainController's static property instance, of type MainController
      * @see ErrorHandler
      */
@@ -77,6 +78,10 @@ public class MainController {
         return instance;
     }
 
+    /**
+     * Alert the user via system tray notification if any products are low on stock at
+     * the user's location and if a notification has not yet been sent.
+     */
     public void lowStockAlert() {
         List<Product> products = DataController.getInstance().
                 selectAllProductsAtLowStockAtWarehouse(lowStockThreshold, currentWarehouseID);
@@ -88,6 +93,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Run {@link MainController#lowStockAlert()} repeatedly on a timed schedule on
+     * a separate thread.
+     */
     public void startLowStockScheduler(){
         Runnable lowStockAlerter = new Runnable() {
             public void run() {
@@ -97,31 +106,54 @@ public class MainController {
         lowStockScheduler.scheduleAtFixedRate(lowStockAlerter, 0, secondsToCheckStock, TimeUnit.SECONDS);
     }
 
+    /**
+     * Stop the thread scheduled to run {@link MainController#lowStockAlert()}.
+     */
     public void stopLowStockScheduler(){
         lowStockScheduler.shutdown();
     }
 
+    /**
+     * Remove the application's system tray icon.
+     */
     public void removeTrayIcon(){
         SystemTray tray = SystemTray.getSystemTray();
         tray.remove(trayIcon);
     }
 
     /**
-     * Return path to settings property file
+     * Return path to settings property file.
      * @return path to settings property file
      */
     public String getSettingsFileName() {
         return SETTINGS_FILE_NAME;
     }
 
+    /**
+     * Get URL or path to the database, as specified in settings file.
+     * @return URL or path to the database
+     */
     public String getDatabaseURL() {
         return databaseURL;
     }
 
+    /**
+     * Return currently logged in User.
+     * @return currently logged in User
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Attempt to log in user with given username and password. If login successful,
+     * set the MainController's instance of the current user to the one logged in,
+     * set the MainController's value of the current warehouse ID to the user's, and
+     * call {@link MainController#startLowStockScheduler()}.
+     * @param username
+     * @param password
+     * @return
+     */
     public boolean loginUser(String username, String password) {
         currentUser =  DataController.getInstance().selectUser(username, password);
         if (currentUser == null)
@@ -131,42 +163,89 @@ public class MainController {
         return true;
     }
 
+    /**
+     * Return the warehouse ID of the currently logged in user.
+     * @return the warehouse ID of the currently logged in user
+     */
     public int getCurrentWarehouseID() {
         return currentWarehouseID;
     }
 
+    /**
+     * Return the active instance of the Product Page Controller.
+     * @return the active instance of the Product Page Controller
+     * @see ProductPageController
+     */
     public ProductPageController getProductPageController() {
         return productPageController;
     }
 
+    /**
+     * Set the active instance of the Product Page Controller
+     * @param productPageController the currently active Product Page Controller
+     * @see ProductPageController
+     */
     public void setProductPageController(ProductPageController productPageController) {
         this.productPageController = productPageController;
     }
 
-    public Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
+    /**
+     * Return the active instance of the Details Controller.
+     * @return the active instance of the Details Controller
+     * @see DetailsController
+     */
     public DetailsController getDetailsController() {
         return detailsController;
     }
 
+    /**
+     * Set the active instance of the Details Controller
+     * @param detailsController the currently active Details Controller
+     * @see DetailsController
+     */
     public void setDetailsController(DetailsController detailsController) {
         this.detailsController = detailsController;
     }
 
+    /**
+     * Return the currently selected product.
+     * @return the currently selected product
+     * @see Product
+     */
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    /**
+     * Set the currently selected product.
+     * @param selectedProduct the currently selected Product
+     * @see Product
+     */
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
 
+    /**
+     * Return the value below which the application considers low stock.
+     * @return the value below which the application considers low stock
+     */
     public int getLowStockThreshold() {
         return lowStockThreshold;
     }
 
+    /**
+     * Set the status of whether a low stock alert was sent.
+     * @param lowStockAlertSent new status of whether a low stock alert was sent
+     */
     public void setLowStockAlertSent(boolean lowStockAlertSent) {
         this.lowStockAlertSent = lowStockAlertSent;
     }
 
+    /**
+     * If the productPageController has been initialized, refresh the displayed products
+     * in the view using {@link ProductPageController#showCurrentProductsPage()} and return true.
+     * @return true if the productPageController has been initialized and the products refreshed.
+     */
     public boolean refreshProductsPage(){
         if (productPageController == null)
             return false;
@@ -174,6 +253,12 @@ public class MainController {
         return true;
     }
 
+    /**
+     * Logout the user, clean up data, call {@link DataController#resetDataController()},
+     * call {@link MainController#stopLowStockScheduler()}, and change the view to the
+     * login screen.
+     * @see DataController
+     */
     public void logout(){
         stopLowStockScheduler();
         currentUser = null;
@@ -184,6 +269,10 @@ public class MainController {
         SceneController.activate("Login");
     }
 
+    /**
+     * The entry point of the application.
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         DataController.getInstance();
 

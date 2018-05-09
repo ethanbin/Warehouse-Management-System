@@ -12,7 +12,6 @@ import java.util.*;
  */
 public class ErrorHandler {
     private final static String LOG_LOCATION = "error_log.txt";
-    private static List<Alert> dialogHold = new ArrayList<Alert>();
 
     private ErrorHandler(Exception e){ }
 

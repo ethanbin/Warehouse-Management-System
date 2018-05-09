@@ -221,11 +221,14 @@ public class ProductPageController implements Initializable {
                     productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID));
                 }
                 catch (NumberFormatException e){
+                    ErrorHandler.errorDialog("Invalid Input Detected",
+                            "An invalid ID search was attempted. Make sure a number is entered.", null );
                     System.err.println("An invalid ID search was attempted. Make sure a number is entered.");
                 }
                 break;
             default:
                 System.err.println("Select a search type.");
+                ErrorHandler.errorDialog("No Search Type Selected", "Please select a search type.", null);
                 break;
         }
     }
@@ -260,7 +263,9 @@ public class ProductPageController implements Initializable {
                 break;
 
             default:
-                System.err.println("Select a search type.");
+                System.err.println("No Report Type Selected");
+                ErrorHandler.errorDialog("No Report Type Selected",
+                        "Please select a report type to generate.", null);
                 break;
         }
     }

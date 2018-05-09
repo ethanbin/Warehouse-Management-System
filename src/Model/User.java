@@ -7,6 +7,15 @@ public class User {
     private String username;
     private int warehouseID;
 
+    /**
+     * The User data model contains all the data of a record from the User table of the database
+     * except for the password to prevent potential security vulnerabilities to memory scanning software.
+     * @param user_id ID of the user
+     * @param name full name of the user
+     * @param isAdmin admin status of user
+     * @param username username
+     * @param warehouseID Database ID of the warehouse this user is employed at
+     */
     public User(int user_id, String name, boolean isAdmin, String username, int warehouseID) {
         this.user_id = user_id;
         this.name = name;

@@ -108,7 +108,7 @@ public class MainController {
 
     /**
      * Return path to settings property file
-     * @return
+     * @return path to settings property file
      */
     public String getSettingsFileName() {
         return SETTINGS_FILE_NAME;

@@ -54,6 +54,10 @@ public class DataController implements AutoCloseable{
         return instance;
     }
 
+    /**
+     * Close the database connection and reinitialize the DataController instance,
+     * opening the database again.
+     */
     public synchronized void resetDataController(){
         close();
         connection = null;
@@ -143,12 +147,21 @@ public class DataController implements AutoCloseable{
         return true;
     }
 
+    /**
+     * Close database connection when garbage collection runs on a DataController.
+     * @throws Throwable any possible Exception
+     * @see Throwable
+     * @deprecated
+     */
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         connection.close();
     }
 
+    /**
+     * Close the database connection. This should only be done when exiting the application.
+     */
     @Override
     public void close(){
         try {
@@ -170,6 +183,11 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Return the last set of Products selected from a range as an unmodifiable List.
+     * @return unmodifiable List containing the last set of Products selected from a range
+     * @see java.util.Collections.UnmodifiableList
+     */
     public List<Product> getImmutableProductBuffer(){
         return immutableProductBuffer;
     }
@@ -195,6 +213,15 @@ public class DataController implements AutoCloseable{
     // for neatness, methods below here are strictly public methods for specific
     // sql statements, with the exception of main
 
+    /**
+     * Insert a record into the Product table in the database.
+     * @param name of new Product
+     * @param description of new Product
+     * @param price of new Product
+     * @param discontinued status of new Product as a 1 for true or 0 for false
+     * @param stockExists status of new Product as a 1 for true or 0 for false
+     * @return true if Product successfully added to table
+     */
     public boolean insertProduct(String name, String description, float price, int discontinued, int stockExists){
         try{
             s_insertProduct.setString(1, name);
@@ -213,13 +240,14 @@ public class DataController implements AutoCloseable{
 
     //TODO - UPDATE JAVADOC WITH THE PRODUCTS BUFFER
     /**
-     * Select from the database rows from the Products table starting at the
+     * Select from the database rows from the Products table starting after the
      * specified location for a specified distance and return the gathered
-     * data as a List of Product objects.
+     * data as a List of Product objects. The selected Products are stored as
+     * an unmodifiable list {@link DataController#immutableProductBuffer}.
      *
      * @param offset The exclusive offset to begin selecting rows after.
      * @param distance How many rows to select from after offset.
-     * @return List of Products selected over the given range from the database
+     * @return List of Products selected over the given range from the database, or null if no Product selected
      * @see Product
      */
     public List<Product> selectAllProductsInRange(int offset, int distance){
@@ -238,6 +266,12 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Return all Products as a list that have a stock below a specified amount at a specified warehouse.
+     * @param lowStockThreshold The amount below which is considered to be low stock
+     * @param warehouseID The ID of the warehouse to query for low stock
+     * @return list of Products that have low stock
+     */
     public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
         List<Product> products = null;
         try{
@@ -253,6 +287,11 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Returns a list of Integers containing the ID for each warehouse from the Warehouse table, or
+     * null if no warehouses exist.
+     * @return Integer List of every warehouse ID, or null if no warehouses exist
+     */
     public List<Integer> selectAllWarehouseIDs(){
         List<Integer> warehouseIDs = new ArrayList<>();
         try {
@@ -268,7 +307,8 @@ public class DataController implements AutoCloseable{
     }
 
     /**
-     * Query the database and return integer value representing count of how many items exist in the Orders table.
+     * Query the database and return int value representing count of how many records exist in the
+     * Orders table.
      * @return integer value representing count of how many items exist in the Customers table
      */
     public int selectCountFromOrders(){
@@ -276,24 +316,38 @@ public class DataController implements AutoCloseable{
     }
 
     /**
-     * Query the database and return integer value representing count of how many items exist in the Products table.
+     * Query the database and return integer value representing count of how many record exist in the
+     * Products table.
      * @return integer value representing count of how many items exist in the Products table
      */
     public int selectCountFromProducts(){
         return executeCountStatement(s_selectCountFromProducts);
     }
 
-    public Product selectProductWithID(int productID){
+    /**
+     * Select and return a Product with the specified ID with its stock at the specified warehouse
+     * @param productID int ID of the Product being queried
+     * @param warehouseID int ID of the warehouse the stock of the product is requested for
+     * @return Product with the specified ID, or null if no such Product exists
+     */
+    public Product selectProductWithID(int productID, int warehouseID){
         try {
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
-            return resultSetToProductList(rs, MainController.getInstance().getCurrentWarehouseID()).get(0);
+            return resultSetToProductList(rs, warehouseID).get(0);
         }
         catch (Exception e){
             return null;
         }
     }
 
+    /**
+     * Query the database and return stock count of specified Product at the specified warehouse,
+     * or 0 if no stock exists.
+     * @param productID int ID of the Product being queried
+     * @param warehouseID int ID of the warehouse being queried
+     * @return stock count of specified product at a specified warehouse
+     */
     public int selectStockForProductAtIndex(int productID, int warehouseID){
         try{
             s_selectStockFromProductsStock.setInt(1,productID);
@@ -308,6 +362,13 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Select and return User with the matching username and password, or null if no such User found.
+     * @param username string username
+     * @param password string password
+     * @return User with matching username and password, or null if no such User found
+     * @see User
+     */
     public User selectUser(String username, String password){
         User user;
         try{
@@ -327,6 +388,13 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Update the stock count for the specified Product for the specified warehouse.
+     * @param stock new stock count to update the database with
+     * @param productID ID of the Product to update stock count for
+     * @param warehouseID ID of the warehouse to update stock count for
+     * @return true if stock count for specified Product for the specified warehouse updated successfully.
+     */
     public boolean updateProductStockForProductAtWarehouse(int stock, int productID, int warehouseID){
         try{
             s_insertOrReplaceIntoProductStock.setInt(1, productID);
@@ -344,6 +412,16 @@ public class DataController implements AutoCloseable{
 
     }
 
+    /**
+     * Update all of a Product's data with the specified data.
+     * @param product_ID ID of the product to update
+     * @param name new name to update the Product with
+     * @param description new description to update the Product with
+     * @param price new price to update the Product with
+     * @param discontinued new discontinued status to update the Product with
+     * @param stockExists new stock exists status to update the Product with
+     * @return true if the specified product exists and was updated
+     */
     public boolean updateProductAtIndex(int product_ID, String name, String description, float price, int discontinued,
                                         int stockExists){
         try{
@@ -362,6 +440,12 @@ public class DataController implements AutoCloseable{
         }
     }
 
+    /**
+     * Update the stock exist status for a specified product
+     * @param productID ID of the product to update
+     * @param stockExists new stock exists status to update the Product with
+     * @return true if the specified product exists and was updated
+     */
     public boolean updateProductStockExistsAtIndex(int productID, int stockExists){
         try{
             s_updateProductStockExistsAtIndex.setInt(1, stockExists);
@@ -372,29 +456,6 @@ public class DataController implements AutoCloseable{
         }
         catch (SQLException e){
             return false;
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            DataController cont = DataController.getInstance();
-            // testing s_selectCountFromProducts
-            //System.out.printf("Number of products in database: %d%n", cont.s_selectCountFromProducts());
-
-            // testing s_updateProductAtIndex
-            // boolean updated = cont.s_updateProductAtIndex(1, "name", "desc", 5.5f, 0, 1);
-            // if (updated)
-            // System.out.println("Product with id 1 updated");
-
-            // testing s_updateProductStockExistsAtIndex
-            // if (cont.s_updateProductStockExistsAtIndex(1, 0)) System.out.println("success");
-
-            System.out.println(cont.selectProductWithID(1));
-            cont.close();
-        }
-
-        catch (Exception e){
-            System.err.println(e.toString());
         }
     }
 }

@@ -218,7 +218,8 @@ public class ProductPageController implements Initializable {
                 try {
                     productID = Integer.valueOf(searchField.getText());
                     clearSelectedProduct();
-                    productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID));
+                    productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID,
+                            MainController.getInstance().getCurrentWarehouseID()));
                 }
                 catch (NumberFormatException e){
                     ErrorHandler.errorDialog("Invalid Input Detected",

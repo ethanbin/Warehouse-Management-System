@@ -223,8 +223,23 @@ public class ProductPageController implements Initializable {
                 }
                 catch (NumberFormatException e){
                     ErrorHandler.errorDialog("Invalid Input Detected",
-                            "An invalid ID search was attempted. Make sure a number is entered.", null );
+                            "An invalid ID search was attempted. Make sure a number is entered.", null);
                     System.err.println("An invalid ID search was attempted. Make sure a number is entered.");
+                }
+                break;
+            case "Count":
+                int stockCount;
+                try {
+                    stockCount = Integer.valueOf(searchField.getText());
+                    clearSelectedProduct();
+                    productsTable.getItems().setAll(DataController.getInstance().selectProductsWithStock(stockCount,
+                            MainController.getInstance().getCurrentWarehouseID()));
+                }
+                catch (NumberFormatException e){
+                    ErrorHandler.errorDialog("Invalid Input Detected",
+                            "An invalid Stock Count search was attempted. " +
+                                    "Make sure a number is entered.", null );
+                    System.err.println("An invalid stock search was attempted. Make sure a number is entered.");
                 }
                 break;
             default:

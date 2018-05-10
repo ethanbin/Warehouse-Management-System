@@ -157,7 +157,6 @@ public class DetailsController {
             clear();
             MainController.getInstance().refreshProductsPage();
         });
-
     }
 
     public void detailsMode(){

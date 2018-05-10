@@ -5,6 +5,8 @@ import Model.Product;
 import Model.User;
 import View.View;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.List;
@@ -51,9 +53,28 @@ public class MainController {
         // temporary until we get a better image
         //TODO - use better image
         Image trayImage = Toolkit.getDefaultToolkit().createImage("res/img/refresh.png");
-        trayIcon = new TrayIcon(trayImage, View.VIEW_TITLE);
+        PopupMenu trayMenu = new PopupMenu();
+        MenuItem openApp = new MenuItem("Open " + View.VIEW_TITLE);
+        MenuItem exitApp = new MenuItem("Exit the Application");
+        openApp.addActionListener(l ->
+        {
+            // if no user logged in
+//            if (currentUser == null)
+//                SceneController.activate("Login");
+//            else
+//                SceneController.activate("Home");
+        });
+        exitApp.addActionListener(l ->{
+            stopLowStockScheduler();
+            logout();
+            DataController.getInstance().close();
+            removeTrayIcon();
+            System.exit(0);
+        });
+        trayMenu.add(openApp);
+        trayMenu.add(exitApp);
+        trayIcon = new TrayIcon(trayImage, View.VIEW_TITLE, trayMenu);
         trayIcon.setImageAutoSize(true);
-
         try {
             tray.add(trayIcon);
         }

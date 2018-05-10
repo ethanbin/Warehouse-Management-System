@@ -54,11 +54,11 @@ public class View extends Application {
         });
     }
 
-    @Override
-    public void stop() throws Exception {
-        MainController.getInstance().stopLowStockScheduler();
-        MainController.getInstance().removeTrayIcon();
-        DataController.getInstance().close();
-        super.stop();
-    }
+//    @Override
+//    public void stop() throws Exception {
+//        //MainController.getInstance().stopLowStockScheduler();
+//        //MainController.getInstance().removeTrayIcon();
+//        //DataController.getInstance().close();
+//        super.stop();
+//    }
 }

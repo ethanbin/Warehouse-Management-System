@@ -122,6 +122,8 @@ public class DataController implements AutoCloseable{
 
             s_selectAllProductsWithName = connection.prepareStatement("Select * FROM Products where name LIKE ?");
 
+            s_selectAllProductsWithPrice = connection.prepareStatement("SELECT * from Products WHERE price = ?");
+
             s_selectAllProductsWithStock = connection.prepareStatement("Select * FROM Products where " +
                     "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
 
@@ -309,6 +311,23 @@ public class DataController implements AutoCloseable{
         try {
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs, warehouseID).get(0);
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Select and return a List of Products with the specified ID at the specified warehouse.
+     * @param price float price of the Product being queried
+     * @param warehouseID int ID of the warehouse the stock of the product is requested for
+     * @return Product with the specified ID, or null if no such Product exists
+     */
+    public Product selectAllProductsWithPrice(float price, int warehouseID){
+        try {
+            s_selectAllProductsWithPrice.setFloat(1, price);
+            ResultSet rs = s_selectAllProductsWithPrice.executeQuery();
             return resultSetToProductList(rs, warehouseID).get(0);
         }
         catch (Exception e){

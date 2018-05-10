@@ -95,15 +95,8 @@ public class DetailsController {
 
     public void newProductMode(){
         clear();
-        nameTextField.setEditable(true);
-        countTextField.setEditable(true);
-        priceTextField.setEditable(true);
-        descriptionTextArea.setEditable(true);
-        discontinuedCheckBox.setDisable(false);
+        setUpEditability(true);
 
-        saveButton.setVisible(true);
-        cancelButton.setVisible(true);
-        returnButton.setVisible(false);
 
         saveButton.setOnAction(event -> {
             System.out.println("save new clicked");
@@ -126,11 +119,7 @@ public class DetailsController {
 
     public void editProductMode(){
         updateDetailsPage();
-        nameTextField.setEditable(true);
-        countTextField.setEditable(true);
-        priceTextField.setEditable(true);
-        descriptionTextArea.setEditable(true);
-        discontinuedCheckBox.setDisable(false);
+        setUpEditability(true);
 
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
@@ -161,27 +150,34 @@ public class DetailsController {
 
     public void detailsMode(){
         updateDetailsPage();
-        nameTextField.setEditable(false);
-        countTextField.setEditable(false);
-        priceTextField.setEditable(false);
-        descriptionTextArea.setEditable(false);
-        discontinuedCheckBox.setDisable(true);
-
-        IDTextField.setMouseTransparent(true);
-        nameTextField.setMouseTransparent(true);
-        countTextField.setMouseTransparent(true);
-        priceTextField.setMouseTransparent(true);
-        descriptionTextArea.setMouseTransparent(true);
-
-        IDTextField.setFocusTraversable(false);
-        nameTextField.setFocusTraversable(false);
-        countTextField.setFocusTraversable(false);
-        priceTextField.setFocusTraversable(false);
-        descriptionTextArea.setFocusTraversable(false);
-
+        setUpEditability(false);
         saveButton.setVisible(false);
         cancelButton.setVisible(false);
         returnButton.setVisible(true);
+    }
+
+    private void setUpEditability(boolean isEditable){
+        nameTextField.setEditable               (isEditable);
+        countTextField.setEditable              (isEditable);
+        priceTextField.setEditable              (isEditable);
+        descriptionTextArea.setEditable         (isEditable);
+        discontinuedCheckBox.setDisable         (!isEditable);
+
+        IDTextField.setMouseTransparent         (!isEditable);
+        nameTextField.setMouseTransparent       (!isEditable);
+        countTextField.setMouseTransparent      (!isEditable);
+        priceTextField.setMouseTransparent      (!isEditable);
+        descriptionTextArea.setMouseTransparent (!isEditable);
+
+        IDTextField.setFocusTraversable         (isEditable);
+        nameTextField.setFocusTraversable       (isEditable);
+        countTextField.setFocusTraversable      (isEditable);
+        priceTextField.setFocusTraversable      (isEditable);
+        descriptionTextArea.setFocusTraversable (isEditable);
+
+        saveButton.setVisible(isEditable);
+        cancelButton.setVisible(isEditable);
+        returnButton.setVisible(!isEditable);
     }
 
     public void exit() {

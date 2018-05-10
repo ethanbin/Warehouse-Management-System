@@ -218,7 +218,7 @@ public class ProductPageController implements Initializable {
                 try {
                     productID = Integer.valueOf(searchField.getText());
                     clearSelectedProduct();
-                    productsTable.getItems().setAll(DataController.getInstance().selectProductWithID(productID,
+                    productsTable.getItems().setAll(DataController.getInstance().selectAllProductsWithID(productID,
                             MainController.getInstance().getCurrentWarehouseID()));
                 }
                 catch (NumberFormatException e){
@@ -232,7 +232,7 @@ public class ProductPageController implements Initializable {
                 try {
                     stockCount = Integer.valueOf(searchField.getText());
                     clearSelectedProduct();
-                    productsTable.getItems().setAll(DataController.getInstance().selectProductsWithStock(stockCount,
+                    productsTable.getItems().setAll(DataController.getInstance().selectAllProductsWithStock(stockCount,
                             MainController.getInstance().getCurrentWarehouseID()));
                 }
                 catch (NumberFormatException e){

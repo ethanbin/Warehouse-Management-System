@@ -119,7 +119,7 @@ public class DataController implements AutoCloseable{
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
             s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
-
+            
             s_selectAllProductsWithStock = connection.prepareStatement("Select * FROM Products where " +
                     "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
 
@@ -250,6 +250,27 @@ public class DataController implements AutoCloseable{
     }
 
     /**
+     * Return all Products as a list that have a stock below a specified amount at a specified warehouse.
+     * @param lowStockThreshold The amount below which is considered to be low stock
+     * @param warehouseID The ID of the warehouse to query for low stock
+     * @return list of Products that have low stock
+     */
+    public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
+        List<Product> products;
+        try{
+            s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
+            s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
+            ResultSet rs = s_selectAllProductsWithLowStockForWarehouse.executeQuery();
+            products = resultSetToProductList(rs, warehouseID);
+            rs.close();
+            return products;
+        }
+        catch (SQLException e){
+            return null;
+        }
+    }
+
+    /**
      * Select from the database rows from the Products table starting after the
      * specified location for a specified distance and return the gathered
      * data as a List of Product objects. The selected Products are stored as
@@ -277,22 +298,36 @@ public class DataController implements AutoCloseable{
     }
 
     /**
-     * Return all Products as a list that have a stock below a specified amount at a specified warehouse.
-     * @param lowStockThreshold The amount below which is considered to be low stock
-     * @param warehouseID The ID of the warehouse to query for low stock
-     * @return list of Products that have low stock
+     * Select and return a Product with the specified ID with its stock at the specified warehouse.
+     * @param productID int ID of the Product being queried
+     * @param warehouseID int ID of the warehouse the stock of the product is requested for
+     * @return Product with the specified ID, or null if no such Product exists
      */
-    public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
-        List<Product> products;
-        try{
-            s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
-            s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
-            ResultSet rs = s_selectAllProductsWithLowStockForWarehouse.executeQuery();
-            products = resultSetToProductList(rs, warehouseID);
-            rs.close();
-            return products;
+    public Product selectAllProductsWithID(int productID, int warehouseID){
+        try {
+            s_selectAllProductsWithID.setInt(1, productID);
+            ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs, warehouseID).get(0);
         }
-        catch (SQLException e){
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Select and return a List of Products with the specified stock count at the specified warehouse.
+     * @param stock stock count to query matching products with
+     * @param warehouseID int ID of the warehouse the query is being done for
+     * @return A list of Products with the same stock as specified, or null if no such products exist
+     */
+    public List<Product> selectAllProductsWithStock(int stock, int warehouseID){
+        try {
+            s_selectAllProductsWithStock.setInt(1, stock);
+            s_selectAllProductsWithStock.setInt(2, warehouseID);
+            ResultSet rs = s_selectAllProductsWithStock.executeQuery();
+            return resultSetToProductList(rs, warehouseID);
+        }
+        catch (Exception e){
             return null;
         }
     }
@@ -332,41 +367,6 @@ public class DataController implements AutoCloseable{
      */
     public int selectCountFromProducts(){
         return executeCountStatement(s_selectCountFromProducts);
-    }
-
-    /**
-     * Select and return a Product with the specified ID with its stock at the specified warehouse.
-     * @param productID int ID of the Product being queried
-     * @param warehouseID int ID of the warehouse the stock of the product is requested for
-     * @return Product with the specified ID, or null if no such Product exists
-     */
-    public Product selectProductWithID(int productID, int warehouseID){
-        try {
-            s_selectAllProductsWithID.setInt(1, productID);
-            ResultSet rs = s_selectAllProductsWithID.executeQuery();
-            return resultSetToProductList(rs, warehouseID).get(0);
-        }
-        catch (Exception e){
-            return null;
-        }
-    }
-
-    /**
-     * Select and return a List of Products with the specified stock count at the specified warehouse.
-     * @param stock stock count to query matching products with
-     * @param warehouseID int ID of the warehouse the query is being done for
-     * @return A list of Products with the same stock as specified, or null if no such products exist
-     */
-    public List<Product> selectProductsWithStock(int stock, int warehouseID){
-        try {
-            s_selectAllProductsWithStock.setInt(1, stock);
-            s_selectAllProductsWithStock.setInt(2, warehouseID);
-            ResultSet rs = s_selectAllProductsWithStock.executeQuery();
-            return resultSetToProductList(rs, warehouseID);
-        }
-        catch (Exception e){
-            return null;
-        }
     }
 
     /**

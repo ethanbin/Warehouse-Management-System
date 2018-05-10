@@ -29,7 +29,10 @@ public class DataController implements AutoCloseable{
     private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
+    private PreparedStatement s_selectAllProductsWithCount;
     private PreparedStatement s_selectAllProductsWithID;
+    private PreparedStatement s_selectAllProductsWithName;
+    private PreparedStatement s_selectAllProductsWithPrice;
     private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
     private PreparedStatement s_selectAllWarehouseIDs;
     private PreparedStatement s_selectCountFromProducts;
@@ -114,6 +117,9 @@ public class DataController implements AutoCloseable{
                     "price, discontinued, stock_exists) VALUES   (?, ?, ?, ?, ?)");
 
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
+
+            s_selectAllProductsWithCount = connection.prepareStatement("Select * FROM Products where " +
+                    "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
 
             s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
 

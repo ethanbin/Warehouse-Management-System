@@ -26,10 +26,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="top" fx:id="productTop" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
+<VBox id="top" fx:id="productTop" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
    <children>
       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE">
-         <tabs>
             <Tab text="Product">
                <content>
                   <BorderPane maxHeight="1000.0" maxWidth="1.7976931348623157E308" minHeight="0" minWidth="0" nodeOrientation="LEFT_TO_RIGHT">
@@ -58,7 +57,7 @@
                                     <Insets bottom="20.0" right="20.0" />
                                  </StackPane.margin>
                               </Button>
-                              <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" graphicTextGap="0.0" layoutX="30.0" layoutY="40.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#showCurrentProductsPage" onMouseEntered="#refreshButtonEntered" onMouseExited="#refreshButtonExited" opacity="0.5" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 5em; -fx-background-color: rgb(0,0,0,0); -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none; -fx-border-color: none;" styleClass="plain" StackPane.alignment="BOTTOM_CENTER">
+                              <Button fx:id="refreshButton" alignment="BOTTOM_CENTER" graphicTextGap="0.0" layoutX="30.0" layoutY="40.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#showCurrentProductsPage" onMouseEntered="#refreshButtonEntered" onMouseExited="#refreshButtonExited" opacity="0.5" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 5em; -fx-background-color: rgba(0,0,0,0); -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none; -fx-border-color: none;" styleClass="plain" StackPane.alignment="BOTTOM_CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -221,7 +220,7 @@
                                     <Insets bottom="20.0" right="20.0" />
                                  </StackPane.margin>
                               </Button>
-                              <Button fx:id="refreshReportButton" alignment="BOTTOM_CENTER" graphicTextGap="0.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseEntered="#refreshButtonEntered" onMouseExited="#refreshButtonExited" opacity="0.5" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 5em; -fx-background-color: rgb(0,0,0,0); -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none; -fx-border-color: none;" styleClass="plain" StackPane.alignment="BOTTOM_CENTER">
+                              <Button fx:id="refreshReportButton" alignment="BOTTOM_CENTER" graphicTextGap="0.0" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseEntered="#refreshButtonEntered" onMouseExited="#refreshButtonExited" opacity="0.5" prefHeight="32.0" prefWidth="32.0" style="-fx-background-radius: 5em; -fx-background-color: rgba(0,0,0,0); -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-background-insets: 0, 0, -1, 0; -fx-effect: none; -fx-border-color: none;" styleClass="plain" StackPane.alignment="BOTTOM_CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -437,9 +436,9 @@
             </Tab>
             <Tab text="Settings">
                <content>
-                  <VBox maxHeight="950.0" minHeight="0.0" minWidth="0.0">
+                  <VBox maxHeight="1000.0" maxWidth="1920.0" minHeight="0.0" minWidth="0.0" spacing="50.0">
                      <children>
-                        <HBox alignment="CENTER">
+                        <HBox alignment="CENTER" prefHeight="78.0">
                            <children>
                               <Label text="Background Color:">
                                  <font>
@@ -452,21 +451,21 @@
                               <ColorPicker />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="500.0">
+                        <HBox alignment="CENTER" prefHeight="78.0" prefWidth="500.0">
                            <children>
                               <Label text="Font Size: ">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <Slider blockIncrement="2.0" majorTickUnit="2.0" max="36.0" min="2.0" minorTickCount="2" prefHeight="75.0" prefWidth="200.0" showTickLabels="true" HBox.hgrow="ALWAYS">
+                              <Slider blockIncrement="2.0" majorTickUnit="2.0" max="36.0" min="2.0" minorTickCount="2" prefHeight="60.0" prefWidth="559.0" showTickLabels="true" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets left="20.0" top="25.0" />
                                  </HBox.margin>
                               </Slider>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER">
+                        <HBox alignment="CENTER" prefHeight="78.0">
                            <children>
                               <Button mnemonicParsing="false" text="Save">
                                  <padding>
@@ -498,10 +497,12 @@
                            </children>
                         </HBox>
                      </children>
+                  <padding>
+                     <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+                  </padding>
                   </VBox>
                </content>
             </Tab>
-         </tabs>
       </TabPane>
    </children>
 </VBox>

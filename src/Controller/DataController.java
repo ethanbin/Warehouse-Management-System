@@ -198,11 +198,16 @@ public class DataController implements AutoCloseable{
         return immutableProductBuffer;
     }
 
+    /**
+     * Convert a Result Set's data to a list of Products.
+     * @param rs Result Set to convert
+     * @param warehouseID warehouse id for the list of products in order to select correct stock count
+     * @return List of Products that can be made with the given Result Set
+     * @throws SQLException
+     */
     private List<Product> resultSetToProductList(ResultSet rs, int warehouseID) throws  SQLException{
-        List<Product> products = null;
+        List<Product> products = new ArrayList<>();
         while (rs.next()) {
-            if (products == null)
-                products = new ArrayList<>();
             int productID = rs.getInt("product_id");
             products.add(new Product(productID,
                     rs.getString("name"),
@@ -256,7 +261,7 @@ public class DataController implements AutoCloseable{
      * @see Product
      */
     public List<Product> selectAllProductsInRange(int offset, int distance){
-        List<Product> products = null;
+        List<Product> products;
         try{
             s_selectAllProductsInRange.setInt(1,distance);
             s_selectAllProductsInRange.setInt(2,offset);
@@ -278,7 +283,7 @@ public class DataController implements AutoCloseable{
      * @return list of Products that have low stock
      */
     public List<Product> selectAllProductsAtLowStockAtWarehouse(int lowStockThreshold, int warehouseID) {
-        List<Product> products = null;
+        List<Product> products;
         try{
             s_selectAllProductsWithLowStockForWarehouse.setInt(1,lowStockThreshold);
             s_selectAllProductsWithLowStockForWarehouse.setInt(2,warehouseID);
@@ -352,11 +357,11 @@ public class DataController implements AutoCloseable{
      * @param warehouseID int ID of the warehouse the query is being done for
      * @return A list of Products with the same stock as specified, or null if no such products exist
      */
-    public List<Product> selectProductWithStock(int stock, int warehouseID){
+    public List<Product> selectProductsWithStock(int stock, int warehouseID){
         try {
             s_selectAllProductsWithStock.setInt(1, stock);
-            s_selectAllProductsWithStock.setInt(1, warehouseID);
-            ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            s_selectAllProductsWithStock.setInt(2, warehouseID);
+            ResultSet rs = s_selectAllProductsWithStock.executeQuery();
             return resultSetToProductList(rs, warehouseID);
         }
         catch (Exception e){

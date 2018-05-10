@@ -307,11 +307,11 @@ public class DataController implements AutoCloseable{
      * @param warehouseID int ID of the warehouse the stock of the product is requested for
      * @return Product with the specified ID, or null if no such Product exists
      */
-    public Product selectAllProductsWithID(int productID, int warehouseID){
+    public List<Product> selectAllProductsWithID(int productID, int warehouseID){
         try {
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
-            return resultSetToProductList(rs, warehouseID).get(0);
+            return resultSetToProductList(rs, warehouseID);
         }
         catch (Exception e){
             return null;
@@ -324,11 +324,11 @@ public class DataController implements AutoCloseable{
      * @param warehouseID int ID of the warehouse the stock of the product is requested for
      * @return Product with the specified ID, or null if no such Product exists
      */
-    public Product selectAllProductsWithPrice(float price, int warehouseID){
+    public List<Product> selectAllProductsWithPrice(float price, int warehouseID){
         try {
             s_selectAllProductsWithPrice.setFloat(1, price);
             ResultSet rs = s_selectAllProductsWithPrice.executeQuery();
-            return resultSetToProductList(rs, warehouseID).get(0);
+            return resultSetToProductList(rs, warehouseID);
         }
         catch (Exception e){
             return null;
@@ -343,13 +343,13 @@ public class DataController implements AutoCloseable{
      * @param warehouseID int ID of the warehouse the stock of the product is requested for
      * @return Product with the specified ID, or null if no such Product exists
      */
-    public Product selectAllProductsWithName(String name, int warehouseID){
+    public List<Product> selectAllProductsWithName(String name, int warehouseID){
         try {
             // surround the name being searched with wildcards
             name = "%" + name + "%";
             s_selectAllProductsWithName.setString(1, name);
             ResultSet rs = s_selectAllProductsWithName.executeQuery();
-            return resultSetToProductList(rs, warehouseID).get(0);
+            return resultSetToProductList(rs, warehouseID);
         }
         catch (Exception e){
             return null;

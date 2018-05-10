@@ -9,8 +9,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 public class DetailsController {
@@ -53,7 +55,10 @@ public class DetailsController {
 
     @FXML
     void exitDetails(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        stage.hide();
     }
 
     private boolean updateStock() {
@@ -96,24 +101,29 @@ public class DetailsController {
     public void newProductMode(){
         clear();
         setUpEditability(true);
-
+        countTextField.setDisable(true);
 
         saveButton.setOnAction(event -> {
             System.out.println("save new clicked");
-            int stock = Integer.valueOf(countTextField.getText());
+            //int stock = Integer.valueOf(countTextField.getText());
             if (!nameTextField.getText().isEmpty() &&
-                    !countTextField.getText().isEmpty() &&
                     !priceTextField.getText().isEmpty()) {
                 DataController.getInstance().insertProduct(
                         nameTextField.getText(),
                         descriptionTextArea.getText(),
                         Float.parseFloat(priceTextField.getText()),
                         discontinuedCheckBox.isSelected() ? 1 : 0,
-                        stock > 0 ? 1 : 0);
-                updateStock();
+                        0);
+                        //stock > 0 ? 1 : 0);
+                //updateStock();
                 clear();
                 MainController.getInstance().refreshProductsPage();
             }
+
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.hide();
         });
     }
 
@@ -145,6 +155,12 @@ public class DetailsController {
             }
             clear();
             MainController.getInstance().refreshProductsPage();
+
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.hide();
+
         });
     }
 

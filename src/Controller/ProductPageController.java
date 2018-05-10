@@ -234,6 +234,21 @@ public class ProductPageController implements Initializable {
                 productsTable.getItems().setAll(DataController.getInstance().selectAllProductsWithName(likeName,
                         MainController.getInstance().getCurrentWarehouseID()));
                 break;
+            case "Price":
+                float price;
+                try {
+                    price = Float.valueOf(searchField.getText());
+                    clearSelectedProduct();
+                    productsTable.getItems().setAll(DataController.getInstance().selectAllProductsWithPrice(price,
+                            MainController.getInstance().getCurrentWarehouseID()));
+                }
+                catch (NumberFormatException e){
+                    ErrorHandler.errorDialog("Invalid Input Detected",
+                            "An invalid Price search was attempted. " +
+                                    "Make sure a number is entered.", null );
+                    System.err.println("An invalid price search was attempted. Make sure a number is entered.");
+                }
+                break;
             case "Count":
                 int stockCount;
                 try {

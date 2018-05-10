@@ -13,7 +13,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -273,7 +277,89 @@ public class ProductPageController implements Initializable {
 
     @FXML
     protected void exportReport() {
+        switch (reportTypeChoiceBox.getValue()) {
+            case "Low Stock Report":
+                String fileName = "Stock Reports for " + LocalDate.now() + ".csv";
+                try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File(fileName), true))) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(String.format("%n"));
+                    // print out current date and time
+                    stringBuilder.append("Time:");
+                    stringBuilder.append(',');
+                    stringBuilder.append(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()).toString());
+                    stringBuilder.append(String.format("%n"));
 
+                    stringBuilder.append("Product ID");
+                    stringBuilder.append(',');
+                    stringBuilder.append("Name");
+                    stringBuilder.append(',');
+//                    stringBuilder.append("Description");
+//                    stringBuilder.append(',');
+                    stringBuilder.append("Price");
+                    stringBuilder.append(',');
+                    stringBuilder.append("Discontinued");
+                    stringBuilder.append(',');
+                    stringBuilder.append("Stock Exists");
+                    stringBuilder.append(',');
+                    stringBuilder.append("Warehouse ID");
+                    stringBuilder.append(String.format("%n"));
+
+                    if (!allStoresCheckBox.isSelected()) {
+                        for(Product p : DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                                MainController.getInstance().getLowStockThreshold(),
+                                MainController.getInstance().getCurrentWarehouseID())){
+                            stringBuilder.append(p.getId());
+                            stringBuilder.append(',');
+                            stringBuilder.append(p.getName());
+                            stringBuilder.append(',');
+//                                stringBuilder.append(p.getDescription());
+//                                stringBuilder.append(',');
+                            stringBuilder.append(p.getPrice());
+                            stringBuilder.append(',');
+                            stringBuilder.append(p.isDiscontinued());
+                            stringBuilder.append(',');
+                            stringBuilder.append(p.doesStockExist());
+                            stringBuilder.append(',');
+                            stringBuilder.append(MainController.getInstance().getCurrentWarehouseID());
+                            stringBuilder.append(String.format("%n"));
+                        }
+                    }
+                    else {
+                        for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
+                            for (Product p : (DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                                    MainController.getInstance().getLowStockThreshold(), currentWarehouseID))){
+                                stringBuilder.append(p.getId());
+                                stringBuilder.append(',');
+                                stringBuilder.append(p.getName());
+                                stringBuilder.append(',');
+//                                stringBuilder.append(p.getDescription());
+//                                stringBuilder.append(',');
+                                stringBuilder.append(p.getPrice());
+                                stringBuilder.append(',');
+                                stringBuilder.append(p.isDiscontinued());
+                                stringBuilder.append(',');
+                                stringBuilder.append(p.doesStockExist());
+                                stringBuilder.append(',');
+                                stringBuilder.append(currentWarehouseID);
+                                stringBuilder.append(String.format("%n"));
+                            }
+                        }
+                    }
+                    writer.append(stringBuilder);
+                    ErrorHandler.errorDialog("Report Generated",
+                            "The low stock report has been successfully generated.", null);
+                }
+                catch (IOException e){
+                    ErrorHandler.errorDialog("Report Generation Error",
+                            "An error occured when trying to generate a low stock report.", null);
+                }
+                break;
+            default:
+                System.err.println("No Supported Report Type Selected");
+                ErrorHandler.errorDialog("No Report Type Selected",
+                        "Please select a supported report type to generate.", null);
+                break;
+        }
     }
 
     @FXML
@@ -301,9 +387,9 @@ public class ProductPageController implements Initializable {
                 break;
 
             default:
-                System.err.println("No Report Type Selected");
+                System.err.println("No Supported Report Type Selected");
                 ErrorHandler.errorDialog("No Report Type Selected",
-                        "Please select a report type to generate.", null);
+                        "Please select a supported report type to generate.", null);
                 break;
         }
     }

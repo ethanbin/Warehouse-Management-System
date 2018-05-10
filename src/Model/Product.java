@@ -6,12 +6,12 @@ public class Product {
     private int id;
     private String name;
     private String description;
-    private double price;
+    private float price;
     private boolean discontinued;
     private boolean stock_exists;
     private int stock;
 
-    public Product(int id, String name, String description, double price, boolean discontinued,
+    public Product(int id, String name, String description, float price, boolean discontinued,
                    boolean stock_exists, int stock) {
         this.id = id;
         this.name = name;
@@ -52,11 +52,11 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

@@ -2,6 +2,8 @@ package Controller;
 
 import Exceptions.ErrorHandler;
 import Model.Product;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.css.PseudoClass;
 import javafx.fxml.Initializable;
@@ -173,13 +175,20 @@ public class ProductPageController implements Initializable {
     public void showCurrentProductsPage() {
         clearSelectedProduct();
         productsTable.getItems().clear();
-        tableRows.clear();
-        productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
-                currentProductPage * productsPerPage, productsPerPage));
-
+//        tableRows.clear();
+        //productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
+         //       currentProductPage * productsPerPage, productsPerPage));
+        System.out.println("Adding products...");
+        for (Product p : DataController.getInstance().selectAllProductsInRange(
+                currentProductPage * productsPerPage, productsPerPage)){
+            productsTable.getItems().add(p);
+        }
+        System.out.println("Finished adding products.");
+        System.out.println("Foreach:");
         for (TableRow<Product> currentRow : tableRows) {
             Product product = currentRow.getItem();
-
+            if (product == null)
+                continue;
             if (product.isDiscontinued())
                 currentRow.setStyle("-fx-background-color:#599fe6");
             else if (product.equals(0))
@@ -190,8 +199,6 @@ public class ProductPageController implements Initializable {
                 currentRow.setStyle("-fx-background-color:lightgreen");
         }
     }
-
-
 
     @FXML
     protected void newProduct() {
@@ -430,6 +437,8 @@ public class ProductPageController implements Initializable {
         editProductButton.setDisable(false);
         detailsButton.setDisable(false);
 
+        //changeBackgroundOnHoverUsingBinding();
+
         if (event.getClickCount() == 2)
             detailsProduct();
     }
@@ -481,6 +490,8 @@ public class ProductPageController implements Initializable {
         refreshButton.setOpacity(.5);
         refreshReportButton.setOpacity(.5);
     }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -584,9 +595,12 @@ public class ProductPageController implements Initializable {
         tableRows = new ArrayList<>();
 
         countColumn.setCellFactory(column -> {
+            System.out.println("cell factory");
             return new TableCell<Product, Integer>() {
                 @Override
                 protected void updateItem(Integer item, boolean empty) {
+                    System.out.println("updating item");
+                    super.updateItem(item, empty);
                     TableRow<Product> currentRow = getTableRow();
                     Product productInCurrentRow = currentRow.getItem();
                     if (productInCurrentRow == null) {
@@ -597,29 +611,75 @@ public class ProductPageController implements Initializable {
                         currentRow.setStyle(null);
                         return;
                     }
+                    System.err.println("table row");
                     tableRows.add(currentRow);
-//                    setText(empty ? "" : getItem().toString());
-//                    setGraphic(null);
+                    setText(empty ? "" : String.valueOf(productInCurrentRow.getStock()));
+                    setGraphic(null);
 
 //                    if (!isEmpty()) {
 //
 //                        if (productInCurrentRow.isDiscontinued())
-//                            currentRow.setStyle("-fx-background-color:lightblue; " +
-//                                    "-fx-border-color: black;");
+//                            currentRow.setStyle("-fx-background-color:lightblue");
 //                        else if (item.equals(0))
 //                            currentRow.setStyle("-fx-background-color:lightcoral");
 //                        else if (item.compareTo(MainController.getInstance().getLowStockThreshold()) < 0)
 //                            currentRow.setStyle("-fx-background-color:lightyellow");
 //                    }
-//                        else
-//                            currentRow.setStyle("-fx-background-color:lightgreen");
                 }
             };
         });
 
+/*
+        countColumn.setCellFactory(column -> {
+            return new TableCell<Product, Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    TableRow<Product> currentRow = getTableRow();
+                    Product productInCurrentRow = currentRow.getItem();
+                    if (productInCurrentRow == null) {
+                        setGraphic(null);
+                        setText(null);
+                        currentRow.setItem(null);
+                        super.updateItem(item, empty);
+                        //currentRow.setStyle(null);
+                        return;
+                    }
+                    setText(empty ? "" : productInCurrentRow.toString());
+                    setGraphic(null);
+
+                    if (!isEmpty()) {
+
+                        if (productInCurrentRow.isDiscontinued())
+                            currentRow.setStyle("-fx-background-color:lightblue");
+                        else if (item.equals(0))
+                            currentRow.setStyle("-fx-background-color:lightcoral");
+                        else if (item.compareTo(MainController.getInstance().getLowStockThreshold()) < 0)
+                            currentRow.setStyle("-fx-background-color:lightyellow");
+                    }
+                    //changeBackgroundOnHoverUsingBinding(currentRow);
+                }
+            };
+        });
+        */
     }
 
     List<TableRow<Product>> tableRows;
+
+    private void changeBackgroundOnHoverUsingBinding(Node node) {
+        System.out.println(node.getStyle());
+        node.styleProperty().bind(
+                Bindings
+                        .when(node.focusedProperty())
+                        .then(
+                                new SimpleStringProperty(node.getStyle()+"; " +"-fx-border-color: black;")
+                        )
+                        .otherwise(
+                                new SimpleStringProperty(node.getStyle()+ ";" + "-fx-border-color: white;")
+                        )
+        );
+    }
+
 
     public void clearSelectedProduct(){
         MainController.getInstance().setSelectedProduct(null);

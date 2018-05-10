@@ -29,10 +29,10 @@ public class DataController implements AutoCloseable{
     private PreparedStatement s_insertOrReplaceIntoProductStock;
     private PreparedStatement s_insertProduct;
     private PreparedStatement s_selectAllProductsInRange;
-    private PreparedStatement s_selectAllProductsWithCount;
     private PreparedStatement s_selectAllProductsWithID;
     private PreparedStatement s_selectAllProductsWithName;
     private PreparedStatement s_selectAllProductsWithPrice;
+    private PreparedStatement s_selectAllProductsWithStock;
     private PreparedStatement s_selectAllProductsWithLowStockForWarehouse;
     private PreparedStatement s_selectAllWarehouseIDs;
     private PreparedStatement s_selectCountFromProducts;
@@ -118,10 +118,10 @@ public class DataController implements AutoCloseable{
 
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
-            s_selectAllProductsWithCount = connection.prepareStatement("Select * FROM Products where " +
-                    "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
-
             s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
+
+            s_selectAllProductsWithStock = connection.prepareStatement("Select * FROM Products where " +
+                    "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
 
             s_selectAllProductsWithLowStockForWarehouse = connection.prepareStatement(
                     "Select * FROM Products where product_id IN " +
@@ -244,7 +244,6 @@ public class DataController implements AutoCloseable{
         }
     }
 
-    //TODO - UPDATE JAVADOC WITH THE PRODUCTS BUFFER
     /**
      * Select from the database rows from the Products table starting after the
      * specified location for a specified distance and return the gathered
@@ -331,7 +330,7 @@ public class DataController implements AutoCloseable{
     }
 
     /**
-     * Select and return a Product with the specified ID with its stock at the specified warehouse
+     * Select and return a Product with the specified ID with its stock at the specified warehouse.
      * @param productID int ID of the Product being queried
      * @param warehouseID int ID of the warehouse the stock of the product is requested for
      * @return Product with the specified ID, or null if no such Product exists
@@ -341,6 +340,24 @@ public class DataController implements AutoCloseable{
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
             return resultSetToProductList(rs, warehouseID).get(0);
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Select and return a List of Products with the specified stock count at the specified warehouse.
+     * @param stock stock count to query matching products with
+     * @param warehouseID int ID of the warehouse the query is being done for
+     * @return A list of Products with the same stock as specified, or null if no such products exist
+     */
+    public List<Product> selectProductWithStock(int stock, int warehouseID){
+        try {
+            s_selectAllProductsWithStock.setInt(1, stock);
+            s_selectAllProductsWithStock.setInt(1, warehouseID);
+            ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs, warehouseID);
         }
         catch (Exception e){
             return null;

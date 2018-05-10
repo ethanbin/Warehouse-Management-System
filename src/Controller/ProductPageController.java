@@ -2,7 +2,10 @@ package Controller;
 
 import Exceptions.ErrorHandler;
 import Model.Product;
+import javafx.beans.value.ChangeListener;
+import javafx.css.PseudoClass;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -47,7 +50,7 @@ public class ProductPageController implements Initializable {
     private TableColumn<Product, String> priceColumn;
 
     @FXML
-    private TableColumn<Product, String> countColumn;
+    private TableColumn<Product, Integer> countColumn;
 
     @FXML
     private TableColumn<Product, String> reportIDColumn;
@@ -149,7 +152,7 @@ public class ProductPageController implements Initializable {
     private ChoiceBox chooseReportMenu;
 
     @FXML
-    public void showNextProductsPage(){
+    public void showNextProductsPage() {
         currentProductPage++;
         if (currentProductPage * productsPerPage >= DataController.getInstance().selectCountFromProducts())
             currentProductPage--;
@@ -158,7 +161,7 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
-    public void showPrevProductsPage(){
+    public void showPrevProductsPage() {
         currentProductPage--;
         if (currentProductPage < 0)
             currentProductPage = 0;
@@ -167,11 +170,28 @@ public class ProductPageController implements Initializable {
     }
 
     @FXML
-    public void showCurrentProductsPage(){
+    public void showCurrentProductsPage() {
         clearSelectedProduct();
+        productsTable.getItems().clear();
+        tableRows.clear();
         productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
                 currentProductPage * productsPerPage, productsPerPage));
+
+        for (TableRow<Product> currentRow : tableRows) {
+            Product product = currentRow.getItem();
+
+            if (product.isDiscontinued())
+                currentRow.setStyle("-fx-background-color:#599fe6");
+            else if (product.equals(0))
+                currentRow.setStyle("-fx-background-color:lightcoral");
+            else if (product.getStock() <= MainController.getInstance().getLowStockThreshold())
+                currentRow.setStyle("-fx-background-color:#fdff66");
+            else
+                currentRow.setStyle("-fx-background-color:lightgreen");
+        }
     }
+
+
 
     @FXML
     protected void newProduct() {
@@ -275,6 +295,8 @@ public class ProductPageController implements Initializable {
         }
     }
 
+    // i know this looks horrible and can be condensed a ton, but i don't have time for that rn
+    // - ethan 5/10, 1:25 AM, morning of presentation. God save us.
     @FXML
     protected void exportReport() {
         switch (reportTypeChoiceBox.getValue()) {
@@ -407,7 +429,7 @@ public class ProductPageController implements Initializable {
 
         editProductButton.setDisable(false);
         detailsButton.setDisable(false);
-        
+
         if (event.getClickCount() == 2)
             detailsProduct();
     }
@@ -503,7 +525,7 @@ public class ProductPageController implements Initializable {
         IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        countColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
+        countColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
 
         reportIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         reportNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
@@ -559,9 +581,45 @@ public class ProductPageController implements Initializable {
 
         MainController.getInstance().setProductPageController(this);
 
+        tableRows = new ArrayList<>();
 
+        countColumn.setCellFactory(column -> {
+            return new TableCell<Product, Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    TableRow<Product> currentRow = getTableRow();
+                    Product productInCurrentRow = currentRow.getItem();
+                    if (productInCurrentRow == null) {
+                        setGraphic(null);
+                        setText(null);
+                        currentRow.setItem(null);
+                        super.updateItem(item, empty);
+                        currentRow.setStyle(null);
+                        return;
+                    }
+                    tableRows.add(currentRow);
+//                    setText(empty ? "" : getItem().toString());
+//                    setGraphic(null);
+
+//                    if (!isEmpty()) {
+//
+//                        if (productInCurrentRow.isDiscontinued())
+//                            currentRow.setStyle("-fx-background-color:lightblue; " +
+//                                    "-fx-border-color: black;");
+//                        else if (item.equals(0))
+//                            currentRow.setStyle("-fx-background-color:lightcoral");
+//                        else if (item.compareTo(MainController.getInstance().getLowStockThreshold()) < 0)
+//                            currentRow.setStyle("-fx-background-color:lightyellow");
+//                    }
+//                        else
+//                            currentRow.setStyle("-fx-background-color:lightgreen");
+                }
+            };
+        });
 
     }
+
+    List<TableRow<Product>> tableRows;
 
     public void clearSelectedProduct(){
         MainController.getInstance().setSelectedProduct(null);

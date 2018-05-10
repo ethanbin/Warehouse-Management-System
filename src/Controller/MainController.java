@@ -15,8 +15,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * MainController class is a singleton that acts as the interface between the
- * GUI views and the data models. It is also the entry point of the application.
+ * A singleton that acts as the interface between the
+ * GUI views and the data models. It is also used as the entry point of the application.
  */
 public class MainController {
     private ScheduledExecutorService lowStockScheduler;

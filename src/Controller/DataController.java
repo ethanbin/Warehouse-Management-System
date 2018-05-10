@@ -119,7 +119,9 @@ public class DataController implements AutoCloseable{
             s_selectAllProductsInRange = connection.prepareStatement("SELECT * FROM Products LIMIT ? OFFSET ?");
 
             s_selectAllProductsWithID = connection.prepareStatement("SELECT * FROM Products WHERE product_id = ?");
-            
+
+            s_selectAllProductsWithName = connection.prepareStatement("Select * FROM Products where name LIKE ?");
+
             s_selectAllProductsWithStock = connection.prepareStatement("Select * FROM Products where " +
                     "product_id IN (Select product_id FROM Products_Stock WHERE stock = ? AND warehouse_id = ?)");
 
@@ -298,7 +300,7 @@ public class DataController implements AutoCloseable{
     }
 
     /**
-     * Select and return a Product with the specified ID with its stock at the specified warehouse.
+     * Select and return a List of Products with the specified ID at the specified warehouse.
      * @param productID int ID of the Product being queried
      * @param warehouseID int ID of the warehouse the stock of the product is requested for
      * @return Product with the specified ID, or null if no such Product exists
@@ -307,6 +309,27 @@ public class DataController implements AutoCloseable{
         try {
             s_selectAllProductsWithID.setInt(1, productID);
             ResultSet rs = s_selectAllProductsWithID.executeQuery();
+            return resultSetToProductList(rs, warehouseID).get(0);
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * Select and return a List of Products with the specified similar name at the specified warehouse.
+     * Products in the database must contain the given string to search with as a substring or be
+     * equal to it in order to be selected. This selection is case-insensitive.
+     * @param name name of products to select
+     * @param warehouseID int ID of the warehouse the stock of the product is requested for
+     * @return Product with the specified ID, or null if no such Product exists
+     */
+    public Product selectAllProductsWithName(String name, int warehouseID){
+        try {
+            // surround the name being searched with wildcards
+            name = "%" + name + "%";
+            s_selectAllProductsWithName.setString(1, name);
+            ResultSet rs = s_selectAllProductsWithName.executeQuery();
             return resultSetToProductList(rs, warehouseID).get(0);
         }
         catch (Exception e){

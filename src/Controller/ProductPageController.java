@@ -227,6 +227,13 @@ public class ProductPageController implements Initializable {
                     System.err.println("An invalid ID search was attempted. Make sure a number is entered.");
                 }
                 break;
+            case "Name":
+                String likeName;
+                likeName = searchField.getText();
+                clearSelectedProduct();
+                productsTable.getItems().setAll(DataController.getInstance().selectAllProductsWithName(likeName,
+                        MainController.getInstance().getCurrentWarehouseID()));
+                break;
             case "Count":
                 int stockCount;
                 try {

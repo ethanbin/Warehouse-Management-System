@@ -5,6 +5,9 @@ import Model.Product;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -175,29 +178,12 @@ public class ProductPageController implements Initializable {
     public void showCurrentProductsPage() {
         clearSelectedProduct();
         productsTable.getItems().clear();
-//        tableRows.clear();
-        //productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
-         //       currentProductPage * productsPerPage, productsPerPage));
-        System.out.println("Adding products...");
-        for (Product p : DataController.getInstance().selectAllProductsInRange(
-                currentProductPage * productsPerPage, productsPerPage)){
-            productsTable.getItems().add(p);
+        for (TableRow row: tableRows) {
+            row.setStyle(null);
         }
-        System.out.println("Finished adding products.");
-        System.out.println("Foreach:");
-        for (TableRow<Product> currentRow : tableRows) {
-            Product product = currentRow.getItem();
-            if (product == null)
-                continue;
-            if (product.isDiscontinued())
-                currentRow.setStyle("-fx-background-color:#599fe6");
-            else if (product.equals(0))
-                currentRow.setStyle("-fx-background-color:lightcoral");
-            else if (product.getStock() <= MainController.getInstance().getLowStockThreshold())
-                currentRow.setStyle("-fx-background-color:#fdff66");
-            else
-                currentRow.setStyle("-fx-background-color:lightgreen");
-        }
+        tableRows.clear();
+        productsTable.getItems().setAll(DataController.getInstance().selectAllProductsInRange(
+                currentProductPage * productsPerPage, productsPerPage));
     }
 
     @FXML
@@ -437,6 +423,28 @@ public class ProductPageController implements Initializable {
         editProductButton.setDisable(false);
         detailsButton.setDisable(false);
 
+        for (TableRow<Product> tableRow : tableRows){
+            if (selectedProduct == null)
+                break;
+            if (tableRow == null) {
+                continue;
+            }
+            if (tableRow.getItem() == null) {
+                tableRow.setStyle(null);
+                continue;
+            }
+            System.out.println(tableRow.getItem());
+            System.out.println(selectedProduct);
+            if (tableRow.getItem().getId() == selectedProduct.getId()){
+                System.out.println("match");
+                tableRow.setStyle(tableRow.getStyle() + ";-fx-border-color: black");
+            }
+            else {
+                // split style into array using semicolon as delimeter and set the style to the first value
+                tableRow.setStyle(tableRow.getStyle().split(";")[0]);
+            }
+        }
+
         //changeBackgroundOnHoverUsingBinding();
 
         if (event.getClickCount() == 2)
@@ -592,7 +600,14 @@ public class ProductPageController implements Initializable {
 
         MainController.getInstance().setProductPageController(this);
 
-        tableRows = new ArrayList<>();
+        tableRows = FXCollections.observableArrayList();
+        tableRows.addListener(new ListChangeListener<TableRow<Product>>() {
+            @Override
+            public void onChanged(Change<? extends TableRow<Product>> c) {
+                if (tableRows.size() > 0)
+                    styleRow(tableRows.get(tableRows.size() - 1));
+            }
+        });
 
         countColumn.setCellFactory(column -> {
             System.out.println("cell factory");
@@ -629,7 +644,6 @@ public class ProductPageController implements Initializable {
             };
         });
 
-/*
         countColumn.setCellFactory(column -> {
             return new TableCell<Product, Integer>() {
                 @Override
@@ -645,41 +659,36 @@ public class ProductPageController implements Initializable {
                         //currentRow.setStyle(null);
                         return;
                     }
-                    setText(empty ? "" : productInCurrentRow.toString());
+                    setText(empty ? "" : String.valueOf(productInCurrentRow.getStock()));
                     setGraphic(null);
-
-                    if (!isEmpty()) {
-
-                        if (productInCurrentRow.isDiscontinued())
-                            currentRow.setStyle("-fx-background-color:lightblue");
-                        else if (item.equals(0))
-                            currentRow.setStyle("-fx-background-color:lightcoral");
-                        else if (item.compareTo(MainController.getInstance().getLowStockThreshold()) < 0)
-                            currentRow.setStyle("-fx-background-color:lightyellow");
+                    tableRows.add(currentRow);
                     }
-                    //changeBackgroundOnHoverUsingBinding(currentRow);
-                }
             };
         });
-        */
     }
 
-    List<TableRow<Product>> tableRows;
+    ObservableList<TableRow<Product>> tableRows;
 
-    private void changeBackgroundOnHoverUsingBinding(Node node) {
-        System.out.println(node.getStyle());
-        node.styleProperty().bind(
-                Bindings
-                        .when(node.focusedProperty())
-                        .then(
-                                new SimpleStringProperty(node.getStyle()+"; " +"-fx-border-color: black;")
-                        )
-                        .otherwise(
-                                new SimpleStringProperty(node.getStyle()+ ";" + "-fx-border-color: white;")
-                        )
-        );
+    private void styleRow(TableRow tableRow){
+        if (tableRow == null)
+            return;
+        if (!(tableRow.getItem() instanceof Product)) {
+            tableRow.setStyle(null);
+            return;
+        }
+        Product product = (Product) tableRow.getItem();
+        if (product == null) {
+            tableRow.setStyle(null);
+            return;
+        }
+        if (product.isDiscontinued())
+            tableRow.setStyle("-fx-background-color:#599fe6");
+        else if (product.getStock() == 0)
+            tableRow.setStyle("-fx-background-color:lightcoral");
+        else if (product.getStock() < MainController.getInstance().getLowStockThreshold())
+            tableRow.setStyle("-fx-background-color:#fdff66");
+
     }
-
 
     public void clearSelectedProduct(){
         MainController.getInstance().setSelectedProduct(null);

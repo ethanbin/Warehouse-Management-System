@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  * Created by Ethan on 5/1/2018.
  */
 public class ProductPageController implements Initializable {
-    private int productsPerPage = 5;
+    private int productsPerPage = 20;
     private int currentProductPage = 0;
     private Image navButtonImage = new Image("file:res/img/next.png");
     private Image refreshButtonImage = new Image("file:res/img/refresh.png");
@@ -46,7 +46,7 @@ public class ProductPageController implements Initializable {
     private TableView<Product> reportsTable;
 
     @FXML
-    private TableColumn<Product, String> IDColumn;
+    private TableColumn<Product, String> productIDColumn;
 
     @FXML
     private TableColumn<Product, String> nameColumn;
@@ -58,7 +58,7 @@ public class ProductPageController implements Initializable {
     private TableColumn<Product, Integer> countColumn;
 
     @FXML
-    private TableColumn<Product, String> reportIDColumn;
+    private TableColumn<Product, String> reportProductIDColumn;
 
     @FXML
     private TableColumn<Product, String> reportNameColumn;
@@ -68,6 +68,9 @@ public class ProductPageController implements Initializable {
 
     @FXML
     private TableColumn<Product, String> reportCountColumn;
+
+    @FXML
+    private TableColumn<Product, String> reportWarehouseIDColumn;
 
     @FXML
     private TextField searchField;
@@ -499,21 +502,20 @@ public class ProductPageController implements Initializable {
         refreshReportButton.setOpacity(.5);
     }
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert productsTable != null : "fx:id=\"productsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert reportsTable != null : "fx:id=\"reportsTable\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert IDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert productIDColumn != null : "fx:id=\"IDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nameColumn != null : "fx:id=\"nameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert priceColumn != null : "fx:id=\"priceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert countColumn != null : "fx:id=\"countColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
-        assert reportIDColumn != null : "fx:id=\"reportIDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportProductIDColumn != null : "fx:id=\"reportIDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert reportNameColumn != null : "fx:id=\"reportNameColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert reportPriceColumn != null : "fx:id=\"reportPriceColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert reportCountColumn != null : "fx:id=\"reportCountColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
+        assert reportWarehouseIDColumn != null : "fx:id=\"reportWarehouseIDColumn\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert nextButton != null : "fx:id=\"nextButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert prevButton != null : "fx:id=\"prevButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -541,15 +543,16 @@ public class ProductPageController implements Initializable {
         assert exportButton != null : "fx:id=\"exportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
-        IDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        productIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         countColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
 
-        reportIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        reportProductIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         reportNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
+        reportWarehouseIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("warehouseID"));
 
         searchForMenu.getItems().addAll("Search Type", "ID", "Name", "Price", "Count");
         searchForMenu.setValue("Search Type");

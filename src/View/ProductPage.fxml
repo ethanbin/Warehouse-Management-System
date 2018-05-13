@@ -26,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="top" fx:id="productTop" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
+<VBox id="top" fx:id="productTop" stylesheets="@style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductPageController">
    <children>
       <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Product">
@@ -40,7 +40,7 @@
                            <children>
                               <TableView fx:id="productsTable" cacheShape="false" focusTraversable="false" maxHeight="940.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#setSelectedProductInTable" prefHeight="940.0" prefWidth="1320.0">
                                 <columns>
-                                  <TableColumn id="IdColumn" fx:id="IDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
+                                  <TableColumn id="IdColumn" fx:id="productIDColumn" maxWidth="400.0" prefWidth="155.0" text="Product ID" />
                                   <TableColumn id="NameColumn" fx:id="nameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
                                     <TableColumn id="PriceColumn" fx:id="priceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
                                     <TableColumn id="CountColumn" fx:id="countColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
@@ -206,10 +206,11 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                                  <columns>
-                                    <TableColumn id="IdColumn" fx:id="reportIDColumn" maxWidth="400.0" prefWidth="155.0" text="Id" />
-                                    <TableColumn id="NameColumn" fx:id="reportNameColumn" maxWidth="400.0" prefWidth="344.0" text="Name" />
-                                    <TableColumn id="PriceColumn" fx:id="reportPriceColumn" maxWidth="400.0" prefWidth="495.5" text="Price" />
-                                    <TableColumn id="CountColumn" fx:id="reportCountColumn" maxWidth="400.0" prefWidth="301.0" text="Count" />
+                                    <TableColumn id="IdColumn" fx:id="reportProductIDColumn" maxWidth="400.0" prefWidth="155.0" text="Product ID" />
+                                    <TableColumn id="NameColumn" fx:id="reportNameColumn" maxWidth="400.0" prefWidth="155.0" text="Name" />
+                                    <TableColumn id="PriceColumn" fx:id="reportPriceColumn" maxWidth="400.0" prefWidth="155.0" text="Price" />
+                                    <TableColumn id="CountColumn" fx:id="reportCountColumn" maxWidth="400.0" prefWidth="155.0" text="Count" />
+                                 <TableColumn fx:id="reportWarehouseIDColumn" maxWidth="400.0" prefWidth="155.0" text="Warehouse ID" />
                                  </columns>
                               </TableView>
                               <Button fx:id="nextReportButton" alignment="BOTTOM_RIGHT" graphicTextGap="0.0" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#showNextProductsPage" onMouseEntered="#nextButtonEntered" onMouseExited="#nextButtonExited" opacity="0.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 5em; -fx-background-color: -fx-body-color; -fx-background-insets: 0px; -fx-padding: 0px; -fx-border-radius: 5em; -fx-effect: none;" styleClass="plain" StackPane.alignment="BOTTOM_RIGHT">

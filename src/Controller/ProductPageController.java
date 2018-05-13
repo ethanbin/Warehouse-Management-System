@@ -412,10 +412,7 @@ public class ProductPageController implements Initializable {
                 tableRow.setStyle(null);
                 continue;
             }
-            System.out.println(tableRow.getItem());
-            System.out.println(selectedProduct);
             if (tableRow.getItem().getId() == selectedProduct.getId()){
-                System.out.println("match");
                 tableRow.setStyle(tableRow.getStyle() + ";-fx-border-color: black");
             }
             else {
@@ -600,11 +597,9 @@ public class ProductPageController implements Initializable {
         });
 
         countColumn.setCellFactory(column -> {
-            System.out.println("cell factory");
             return new TableCell<Product, Integer>() {
                 @Override
                 protected void updateItem(Integer item, boolean empty) {
-                    System.out.println("updating item");
                     super.updateItem(item, empty);
                     TableRow<Product> currentRow = getTableRow();
                     Product productInCurrentRow = currentRow.getItem();
@@ -616,7 +611,6 @@ public class ProductPageController implements Initializable {
                         currentRow.setStyle(null);
                         return;
                     }
-                    System.err.println("table row");
                     tableRows.add(currentRow);
                     setText(empty ? "" : String.valueOf(productInCurrentRow.getStock()));
                     setGraphic(null);

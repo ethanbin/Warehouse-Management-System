@@ -3,6 +3,7 @@ package Controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Exceptions.ErrorHandler;
 import Model.Product;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -104,11 +105,11 @@ public class DetailsController {
         countTextField.setDisable(true);
 
         saveButton.setOnAction(event -> {
-            System.out.println("save new clicked");
+            boolean updateSuccessful = false;
             //int stock = Integer.valueOf(countTextField.getText());
             if (!nameTextField.getText().isEmpty() &&
                     !priceTextField.getText().isEmpty()) {
-                DataController.getInstance().insertProduct(
+                updateSuccessful = DataController.getInstance().insertProduct(
                         nameTextField.getText(),
                         descriptionTextArea.getText(),
                         Float.parseFloat(priceTextField.getText()),
@@ -118,6 +119,10 @@ public class DetailsController {
                 //updateStock();
                 clear();
                 MainController.getInstance().refreshProductsPage();
+            }
+            if (!updateSuccessful){
+                ErrorHandler.errorDialog("Product Not Saved","Product failed to be saved in the database.", null);
+                return;
             }
 
             Node node = (Node) event.getSource();
@@ -136,12 +141,13 @@ public class DetailsController {
         returnButton.setVisible(false);
 
         saveButton.setOnAction(event -> {
-            System.out.println("save edit clicked");
             int stock = Integer.valueOf(countTextField.getText());
+            boolean updateSuccessful = false;
             if (!nameTextField.getText().isEmpty() &&
                     !countTextField.getText().isEmpty() &&
                     !priceTextField.getText().isEmpty()) {
-                DataController.getInstance().updateProductAtIndex(Integer.parseInt(IDTextField.getText()),
+                updateSuccessful = DataController.getInstance().updateProductAtIndex(
+                        Integer.parseInt(IDTextField.getText()),
                         nameTextField.getText(),
                         descriptionTextArea.getText(),
                         Float.parseFloat(priceTextField.getText()),
@@ -151,7 +157,11 @@ public class DetailsController {
             }
             // if stock has been changed
             if (stock != MainController.getInstance().getSelectedProduct().getStock()) {
-                updateStock();
+                updateSuccessful = updateSuccessful && updateStock();
+            }
+            if (!updateSuccessful){
+                ErrorHandler.errorDialog("Product Not Saved","Product failed to be saved in the database.", null);
+                return;
             }
             clear();
             MainController.getInstance().refreshProductsPage();

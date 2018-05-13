@@ -291,8 +291,6 @@ public class ProductPageController implements Initializable {
         }
     }
 
-    // i know this looks horrible and can be condensed a ton, but i don't have time for that rn
-    // - ethan 5/10, 1:25 AM, morning of presentation. God save us.
     @FXML
     protected void exportReport() {
         switch (reportTypeChoiceBox.getValue()) {
@@ -304,64 +302,23 @@ public class ProductPageController implements Initializable {
                     // print out current date and time
                     stringBuilder.append("Time:");
                     stringBuilder.append(',');
-                    stringBuilder.append(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()).toString());
+                    stringBuilder.append(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now()));
                     stringBuilder.append(String.format("%n"));
 
-                    stringBuilder.append("Product ID");
-                    stringBuilder.append(',');
-                    stringBuilder.append("Name");
-                    stringBuilder.append(',');
-//                    stringBuilder.append("Description");
-//                    stringBuilder.append(',');
-                    stringBuilder.append("Price");
-                    stringBuilder.append(',');
-                    stringBuilder.append("Discontinued");
-                    stringBuilder.append(',');
-                    stringBuilder.append("Stock Exists");
-                    stringBuilder.append(',');
+                    stringBuilder.append("Product ID,");
+                    stringBuilder.append("Name,");
+                    stringBuilder.append("Price,");
+                    stringBuilder.append("Discontinued,");
+                    stringBuilder.append("Stock Exists,");
                     stringBuilder.append("Warehouse ID");
                     stringBuilder.append(String.format("%n"));
 
-                    if (!allStoresCheckBox.isSelected()) {
-                        for(Product p : DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
-                                MainController.getInstance().getLowStockThreshold(),
-                                MainController.getInstance().getCurrentWarehouseID())){
-                            stringBuilder.append(p.getId());
-                            stringBuilder.append(',');
-                            stringBuilder.append(p.getName());
-                            stringBuilder.append(',');
-//                                stringBuilder.append(p.getDescription());
-//                                stringBuilder.append(',');
-                            stringBuilder.append(p.getPrice());
-                            stringBuilder.append(',');
-                            stringBuilder.append(p.isDiscontinued());
-                            stringBuilder.append(',');
-                            stringBuilder.append(p.doesStockExist());
-                            stringBuilder.append(',');
-                            stringBuilder.append(MainController.getInstance().getCurrentWarehouseID());
-                            stringBuilder.append(String.format("%n"));
-                        }
+                    if (allStoresCheckBox.isSelected()) {
+                        for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs())
+                            appendProductToStringBuilder(stringBuilder, currentWarehouseID);
                     }
                     else {
-                        for (int currentWarehouseID : DataController.getInstance().selectAllWarehouseIDs()) {
-                            for (Product p : (DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
-                                    MainController.getInstance().getLowStockThreshold(), currentWarehouseID))){
-                                stringBuilder.append(p.getId());
-                                stringBuilder.append(',');
-                                stringBuilder.append(p.getName());
-                                stringBuilder.append(',');
-//                                stringBuilder.append(p.getDescription());
-//                                stringBuilder.append(',');
-                                stringBuilder.append(p.getPrice());
-                                stringBuilder.append(',');
-                                stringBuilder.append(p.isDiscontinued());
-                                stringBuilder.append(',');
-                                stringBuilder.append(p.doesStockExist());
-                                stringBuilder.append(',');
-                                stringBuilder.append(currentWarehouseID);
-                                stringBuilder.append(String.format("%n"));
-                            }
-                        }
+                        appendProductToStringBuilder(stringBuilder, MainController.getInstance().getCurrentWarehouseID());
                     }
                     writer.append(stringBuilder);
                     ErrorHandler.errorDialog("Report Generated",
@@ -369,7 +326,7 @@ public class ProductPageController implements Initializable {
                 }
                 catch (IOException e){
                     ErrorHandler.errorDialog("Report Generation Error",
-                            "An error occured when trying to generate a low stock report.", null);
+                            "An error occurred when trying to generate a low stock report.", null);
                 }
                 break;
             default:
@@ -378,6 +335,25 @@ public class ProductPageController implements Initializable {
                         "Please select a supported report type to generate.", null);
                 break;
         }
+    }
+
+    private StringBuilder appendProductToStringBuilder(StringBuilder stringBuilder, int currentWarehouseID){
+        for (Product p : (DataController.getInstance().selectAllProductsAtLowStockAtWarehouse(
+                MainController.getInstance().getLowStockThreshold(), currentWarehouseID))) {
+            stringBuilder.append(p.getId());
+            stringBuilder.append(',');
+            stringBuilder.append(p.getName());
+            stringBuilder.append(',');
+            stringBuilder.append(p.getPrice());
+            stringBuilder.append(',');
+            stringBuilder.append(p.isDiscontinued());
+            stringBuilder.append(',');
+            stringBuilder.append(p.doesStockExist());
+            stringBuilder.append(',');
+            stringBuilder.append(p.getWarehouseID());
+            stringBuilder.append(String.format("%n"));
+        }
+        return stringBuilder;
     }
 
     @FXML
@@ -684,7 +660,6 @@ public class ProductPageController implements Initializable {
     ObservableList<TableRow<Product>> tableRows;
 
     private void styleRow(TableRow tableRow){
-        System.out.println("styling");
         if (tableRow == null)
             return;
         tableRow.setStyle(null);
@@ -699,7 +674,6 @@ public class ProductPageController implements Initializable {
             tableRow.setStyle("-fx-background-color:lightcoral");
         else if (product.getStock() < MainController.getInstance().getLowStockThreshold())
             tableRow.setStyle("-fx-background-color:#fdff66");
-
     }
 
     public void clearSelectedProduct(){

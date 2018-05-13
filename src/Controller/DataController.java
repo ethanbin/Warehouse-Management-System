@@ -220,7 +220,8 @@ public class DataController implements AutoCloseable{
                     // since 1 represents true, compare the value to 1. If its one, this will use true as the argument
                     rs.getInt("discontinued") == 1,
                     rs.getInt("stock_exists") == 1,
-                    selectStockForProductAtIndex(productID, warehouseID)));
+                    selectStockForProductAtIndex(productID, warehouseID),
+                    warehouseID));
         }
         return products;
     }

@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.MainController;
+
 import java.util.Objects;
 
 public class Product {
@@ -10,9 +12,15 @@ public class Product {
     private boolean discontinued;
     private boolean stock_exists;
     private int stock;
+    private int warehouseID;
 
     public Product(int id, String name, String description, float price, boolean discontinued,
                    boolean stock_exists, int stock) {
+        this(id, name, description, price, discontinued, stock_exists, stock, MainController.getInstance().getCurrentWarehouseID());
+    }
+
+    public Product(int id, String name, String description, float price, boolean discontinued,
+                   boolean stock_exists, int stock, int warehouseID) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -20,6 +28,7 @@ public class Product {
         this.discontinued = discontinued;
         this.stock_exists = stock_exists;
         this.stock = stock;
+        this.warehouseID = warehouseID;
     }
 
     public  Product (Product p){
@@ -30,6 +39,7 @@ public class Product {
         this.discontinued = p.isDiscontinued();
         this.stock_exists = p.doesStockExist();
         this.stock = p.getStock();
+        this.warehouseID = p.getWarehouseID();
     }
 
     public int getId() {
@@ -84,6 +94,14 @@ public class Product {
         this.stock = stock;
     }
 
+    public int getWarehouseID() {
+        return warehouseID;
+    }
+
+    public void setWarehouseID(int warehouseID) {
+        this.warehouseID = warehouseID;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -94,6 +112,7 @@ public class Product {
                 ", discontinued=" + discontinued +
                 ", stock_exists=" + stock_exists +
                 ", stock=" + stock +
+                ", warehouseID=" + warehouseID +
                 '}';
     }
 
@@ -103,17 +122,17 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return id == product.id &&
-                Double.compare(product.price, price) == 0 &&
+                Float.compare(product.price, price) == 0 &&
                 discontinued == product.discontinued &&
                 stock_exists == product.stock_exists &&
                 stock == product.stock &&
+                warehouseID == product.warehouseID &&
                 Objects.equals(name, product.name) &&
                 Objects.equals(description, product.description);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, description, price, discontinued, stock_exists, stock);
+        return Objects.hash(id, name, description, price, discontinued, stock_exists, stock, warehouseID);
     }
 }

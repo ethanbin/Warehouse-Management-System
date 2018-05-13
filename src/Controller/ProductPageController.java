@@ -684,17 +684,15 @@ public class ProductPageController implements Initializable {
     ObservableList<TableRow<Product>> tableRows;
 
     private void styleRow(TableRow tableRow){
+        System.out.println("styling");
         if (tableRow == null)
             return;
-        if (!(tableRow.getItem() instanceof Product)) {
-            tableRow.setStyle(null);
+        tableRow.setStyle(null);
+        if (!(tableRow.getItem() instanceof Product))
             return;
-        }
         Product product = (Product) tableRow.getItem();
-        if (product == null) {
-            tableRow.setStyle(null);
+        if (product == null)
             return;
-        }
         if (product.isDiscontinued())
             tableRow.setStyle("-fx-background-color:#599fe6");
         else if (product.getStock() == 0)

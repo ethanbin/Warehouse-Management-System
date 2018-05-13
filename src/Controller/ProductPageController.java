@@ -543,16 +543,27 @@ public class ProductPageController implements Initializable {
         assert exportButton != null : "fx:id=\"exportButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'ProductPage.fxml'.";
 
-        productIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        countColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
+        productIDColumn.setCellValueFactory(new PropertyValueFactory("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory("price"));
+        countColumn.setCellValueFactory(new PropertyValueFactory("stock"));
 
-        reportProductIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
-        reportNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        reportPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        reportCountColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("stock"));
-        reportWarehouseIDColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("warehouseID"));
+        productIDColumn.setReorderable(false);
+        nameColumn.setReorderable(false);
+        priceColumn.setReorderable(false);
+        countColumn.setReorderable(false);
+
+        reportProductIDColumn.setCellValueFactory(new PropertyValueFactory("id"));
+        reportNameColumn.setCellValueFactory(new PropertyValueFactory("name"));
+        reportPriceColumn.setCellValueFactory(new PropertyValueFactory("price"));
+        reportCountColumn.setCellValueFactory(new PropertyValueFactory("stock"));
+        reportWarehouseIDColumn.setCellValueFactory(new PropertyValueFactory("warehouseID"));
+
+        reportProductIDColumn.setReorderable(false);
+        reportNameColumn.setReorderable(false);
+        reportPriceColumn.setReorderable(false);
+        reportCountColumn.setReorderable(false);
+        reportWarehouseIDColumn.setReorderable(false);
 
         searchForMenu.getItems().addAll("Search Type", "ID", "Name", "Price", "Count");
         searchForMenu.setValue("Search Type");

@@ -13,10 +13,26 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import java.awt.*;
 
+/**
+ * View class which extends Application and defines its start method,
+ * which defines how the application is launched.
+ */
 public class View extends Application {
+    /**
+     * Immutable title of the application.
+     */
     public final static String VIEW_TITLE = "Warehouse Management System";
     private final String FXMLPath = "LoginScreen.fxml";
 
+    /**
+     * Overridden method start. Sets the starting scene, loads each FXML and adds it to
+     * the SceneController, and shows the application's stage.
+     * @param primaryStage primaryStage
+     * @throws Exception
+     * @see SceneController
+     * @see Stage
+     * @see Scene
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(getClass().getResource(FXMLPath));

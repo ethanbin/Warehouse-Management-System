@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Class of static methods for handling errors and exceptions by alerting the
+ * Class containing static methods for handling errors and exceptions by alerting the
  * user or logging error info.
  */
 public class ErrorHandler {

@@ -14,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.converter.NumberStringConverter;
 
 public class DetailsController {
 
@@ -75,6 +74,10 @@ public class DetailsController {
                 MainController.getInstance().getCurrentWarehouseID());
     }
 
+    /**
+     * Populate the details page with data from Main Controller's selected Product.
+     * @returntrue if details page updated successfully
+     */
     public boolean updateDetailsPage(){
         Product product = MainController.getInstance().getSelectedProduct();
         if (product == null) {
@@ -90,6 +93,9 @@ public class DetailsController {
         return true;
     }
 
+    /**
+     * Clear the details page by clearing every text field and check box in the details page.
+     */
     public void clear(){
         IDTextField.clear();
         nameTextField.clear();
@@ -99,6 +105,10 @@ public class DetailsController {
         discontinuedCheckBox.setSelected(false);
     }
 
+    /**
+     * Clear the details page and prepare it for creating a product and set up the
+     * save button to create a new product with given data when clicked.
+     */
     public void newProductMode(){
         clear();
         setUpEditability(true);
@@ -132,6 +142,10 @@ public class DetailsController {
         });
     }
 
+    /**
+     * Clear the details page and prepare it for viewing and editing a product. Set up the
+     * save button to update an existing product with given data when clicked.
+     */
     public void editProductMode(){
         updateDetailsPage();
         setUpEditability(true);
@@ -174,6 +188,9 @@ public class DetailsController {
         });
     }
 
+    /**
+     * Clear the details page and prepare it for only viewing a product's details.
+     */
     public void detailsMode(){
         updateDetailsPage();
         setUpEditability(false);
@@ -206,10 +223,19 @@ public class DetailsController {
         returnButton.setVisible(!isEditable);
     }
 
+    /**
+     * Exit the Details page.
+     */
     public void exit() {
         Platform.exit();
     }
 
+    /**
+     * Initialize the LoginController when its FXML is loaded. Initialize by setting
+     * the price text field to only take integers and decimal numbers, the count text
+     * field to only take integers, disabling the Product ID text field, and setting
+     * the Main Controller's Details Controller to this.
+     */
     @FXML
     void initialize() {
         assert IDTextField != null : "fx:id=\"IDTextField\" was not injected: check your FXML file 'DetailsPage.fxml'.";

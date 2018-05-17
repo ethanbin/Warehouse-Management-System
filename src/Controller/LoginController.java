@@ -1,6 +1,5 @@
 package Controller;
 
-import Exceptions.ErrorHandler;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -11,6 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * FXML Controller for LoginScreen.fxml
+ */
 public class LoginController {
     //References to our objects and fields create in SceneBuilder.
     @FXML private TextField usernameField;
@@ -19,10 +21,14 @@ public class LoginController {
     @FXML private Label passwordLabel;
 
 
-    Image userImage = new Image("file:res/img/user.png");
-    Image passwordImage = new Image("file:res/img/lock.png");
+    private Image userImage = new Image("file:res/img/user.png");
+    private Image passwordImage = new Image("file:res/img/lock.png");
 
-    //Methods to be called by events in GUI
+    /**
+     * Attempt to log in the user by verifying that an account exists with the matching username
+     * and password. If successful, get the logged in user's info and enter the home page.
+     * Otherwise call {@link LoginController#loginAlertStyle()}.
+     */
     @FXML
     protected void loginAction() {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
@@ -35,7 +41,10 @@ public class LoginController {
             loginAlertStyle();
     }
 
-    //Log in by hitting the enter key.
+    /**
+     * If the ENTER key was pressed, call {@link LoginController#loginAction()}.
+     * @param event KeyEvent used to determine what key was pressed
+     */
     @FXML
     protected void enterKeyLogin(KeyEvent event) {
         if(event.getCode() == KeyCode.ENTER)
@@ -43,7 +52,11 @@ public class LoginController {
 
     }
 
-    private void loginAlertStyle() {
+    /**
+     * Clear the username and password text fields and set their prompt texts to an
+     * incorrect-credentials warning in red.
+     */
+    protected void loginAlertStyle() {
         usernameField.clear();
         passwordField.clear();
 
@@ -55,11 +68,18 @@ public class LoginController {
 
     }
 
+    /**
+     * Exit the application.
+     * @param event ActionEvent
+     */
     @FXML
     protected void quitAction(ActionEvent event)    {
         Platform.exit();
     }
 
+    /**
+     * Initialize the LoginController when its FXML is loaded and style it.
+     */
     @FXML
     void initialize() {
         assert usernameField != null : "fx:id=\"usernameField\" was not injected: check your FXML file 'LoginScreen.fxml'.";

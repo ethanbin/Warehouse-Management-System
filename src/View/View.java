@@ -28,7 +28,7 @@ public class View extends Application {
      * Overridden method start. Sets the starting scene, loads each FXML and adds it to
      * the SceneController, and shows the application's stage.
      * @param primaryStage primaryStage
-     * @throws Exception
+     * @throws Exception exception
      * @see SceneController
      * @see Stage
      * @see Scene

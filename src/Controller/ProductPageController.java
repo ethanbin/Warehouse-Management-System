@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Ethan on 5/1/2018.
+ * FXML Controller for ProductPage.fxml
  */
 public class ProductPageController implements Initializable {
     private int productsPerPage = 20;

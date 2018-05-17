@@ -15,6 +15,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * FXML Controller for DetailsPage.fxml
+ */
 public class DetailsController {
 
     @FXML

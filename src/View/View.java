@@ -51,14 +51,13 @@ public class View extends Application {
         primaryStage.show();
 
         //Create a instance of our SceneController class for use in our controller class (will handle scene change).
-        SceneController.getInstance().setScene(scene);
-        SceneController sc = SceneController.getInstance();
-        sc.setScene(scene);
-        sc.addScreen("Home", FXMLLoader.load(getClass().getResource("ProductPage.fxml")));
+        SceneController.setScene(scene);
+        SceneController.setScene(scene);
+        SceneController.addScreen("Home", FXMLLoader.load(getClass().getResource("ProductPage.fxml")));
         System.out.println("Home was added");
-        sc.addScreen("Details", FXMLLoader.load(getClass().getResource("DetailsPage.fxml")));
+        SceneController.addScreen("Details", FXMLLoader.load(getClass().getResource("DetailsPage.fxml")));
         System.out.println("Details was added");
-        sc.addScreen("Login", FXMLLoader.load(getClass().getResource("LoginScreen.fxml")));
+        SceneController.addScreen("Login", FXMLLoader.load(getClass().getResource("LoginScreen.fxml")));
         System.out.println("Login was added");
 
         Font.loadFont(getClass().getResourceAsStream("font.ttf"), 16);

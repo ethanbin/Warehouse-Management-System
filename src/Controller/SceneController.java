@@ -7,22 +7,20 @@ import javafx.stage.Screen;
 import java.util.HashMap;
 
 //MainController class to more easily switch between scenes.
+
+/**
+ * Static controller for the different scenes the application goes through.
+ */
 public class SceneController {
     private static SceneController instance = null;
     private static HashMap<String, Pane> screenMap = new HashMap<>();
     private static Scene main;
 
-    protected SceneController() {}
+    // to stop an instance of scene controller from being created
+    private SceneController() {}
 
-    public static SceneController getInstance() {
-        if(instance == null) {
-            instance = new SceneController();
-        }
-        return instance;
-    }
-
-    public void setScene(Scene main)    {
-        this.main = main;
+    public static void setScene(Scene main)    {
+        SceneController.main = main;
     }
 
     public static Pane getScreen(String name)  {

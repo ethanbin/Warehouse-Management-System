@@ -27,7 +27,7 @@ public class LoginController {
     protected void loginAction() {
         if (MainController.getInstance().loginUser(usernameField.getText(), passwordField.getText())) {
             System.out.println("User logged in.");
-            SceneController.getInstance().activate("Home");
+            SceneController.activate("Home");
             MainController.getInstance().refreshProductsPage();
         }
         else

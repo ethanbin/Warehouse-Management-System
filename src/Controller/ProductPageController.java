@@ -159,6 +159,10 @@ public class ProductPageController implements Initializable {
     @FXML
     private ChoiceBox chooseReportMenu;
 
+    /**
+     * Increment the current product page number if not at the last page and
+     * call {@link ProductPageController#showCurrentProductsPage()}.
+     */
     @FXML
     public void showNextProductsPage() {
         currentProductPage++;
@@ -168,6 +172,10 @@ public class ProductPageController implements Initializable {
             showCurrentProductsPage();
     }
 
+    /**
+     * Decrement the current product page number if not at the first page and
+     * call {@link ProductPageController#showCurrentProductsPage()}.
+     */
     @FXML
     public void showPrevProductsPage() {
         currentProductPage--;
@@ -177,6 +185,11 @@ public class ProductPageController implements Initializable {
             showCurrentProductsPage();
     }
 
+    /**
+     * Call {@link ProductPageController#clearSelectedProduct()}, set the style for every row in
+     * the table to null, clear the rows from the List of rows, and display the set of products
+     * for the page the application is up to.
+     */
     @FXML
     public void showCurrentProductsPage() {
         clearSelectedProduct();
@@ -189,20 +202,29 @@ public class ProductPageController implements Initializable {
                 currentProductPage * productsPerPage, productsPerPage));
     }
 
+    /**
+     * Call {@link DetailsController#newProductMode()} and open the Details Page.
+     */
     @FXML
     protected void newProduct() {
         MainController.getInstance().getDetailsController().newProductMode();
         openProductDetailsPage("New Product Page");
     }
 
+    /**
+     * Call {@link DetailsController#editProductMode()} and open the Details Page.
+     */
     @FXML
-    protected void editProduct()    {
+    protected void editProduct() {
         MainController.getInstance().getDetailsController().editProductMode();
         openProductDetailsPage("Edit Product Page");
     }
 
+    /**
+     * Call {@link DetailsController#detailsMode()} and open the Details Page.
+     */
     @FXML
-    protected void detailsProduct()    {
+    protected void detailsProduct() {
         MainController.getInstance().getDetailsController().detailsMode();
         openProductDetailsPage("Details Product Page");
     }
@@ -220,8 +242,12 @@ public class ProductPageController implements Initializable {
         System.out.printf("User has entered %s.%n", title);
     }
 
+    /**
+     * Clean up user data and other data and log out of the application, returning
+     * to the login screen.
+     */
     @FXML
-    void logout() {
+    protected void logout() {
         currentProductPage = 0;
         productDescriptionTextField.clear();
         productNameTextField.clear();
@@ -230,6 +256,10 @@ public class ProductPageController implements Initializable {
         MainController.getInstance().logout();
     }
 
+    /**
+     * Search products depending on the searchForMenu and put the relevant results in
+     * the Products Table.
+     */
     @FXML
     protected void searchProducts() {
         switch (searchForMenu.getValue().toString()){
@@ -291,6 +321,10 @@ public class ProductPageController implements Initializable {
         }
     }
 
+    /**
+     * Generate a report and export it to a CSV depending on the type of report
+     * selected. If none selected, an error dialog will show.
+     */
     @FXML
     protected void exportReport() {
         switch (reportTypeChoiceBox.getValue()) {
@@ -356,6 +390,10 @@ public class ProductPageController implements Initializable {
         return stringBuilder;
     }
 
+    /**
+     * Generate a report and display it in the application based on the type selected. If
+     * no type selected, an error dialog will display.
+     */
     @FXML
     protected void generateReport() {
         switch (reportTypeChoiceBox.getValue()) {
@@ -388,6 +426,14 @@ public class ProductPageController implements Initializable {
         }
     }
 
+    /**
+     * Set the selected product in the table as the selected product in MainController,
+     * populate the title and description text fields with the selected product's,
+     * enable the edit and details buttons, and give the selected row a black outline.
+     * If the passed MouseEvent indicates that a row was selected and clicked on twice
+     * quickly, call {@link ProductPageController#detailsProduct()}.
+     * @param event MouseEvent
+     */
     @FXML
     void setSelectedProductInTable(MouseEvent event) {
         Product selectedProduct;
@@ -427,54 +473,84 @@ public class ProductPageController implements Initializable {
             detailsProduct();
     }
 
+    /**
+     * Style the next page button when hovered over.
+     */
     @FXML
     public void nextButtonEntered()    {
         nextButton.setOpacity(1);
         nextReportButton.setOpacity(1);
     }
 
+    /**
+     * Change the next page button to its original style when no longer hovered over.
+     */
     @FXML
     public void nextButtonExited() {
         nextButton.setOpacity(.5);
         nextReportButton.setOpacity(.5);
     }
 
+    /**
+     * Style the previous page button when hovered over.
+     */
     @FXML
     public void prevButtonEntered()    {
         prevButton.setOpacity(1);
         prevReportButton.setOpacity(1);
     }
 
+    /**
+     * Change the previous page button to its original style when no longer hovered over.
+     */
     @FXML
     public void prevButtonExited() {
         prevButton.setOpacity(.5);
         prevReportButton.setOpacity(.5);
     }
 
+    /**
+     * Style the results combo box when hovered over.
+     */
     @FXML
     public void resultButtonEntered()    {
         resultButton.setOpacity(1);
         resultReportButton.setOpacity(1);
     }
 
+    /**
+     * Change the results combo box to its original style when no longer hovered over.
+     */
     @FXML
     public void resultButtonExited() {
         resultButton.setOpacity(.5);
         resultReportButton.setOpacity(.5);
     }
 
+    /**
+     * Style the refresh page button when hovered over.
+     */
     @FXML
     public void refreshButtonEntered()    {
         refreshButton.setOpacity(1);
         refreshReportButton.setOpacity(1);
     }
 
+    /**
+     * Change the refresh page button to its original style when no longer hovered over.
+     */
     @FXML
     public void refreshButtonExited() {
         refreshButton.setOpacity(.5);
         refreshReportButton.setOpacity(.5);
     }
 
+    /**
+     * Initialize the LoginController when its FXML is loaded. Initialize by styling the
+     * page, setting up the tables and their columns, setting the the product page controller
+     * in the Main Controller to this, and setting up newly created rows to be saved to an
+     * observable list.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         assert productTop != null : "fx:id=\"productTop\" was not injected: check your FXML file 'ProductPage.fxml'.";
@@ -651,7 +727,7 @@ public class ProductPageController implements Initializable {
         });
     }
 
-    ObservableList<TableRow<Product>> tableRows;
+    private ObservableList<TableRow<Product>> tableRows;
 
     private void styleRow(TableRow tableRow){
         if (tableRow == null)
@@ -670,6 +746,11 @@ public class ProductPageController implements Initializable {
             tableRow.setStyle("-fx-background-color:#fdff66");
     }
 
+    /**
+     * Clear Main Controller's selected product, call {@link DetailsController#clear()},
+     * clear the product name and description text fields, and disable the edit and
+     * details buttons.
+     */
     public void clearSelectedProduct(){
         MainController.getInstance().setSelectedProduct(null);
         MainController.getInstance().getDetailsController().clear();

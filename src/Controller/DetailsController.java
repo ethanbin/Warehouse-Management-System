@@ -76,7 +76,7 @@ public class DetailsController {
 
     /**
      * Populate the details page with data from Main Controller's selected Product.
-     * @returntrue if details page updated successfully
+     * @return true if details page updated successfully
      */
     public boolean updateDetailsPage(){
         Product product = MainController.getInstance().getSelectedProduct();

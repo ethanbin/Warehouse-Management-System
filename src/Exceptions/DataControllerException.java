@@ -3,7 +3,7 @@ package Exceptions;
 /**
  * <P>An exception that provides information on a DataController errors.
  *
- * <P>Each <errorCode>DataControllerException</errorCode> provides information on the source of the error.
+ * <P>Each <code>DataControllerException</code> provides information on the source of the error.
  */
 public class DataControllerException extends Exception{
     // static publicly defined error codes

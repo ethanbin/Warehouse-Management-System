@@ -171,9 +171,9 @@ public class MainController {
      * set the MainController's instance of the current user to the one logged in,
      * set the MainController's value of the current warehouse ID to the user's, and
      * call {@link MainController#startLowStockScheduler()}.
-     * @param username
-     * @param password
-     * @return
+     * @param username username
+     * @param password password
+     * @return true if user logged in successfully
      */
     public boolean loginUser(String username, String password) {
         currentUser =  DataController.getInstance().selectUser(username, password);

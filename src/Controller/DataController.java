@@ -75,7 +75,7 @@ public class DataController implements AutoCloseable{
             ErrorHandler.logCriticalError(
                     new DataControllerException("Connecting to database: ",DataControllerException.DATABASE_FAILED));
         // Try to prepare statements. If fails, throw exception.
-        // It seems like statements only fail when making a code related error, like syntax errors, doing
+        // It seems like statements only fail when making a errorCode related error, like syntax errors, doing
         // something SQL doesn't support, etc.
         if (!prepareStatements())
             ErrorHandler.logCriticalError(
